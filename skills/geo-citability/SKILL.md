@@ -1,6 +1,6 @@
 ---
 name: geo-citability
-description: AI citability scoring and optimization. Analyzes web page content to determine how likely AI systems (ChatGPT, Claude, Perplexity, Gemini) are to cite or quote passages from the page. Provides a citability score (0-100) with specific rewrite suggestions.
+description: Puntuación y optimización de citabilidad para IA. Analiza el contenido de páginas web para determinar qué tan probable es que los sistemas de IA (ChatGPT, Claude, Perplexity, Gemini) citen o extraigan pasajes de la página. Proporciona una puntuación de citabilidad (0-100) con sugerencias de reescritura específicas.
 allowed-tools:
   - Read
   - Grep
@@ -10,310 +10,303 @@ allowed-tools:
   - Write
 ---
 
-# AI Citability Scoring Skill
+# Habilidad de Puntuación de Citabilidad para IA
 
-## Core Insight
+## Idea Central
 
-AI language models cite passages that meet specific structural criteria. Research from Princeton, Georgia Tech, and IIT Delhi (2024) found that GEO-optimized content achieves 30-115% higher visibility in AI-generated responses. The key finding: AI systems preferentially extract and cite passages that are **134-167 words long**, **self-contained** (understandable without surrounding context), **fact-rich** (containing specific statistics, dates, or named entities), and **directly answer a question** in the first 1-2 sentences.
+Los modelos de lenguaje de IA citan pasajes que cumplen criterios estructurales específicos. Investigaciones de Princeton, Georgia Tech y IIT Delhi (2024) encontraron que el contenido optimizado para GEO logra un 30-115% más de visibilidad en respuestas generadas por IA. El hallazgo clave: Los sistemas de IA extraen y citan preferentemente pasajes que tienen entre **134-167 palabras de largo**, son **autocontenidos** (comprensibles sin el contexto circundante), **ricos en datos** (que contienen estadísticas específicas, fechas o entidades nombradas), y **responden directamente a una pregunta** en las primeras 1-2 oraciones.
 
-This is fundamentally different from traditional SEO copywriting, which optimizes for keyword density and user engagement metrics. GEO citability optimizes for **extractability** -- the ease with which an AI system can pull a passage from your content and present it as a direct answer.
+Esto es fundamentalmente diferente a la redacción SEO tradicional, la cual optimiza para densidad de palabras clave y métricas de compromiso de usuario (engagement). La citabilidad en GEO optimiza para la **extractabilidad** -- la facilidad con la que un sistema de IA puede extraer un pasaje de tu contenido y presentarlo como una respuesta directa.
 
 ---
 
-## Citability Scoring Rubric (0-100)
+## Rúbrica de Puntuación de Citabilidad (0-100)
 
-### Category 1: Answer Block Quality (30% of total score)
+### Categoría 1: Calidad del Bloque de Respuesta (30% de la puntuación total)
 
-This measures whether content contains clear, quotable answer passages that AI systems can extract verbatim.
+Esto mide si el contenido contiene pasajes de respuesta claros y citables que los sistemas de IA puedan extraer palabra por palabra (verbatim).
 
-**Scoring Criteria:**
+**Criterios de Puntuación:**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| **90-100** | Every major section opens with a 1-2 sentence direct answer. Uses "X is..." or "X refers to..." patterns. First 40-60 words of each section can stand alone as a complete answer. |
-| **70-89** | Most sections have clear answer openings. Some definition patterns present. Answers are identifiable but may need minor context. |
-| **50-69** | Some sections have answer-like openings but many bury the answer in the middle or end of paragraphs. Few explicit definition patterns. |
-| **30-49** | Answers are generally buried in long paragraphs. No consistent definition patterns. Content is narrative-driven rather than answer-driven. |
-| **0-29** | No identifiable answer blocks. Content is entirely narrative, conversational, or fragmented. AI would struggle to extract any quotable passage. |
+| **90-100** | Cada sección importante abre con una respuesta directa de 1-2 oraciones. Usa patrones "X es..." o "X se refiere a...". Las primeras 40-60 palabras de cada sección pueden sostenerse por sí solas como una respuesta completa. |
+| **70-89** | La mayoría de las secciones tienen aperturas de respuesta claras. Algunos patrones de definición presentes. Las respuestas son identificables pero pueden necesitar algo de contexto. |
+| **50-69** | Algunas secciones tienen aperturas tipo respuesta pero muchas ocultan la respuesta en el medio o final de los párrafos. Pocos patrones de definición explícitos. |
+| **30-49** | Las respuestas generalmente están enterradas en párrafos largos. Sin patrones de definición consistentes. El contenido se basa más en narrativa que en respuestas. |
+| **0-29** | Sin bloques de respuesta identificables. El contenido es completamente narrativo, conversacional o fragmentado. A la IA le costaría extraer cualquier pasaje citable. |
 
-**What to look for:**
+**Qué buscar:**
 
-- **Definition patterns:** "X is [definition]." / "X refers to [explanation]." / "X means [meaning]."
-- **Answer-first structure:** The answer appears in the first sentence, followed by supporting detail.
-- **Quantified answers:** "The average cost of X is $Y" rather than "Many factors affect the cost of X."
-- **Comparison answers:** "X differs from Y in three ways: [list]" rather than "X and Y are often confused."
+- **Patrones de definición:** "X es [definición]." / "X se refiere a [explicación]." / "X significa [significado]."
+- **Estructura donde la respuesta va primero:** La respuesta aparece en la primera oración, seguida del detalle de apoyo.
+- **Respuestas cuantificadas:** "El costo promedio de X es $Y" en lugar de "Muchos factores afectan el costo de X."
+- **Respuestas de comparación:** "X difiere de Y en tres aspectos: [lista]" en lugar de "X e Y se confunden a menudo."
 
-**High-citability example:**
+**Ejemplo de alta citabilidad:**
 ```
-Content delivery networks (CDNs) are distributed server systems that cache and serve
-web content from locations geographically close to end users. A CDN reduces latency
-by 50-70% on average by serving assets from edge servers rather than a single origin
-server. The three largest CDN providers as of 2025 are Cloudflare (serving approximately
-20% of all websites), Amazon CloudFront, and Akamai Technologies.
+Las redes de distribución de contenido (CDNs) son sistemas de servidores distribuidos que almacenan en caché y sirven contenido web desde ubicaciones geográficamente cercanas a los usuarios finales. Una CDN reduce la latencia en un 50-70% en promedio al servir los activos desde servidores de borde en lugar de un único servidor de origen. Los tres mayores proveedores de CDN a partir de 2025 son Cloudflare (sirviendo aproximadamente el 20% de todos los sitios web), Amazon CloudFront y Akamai Technologies.
 ```
-Word count: 58. Self-contained: Yes. Facts: 3 specific data points. Definition pattern: Yes.
+Cantidad de palabras: 76. Autocontenido: Sí. Datos/Hechos: 3 puntos de datos específicos. Patrón de definición: Sí.
 
-**Low-citability example:**
+**Ejemplo de baja citabilidad:**
 ```
-If you've ever wondered why some websites load faster than others, the answer might
-surprise you. There's this amazing technology that has been around for a while now.
-It's changed the way we think about web performance. Let me explain how it works and
-why you should care about it for your business.
+Si alguna vez te has preguntado por qué algunos sitios web cargan más rápido que otros, la respuesta podría sorprenderte. Hay esta increíble tecnología que ha existido desde hace un tiempo. Ha cambiado la forma en que pensamos sobre el rendimiento web. Déjame explicarte cómo funciona y por qué debería importarte para tu negocio.
 ```
-Word count: 52. Self-contained: No (no topic identified). Facts: 0. Definition pattern: No.
+Cantidad de palabras: 55. Autocontenido: No (no identifica el tema). Datos/Hechos: 0. Patrón de definición: No.
 
 ---
 
-### Category 2: Passage Self-Containment (25% of total score)
+### Categoría 2: Autocontención del Pasaje (25% de la puntuación total)
 
-This measures whether individual passages can be extracted and understood without needing the surrounding content.
+Esto mide si los pasajes individuales pueden extraerse y entenderse sin necesidad del contenido circundante.
 
-**Scoring Criteria:**
+**Criterios de Puntuación:**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| **90-100** | 80%+ of content blocks are fully self-contained. Each passage names its subject explicitly. No reliance on pronouns referencing earlier content. Contains specific facts within the passage. |
-| **70-89** | 60-79% of content blocks are self-contained. Most passages name their subject. Occasional pronoun references that require context. |
-| **50-69** | 40-59% of content blocks are self-contained. Mixed use of explicit subjects and pronouns. Some passages require reading prior sections. |
-| **30-49** | 20-39% of content blocks are self-contained. Heavy reliance on pronouns and contextual references. Most passages need surrounding text. |
-| **0-29** | Under 20% self-contained. Content reads as a continuous narrative where extracting any paragraph loses meaning. |
+| **90-100** | 80%+ de los bloques de contenido son totalmente autocontenidos. Cada pasaje nombra a su sujeto explícitamente. No depende de pronombres que referencien contenido anterior. Contiene hechos específicos dentro del pasaje. |
+| **70-89** | 60-79% de los bloques de contenido son autocontenidos. La mayoría de los pasajes nombran a su sujeto. Uso ocasional de pronombres que requieren contexto. |
+| **50-69** | 40-59% de los bloques de contenido son autocontenidos. Uso mixto de sujetos explícitos y pronombres. Algunos pasajes requieren leer secciones anteriores. |
+| **30-49** | 20-39% de los bloques de contenido son autocontenidos. Fuerte dependencia de pronombres y referencias contextuales. La mayoría de los pasajes necesitan el texto circundante. |
+| **0-29** | Menos del 20% es autocontenido. El contenido se lee como una narrativa continua donde al extraer cualquier párrafo se pierde el significado. |
 
-**Self-containment checklist for each passage:**
+**Lista de comprobación de autocontención para cada pasaje:**
 
-1. Does the passage explicitly name the subject (not "it," "this," "they")?
-2. Can someone understand the main point reading ONLY this passage?
-3. Does the passage contain at least one specific fact, statistic, or named entity?
-4. Is the passage between 50-200 words (the optimal extraction length)?
-5. Does the passage avoid starting with conjunctions ("But," "However," "And") that imply prior context?
+1. ¿El pasaje nombra explícitamente el sujeto (no "eso," "este," "ellos")?
+2. ¿Alguien puede entender el punto principal leyendo SOLAMENTE este pasaje?
+3. ¿El pasaje contiene al menos un dato específico, estadística o entidad nombrada?
+4. ¿Tiene el pasaje entre 50-200 palabras (la longitud óptima de extracción)?
+5. ¿Evita el pasaje comenzar con conjunciones ("Pero," "Sin embargo," "Y") que impliquen contexto previo?
 
 ---
 
-### Category 3: Structural Readability (20% of total score)
+### Categoría 3: Legibilidad Estructural (20% de la puntuación total)
 
-This measures the structural formatting that helps AI systems parse and segment content.
+Esto mide el formato estructural que ayuda a los sistemas de IA a analizar y segmentar el contenido.
 
-**Scoring Criteria:**
+**Criterios de Puntuación:**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| **90-100** | Clean H1 > H2 > H3 hierarchy. Question-based headings for informational content. Short paragraphs (2-4 sentences). Tables for comparisons. Ordered lists for processes. Unordered lists for features/options. |
-| **70-89** | Good heading hierarchy with minor skips. Some question-based headings. Mostly short paragraphs. Some use of tables and lists. |
-| **50-69** | Heading hierarchy present but inconsistent. Few question-based headings. Mix of short and long paragraphs. Limited tables/lists. |
-| **30-49** | Minimal heading structure. No question-based headings. Long paragraphs dominate. Rare use of tables/lists. |
-| **0-29** | No heading structure or severely broken hierarchy. Wall-of-text paragraphs. No tables or lists. |
+| **90-100** | Jerarquía limpia de H1 > H2 > H3. Encabezados basados en preguntas para contenido informativo. Párrafos cortos (2-4 oraciones). Tablas para comparaciones. Listas ordenadas para procesos. Listas desordenadas para características/opciones. |
+| **70-89** | Buena jerarquía de encabezados con omisiones menores. Algunos encabezados basados en preguntas. Mayormente párrafos cortos. Cierto uso de tablas y listas. |
+| **50-69** | Jerarquía de encabezados presente pero inconsistente. Pocos encabezados basados en preguntas. Mezcla de párrafos cortos y largos. Tablas/listas limitadas. |
+| **30-49** | Estructura de encabezados mínima. Sin encabezados basados en preguntas. Dominan los párrafos largos. Raro uso de tablas/listas. |
+| **0-29** | Sin estructura de encabezados o jerarquía severamente rota. Párrafos "muros de texto". Sin tablas o listas. |
 
-**Structural best practices for AI citability:**
+**Mejores prácticas estructurales para citabilidad IA:**
 
-- **Heading hierarchy:** H1 (page title) > H2 (major sections) > H3 (subsections). Never skip levels.
-- **Question-based headings:** "What is [topic]?" and "How does [topic] work?" are directly matchable to AI queries.
-- **Paragraph length:** 2-4 sentences per paragraph. AI systems parse short paragraphs more reliably.
-- **Tables:** Use for any comparison of 3+ items. AI systems extract table data with high accuracy.
-- **Lists:** Use ordered lists for sequential processes, unordered lists for non-sequential items.
-- **Bold key terms:** Bold the first use of important terms. This aids AI entity recognition.
+- **Jerarquía de encabezados:** H1 (título de la página) > H2 (secciones principales) > H3 (subsecciones). Nunca omitas niveles.
+- **Encabezados basados en preguntas:** "¿Qué es [tema]?" y "¿Cómo funciona [tema]?" se asocian directamente a las consultas a la IA.
+- **Longitud de párrafo:** 2-4 oraciones por párrafo. Los sistemas de IA analizan párrafos cortos de manera más confiable.
+- **Tablas:** Úsalas para cualquier comparación de 3+ elementos. Los sistemas de IA extraen datos de tablas con gran precisión.
+- **Listas:** Usa listas ordenadas para procesos secuenciales, listas desordenadas para elementos no secuenciales.
+- **Negrita para términos clave:** Pon en negrita el primer uso de términos importantes. Esto ayuda al reconocimiento de entidades de la IA.
 
 ---
 
-### Category 4: Statistical Density (15% of total score)
+### Categoría 4: Densidad Estadística (15% de la puntuación total)
 
-This measures the presence of specific, verifiable data points that AI systems prioritize when selecting citation sources.
+Esto mide la presencia de puntos de datos específicos y verificables que los sistemas de IA priorizan al seleccionar fuentes de citación.
 
-**Scoring Criteria:**
+**Criterios de Puntuación:**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| **90-100** | 5+ specific statistics per 500 words. All claims backed by named sources or dates. Uses exact numbers (not "many" or "several"). Includes percentages, dollar amounts, timeframes, and named studies. |
-| **70-89** | 3-4 statistics per 500 words. Most claims have sources. Mostly specific numbers with occasional vague quantifiers. |
-| **50-69** | 1-2 statistics per 500 words. Some claims sourced. Mix of specific and vague numbers. |
-| **30-49** | Less than 1 statistic per 500 words. Few sourced claims. Predominantly vague quantifiers. |
-| **0-29** | No statistics. No sourced claims. All quantifiers are vague ("many," "most," "a lot"). |
+| **90-100** | 5+ estadísticas específicas por cada 500 palabras. Todas las afirmaciones respaldadas por fuentes nombradas o fechas. Usa números exactos (no "muchos" o "varios"). Incluye porcentajes, cantidades de dinero, plazos temporales y estudios nombrados. |
+| **70-89** | 3-4 estadísticas por cada 500 palabras. La mayoría de las afirmaciones tienen fuentes. Mayormente números específicos con cuantificadores vagos ocasionales. |
+| **50-69** | 1-2 estadísticas por cada 500 palabras. Algunas afirmaciones documentadas (con fuentes). Mezcla de números específicos y vagos. |
+| **30-49** | Menos de 1 estadística por cada 500 palabras. Pocas afirmaciones documentadas. Predominantemente cuantificadores vagos. |
+| **0-29** | Sin estadísticas. Sin afirmaciones documentadas. Todos los cuantificadores son vagos ("muchos," "la mayoría," "un montón"). |
 
-**What counts as a statistic:**
-- Specific percentages: "73% of marketers report..."
-- Dollar amounts: "The average cost is $4,500 per month"
-- Timeframes: "Implementation takes 6-8 weeks on average"
-- Named studies: "According to the 2025 HubSpot State of Marketing Report..."
-- Specific counts: "The platform integrates with 340+ tools"
-- Comparison data: "40% faster than the industry average"
+**Qué cuenta como una estadística:**
+- Porcentajes específicos: "El 73% de los profesionales del marketing reportan..."
+- Cantidades de dinero: "El costo promedio es de $4,500 por mes"
+- Marcos temporales: "La implementación toma de 6-8 semanas en promedio"
+- Estudios nombrados: "Según el Informe sobre el Estado del Marketing de HubSpot 2025..."
+- Recuentos específicos: "La plataforma se integra con más de 340 herramientas"
+- Datos de comparación: "Un 40% más rápido que el promedio de la industria"
 
-**What does NOT count:**
-- "Many companies use..." (vague)
-- "A significant percentage..." (vague)
-- "Studies show that..." (no named source)
-- "Experts agree..." (no named experts)
+**Qué NO cuenta:**
+- "Muchas empresas usan..." (vago)
+- "Un porcentaje significativo..." (vago)
+- "Los estudios muestran que..." (sin nombrar la fuente)
+- "Los expertos coinciden..." (sin nombrar a los expertos)
 
 ---
 
-### Category 5: Uniqueness & Original Data (10% of total score)
+### Categoría 5: Unicidad y Datos Originales (10% de la puntuación total)
 
-This measures whether the content provides information that AI systems cannot find elsewhere, making it a necessary citation source.
+Esto mide si el contenido proporciona información que los sistemas de IA no pueden encontrar en otro lugar, convirtiéndolo en una fuente de citación necesaria.
 
-**Scoring Criteria:**
+**Criterios de Puntuación:**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| **90-100** | Contains first-party research, proprietary data, original surveys, or unique datasets. Presents analysis or insights not found on any other page. Clear methodological descriptions. |
-| **70-89** | Contains some original insights or unique analysis of existing data. Offers a distinct perspective with original examples. |
-| **50-69** | Mostly synthesizes existing information but adds some unique commentary or examples. |
-| **30-49** | Largely derivative content that restates common knowledge with minimal original contribution. |
-| **0-29** | Entirely derivative. All information is available (often verbatim) on higher-authority sources. |
+| **90-100** | Contiene investigación primaria (first-party), datos propietarios, encuestas originales o conjuntos de datos únicos. Presenta análisis o perspectivas que no se encuentran en ninguna otra página. Descripciones metodológicas claras. |
+| **70-89** | Contiene algunas perspectivas originales o análisis únicos de datos existentes. Ofrece una perspectiva distinta con ejemplos originales. |
+| **50-69** | Principalmente sintetiza información existente pero añade algún comentario o ejemplos únicos. |
+| **30-49** | Contenido mayormente derivado que reitera conocimiento común con contribución original mínima. |
+| **0-29** | Completamente derivado. Toda la información está disponible (a menudo palabra por palabra) en fuentes de mayor autoridad. |
 
-**Signals of unique content:**
-- "Our analysis of [X] data found..."
-- "We surveyed [N] [professionals] and found..."
-- "Based on our experience with [N] clients..."
-- Custom charts, graphs, or data visualizations
-- Case studies with specific named outcomes
-- Original frameworks, methodologies, or taxonomies
-
----
-
-## Analysis Procedure
-
-### Step 1: Fetch and Parse Page Content
-
-1. Use WebFetch to retrieve the target URL.
-2. Extract the main content area (exclude navigation, footer, sidebar, ads).
-3. Preserve heading structure (H1-H6 tags).
-4. Preserve paragraph boundaries, lists, and tables.
-5. Calculate total word count of main content.
-
-### Step 2: Segment Content into Blocks
-
-1. Split content at each heading (H2 or H3) to create content blocks.
-2. For each block, record:
-   - The heading text
-   - The full text content under that heading
-   - Word count of the block
-   - Number of paragraphs
-   - Number of lists and tables
-   - Number of statistics/data points
-   - Whether the block contains a definition pattern
-   - Whether the first 60 words form a standalone answer
-
-### Step 3: Score Each Block
-
-For each content block, calculate:
-- Answer Block Quality sub-score (0-100)
-- Self-Containment sub-score (0-100)
-- Structural Readability sub-score (0-100)
-- Statistical Density sub-score (0-100)
-- Uniqueness sub-score (0-100)
-
-**Block Citability Score** = (Answer * 0.30) + (SelfContain * 0.25) + (Structure * 0.20) + (Stats * 0.15) + (Unique * 0.10)
-
-### Step 4: Calculate Page-Level Score
-
-1. Calculate the average of all block scores for the page-level citability score.
-2. Identify the top 3 highest-scoring blocks (highlight as strengths).
-3. Identify the bottom 3 lowest-scoring blocks (flag for rewriting).
-4. Calculate the percentage of blocks scoring above 70 (the "citability coverage" metric).
-
-### Step 5: Generate Rewrite Suggestions
-
-For each block scoring below 60, generate a specific rewrite suggestion:
-1. Identify the primary weakness (buried answer, lack of facts, poor structure, etc.).
-2. Propose a rewritten opening sentence using a definition or answer-first pattern.
-3. Suggest specific statistics or facts that could be added.
-4. Recommend structural improvements (add list, add table, split paragraph).
+**Señales de contenido único:**
+- "Nuestro análisis de datos de [X] reveló..."
+- "Encuestamos a [N] [profesionales] y encontramos..."
+- "Basado en nuestra experiencia con [N] clientes..."
+- Gráficos personalizados, tablas o visualizaciones de datos
+- Casos de estudio con resultados nombrados específicos
+- Marcos, metodologías o taxonomías originales
 
 ---
 
-## Output Format
+## Procedimiento de Análisis
 
-Generate a file called `GEO-CITABILITY-SCORE.md`:
+### Paso 1: Obtener y Analizar el Contenido de la Página
+
+1. Usa WebFetch para recuperar la URL objetivo.
+2. Extrae el área de contenido principal (excluye navegación, pie de página, barra lateral, anuncios).
+3. Conserva la estructura de encabezados (etiquetas H1-H6).
+4. Conserva los límites de los párrafos, listas y tablas.
+5. Calcula el recuento total de palabras del contenido principal.
+
+### Paso 2: Segmentar el Contenido en Bloques
+
+1. Divide el contenido en cada encabezado (H2 o H3) para crear bloques de contenido.
+2. Para cada bloque, registra:
+   - El texto del encabezado
+   - Todo el contenido de texto debajo de ese encabezado
+   - Cantidad de palabras del bloque
+   - Número de párrafos
+   - Número de listas y tablas
+   - Número de estadísticas/puntos de datos
+   - Si el bloque contiene un patrón de definición
+   - Si las primeras 60 palabras forman una respuesta independiente
+
+### Paso 3: Puntuar Cada Bloque
+
+Para cada bloque de contenido, calcula:
+- Subpuntuación de Calidad de Bloque de Respuesta (0-100)
+- Subpuntuación de Autocontención (0-100)
+- Subpuntuación de Legibilidad Estructural (0-100)
+- Subpuntuación de Densidad Estadística (0-100)
+- Subpuntuación de Unicidad (0-100)
+
+**Puntuación de Citabilidad del Bloque** = (Respuesta * 0.30) + (AutoCont * 0.25) + (Estructura * 0.20) + (Estadísticas * 0.15) + (Único * 0.10)
+
+### Paso 4: Calcular Puntuación a Nivel de Página
+
+1. Calcula el promedio de todas las puntuaciones de los bloques para la puntuación de citabilidad a nivel de página.
+2. Identifica los top 3 bloques con mayor puntuación (resáltalos como fortalezas).
+3. Identifica los 3 bloques con menor puntuación (márcalos para reescritura).
+4. Calcula el porcentaje de bloques que puntúan por encima de 70 (la métrica de "cobertura de citabilidad").
+
+### Paso 5: Generar Sugerencias de Reescritura
+
+Para cada bloque con puntuación por debajo de 60, genera una sugerencia de reescritura específica:
+1. Identifica la debilidad principal (respuesta enterrada/oculta, falta de datos/hechos, mala estructura, etc.).
+2. Propón una oración de apertura reescrita usando una definición o un patrón de respuesta-primero.
+3. Sugiere estadísticas o hechos específicos que podrían añadirse.
+4. Recomienda mejoras estructurales (añadir lista, añadir tabla, dividir párrafo).
+
+---
+
+## Formato de Salida
+
+Genera un archivo llamado `GEO-CITABILITY-SCORE.md`:
 
 ```markdown
-# AI Citability Analysis: [Page Title]
+# Análisis de Citabilidad para IA: [Título de la Página]
 
 **URL:** [URL]
-**Analysis Date:** [Date]
-**Overall Citability Score: [X]/100**
-**Citability Coverage:** [X]% of content blocks score above 70
+**Fecha de Análisis:** [Fecha]
+**Puntuación General de Citabilidad: [X]/100**
+**Cobertura de Citabilidad:** El [X]% de los bloques de contenido obtienen más de 70 puntos.
 
 ---
 
-## Score Summary
+## Resumen de Puntuación
 
-| Category | Score | Weight | Weighted |
+| Categoría | Puntuación | Peso | Ponderada |
 |---|---|---|---|
-| Answer Block Quality | [X]/100 | 30% | [X] |
-| Passage Self-Containment | [X]/100 | 25% | [X] |
-| Structural Readability | [X]/100 | 20% | [X] |
-| Statistical Density | [X]/100 | 15% | [X] |
-| Uniqueness & Original Data | [X]/100 | 10% | [X] |
-| **Overall** | | | **[X]/100** |
+| Calidad del Bloque de Respuesta | [X]/100 | 30% | [X] |
+| Autocontención del Pasaje | [X]/100 | 25% | [X] |
+| Legibilidad Estructural | [X]/100 | 20% | [X] |
+| Densidad Estadística | [X]/100 | 15% | [X] |
+| Unicidad y Datos Originales | [X]/100 | 10% | [X] |
+| **General** | | | **[X]/100** |
 
 ---
 
-## Strongest Content Blocks
+## Bloques de Contenido Más Fuertes
 
-### 1. "[Heading]" -- Score: [X]/100
-> [First 2 sentences of the block]
+### 1. "[Encabezado]" -- Puntuación: [X]/100
+> [Primeras 2 oraciones del bloque]
 
-**Why it works:** [Explanation]
+**Por qué funciona:** [Explicación]
 
-### 2. "[Heading]" -- Score: [X]/100
-> [First 2 sentences of the block]
+### 2. "[Encabezado]" -- Puntuación: [X]/100
+> [Primeras 2 oraciones del bloque]
 
-**Why it works:** [Explanation]
-
----
-
-## Weakest Content Blocks (Rewrite Priority)
-
-### 1. "[Heading]" -- Score: [X]/100
-
-**Current opening:**
-> [First 2 sentences as they exist]
-
-**Problem:** [Specific issue -- buried answer, no facts, etc.]
-
-**Suggested rewrite:**
-> [Rewritten opening 2-3 sentences with answer-first pattern and facts]
-
-**Additional improvements:**
-- [Add table comparing X, Y, Z]
-- [Include statistic about ...]
-- [Split long paragraph into 2-3 shorter ones]
+**Por qué funciona:** [Explicación]
 
 ---
 
-## Quick Win Reformatting Recommendations
+## Bloques de Contenido Más Débiles (Prioridad de Reescritura)
 
-1. **[Specific recommendation]** -- Expected citability lift: +[X] points
-2. **[Specific recommendation]** -- Expected citability lift: +[X] points
-3. **[Specific recommendation]** -- Expected citability lift: +[X] points
-4. **[Specific recommendation]** -- Expected citability lift: +[X] points
-5. **[Specific recommendation]** -- Expected citability lift: +[X] points
+### 1. "[Encabezado]" -- Puntuación: [X]/100
+
+**Apertura actual:**
+> [Primeras 2 oraciones tal y como existen]
+
+**Problema:** [Problema específico -- respuesta enterrada, sin hechos, etc.]
+
+**Reescritura sugerida:**
+> [Apertura reescrita 2-3 oraciones con patrón de respuesta primero y hechos]
+
+**Mejoras adicionales:**
+- [Añadir tabla comparando X, Y, Z]
+- [Incluir estadística sobre ...]
+- [Dividir párrafo largo en 2-3 más cortos]
 
 ---
 
-## Per-Section Scores
+## Recomendaciones de Reformateo (Victorias Rápidas)
 
-| Section Heading | Words | Answer Quality | Self-Contained | Structure | Stats | Unique | Overall |
+1. **[Recomendación específica]** -- Aumento de citabilidad esperado: +[X] puntos
+2. **[Recomendación específica]** -- Aumento de citabilidad esperado: +[X] puntos
+3. **[Recomendación específica]** -- Aumento de citabilidad esperado: +[X] puntos
+4. **[Recomendación específica]** -- Aumento de citabilidad esperado: +[X] puntos
+5. **[Recomendación específica]** -- Aumento de citabilidad esperado: +[X] puntos
+
+---
+
+## Puntuaciones por Sección
+
+| Encabezado de Sección | Palabras | Calidad Respuesta | Autocontenido | Estructura | Estad. | Único | General |
 |---|---|---|---|---|---|---|---|
-| [H2 heading] | [N] | [X] | [X] | [X] | [X] | [X] | [X] |
+| [Encabezado H2] | [N] | [X] | [X] | [X] | [X] | [X] | [X] |
 ```
 
 ---
 
-## Reference Data
+## Datos de Referencia
 
-### Optimal Passage Characteristics (from GEO Research)
+### Características Óptimas del Pasaje (desde investigación GEO)
 
-- **Optimal length for AI citation:** 134-167 words (Bortolato 2025 analysis of AI Overview passages)
-- **Definition patterns increase citation rate by:** 2.1x (Georgia Tech 2024)
-- **Adding statistics to passages increases citation by:** 40% (Princeton GEO study 2024)
-- **Adding quotations from authorities increases citation by:** 115% in certain categories (IIT Delhi 2024)
-- **Fluency optimization increases visibility by:** 30% on average across all query types
-- **Content with source citations is cited:** 20-25% more often by Perplexity and ChatGPT search
+- **Longitud óptima para cita IA:** 134-167 palabras (Análisis de Bortolato 2025 de pasajes de AI Overview)
+- **Los patrones de definición aumentan la tasa de citación por:** 2.1x (Georgia Tech 2024)
+- **Agregar estadísticas a pasajes incrementa la citación en:** 40% (Estudio GEO Princeton 2024)
+- **Agregar citas textuales de autoridades incrementa la citación por:** 115% en ciertas categorías (IIT Delhi 2024)
+- **Optimizar la fluidez incrementa la visibilidad por:** 30% en promedio a lo largo de todo tipo de consultas
+- **El contenido con citas a fuentes es citado:** 20-25% más frecuentemente por Perplexity y búsqueda de ChatGPT
 
-### AI System Citation Preferences
+### Preferencias de Cita del Sistema de IA
 
-| AI System | Citation Preference |
+| Sistema de IA | Preferencia de Citación |
 |---|---|
-| **ChatGPT (Search)** | Prefers passages with explicit definitions, named sources, and recent dates. Tends to cite 2-4 sources per response. |
-| **Perplexity** | Heavily favors fact-dense passages with statistics. Cites 4-8 sources per response. Values recency highly. |
-| **Claude** | Prefers well-structured, comprehensive passages. Values nuance and accuracy over brevity. |
-| **Gemini (AI Overviews)** | Prefers concise answer blocks (40-60 words). Values content already ranking in top 10 organic results. |
-| **Copilot (Bing)** | Similar to Gemini. Prefers passages from high-authority domains with clear factual claims. |
+| **ChatGPT (Search)** | Prefiere pasajes con definiciones explícitas, fuentes nombradas y fechas recientes. Tiende a citar 2-4 fuentes por respuesta. |
+| **Perplexity** | Favorece fuertemente los pasajes densos en hechos y con estadísticas. Cita 4-8 fuentes por respuesta. Valora enormemente la frescura (recencia). |
+| **Claude** | Prefiere pasajes bien estructurados y exhaustivos. Valora el matiz y la precisión por encima de la brevedad. |
+| **Gemini (AI Overviews)** | Prefiere bloques de respuesta concisos (40-60 palabras). Valora el contenido que ya está posicionado en los top 10 resultados orgánicos. |
+| **Copilot (Bing)** | Similar a Gemini. Prefiere pasajes de dominios de alta autoridad con afirmaciones factuales claras. |

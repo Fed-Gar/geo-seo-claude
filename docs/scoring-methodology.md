@@ -1,27 +1,27 @@
-# Scoring Methodology
+# Metodología de Puntuación
 
-The GEO Score is a single composite number from 0 to 100 that summarises how well a website is optimised for discovery, citation, and recommendation by AI systems such as ChatGPT, Perplexity, Claude, and Google AI Overviews. It is computed as a weighted average of six category sub-scores, each evaluated independently by a specialised subagent. A high score signals strong readiness for generative-engine visibility; a low score points to concrete gaps with an accompanying prioritised action plan.
+La Puntuación GEO (GEO Score) es un número compuesto único del 0 al 100 que resume qué tan bien optimizado está un sitio web para el descubrimiento, la citación y la recomendación por sistemas de IA como ChatGPT, Perplexity, Claude y Google AI Overviews. Se calcula como un promedio ponderado de seis sub-puntuaciones de categoría, cada una evaluada independientemente por un subagente especializado. Una puntuación alta indica una fuerte preparación para la visibilidad en motores generativos; una puntuación baja apunta a brechas concretas con un plan de acción priorizado acompañante.
 
 ---
 
-## Weight table
+## Tabla de pesos
 
-| Category | Weight |
+| Categoría | Peso |
 |---|---|
-| AI Citability & Visibility | 25% |
-| Brand Authority Signals | 20% |
-| Content Quality & E-E-A-T | 20% |
-| Technical Foundations | 15% |
-| Structured Data | 10% |
-| Platform Optimization | 10% |
+| Citabilidad & Visibilidad IA | 25% |
+| Señales de Autoridad de Marca | 20% |
+| Calidad de Contenido & E-E-A-T | 20% |
+| Fundamentos Técnicos | 15% |
+| Datos Estructurados | 10% |
+| Optimización de Plataformas | 10% |
 
 ---
 
-## How the composite score is computed
+## Cómo se calcula la puntuación compuesta
 
-Each subagent returns a sub-score on a 0–100 scale. The orchestrator in [`skills/geo-audit/SKILL.md`](../skills/geo-audit/SKILL.md) multiplies each sub-score by its weight and sums the results.
+Cada subagente devuelve una sub-puntuación en una escala de 0–100. El orquestador en [`skills/geo-audit/SKILL.md`](../skills/geo-audit/SKILL.md) multiplica cada sub-puntuación por su peso y suma los resultados.
 
-**Formula (from `skills/geo-audit/SKILL.md`):**
+**Fórmula (de `skills/geo-audit/SKILL.md`):**
 
 ```
 GEO_Score = (Citability   * 0.25)
@@ -32,7 +32,7 @@ GEO_Score = (Citability   * 0.25)
           + (Platform     * 0.10)
 ```
 
-**Pseudo-code:**
+**Pseudocódigo:**
 
 ```python
 weights = {
@@ -45,227 +45,227 @@ weights = {
 }
 
 geo_score = sum(sub_scores[k] * w for k, w in weights.items())
-# geo_score is in [0, 100]
+# geo_score está en el rango [0, 100]
 ```
 
-**Score interpretation (from `skills/geo-audit/SKILL.md`):**
+**Interpretación de la puntuación (de `skills/geo-audit/SKILL.md`):**
 
-| Range | Rating | Meaning |
+| Rango | Calificación | Significado |
 |---|---|---|
-| 90–100 | Excellent | Highly likely to be cited by AI |
-| 75–89 | Good | Strong foundation with room for improvement |
-| 60–74 | Fair | Moderate presence; significant opportunities |
-| 40–59 | Poor | Weak signals; AI systems may struggle to cite |
-| 0–39 | Critical | Largely invisible to AI systems |
+| 90–100 | Excelente | Altamente probable de ser citado por la IA |
+| 75–89 | Bueno | Fuerte base con espacio para mejora |
+| 60–74 | Aceptable | Presencia moderada; oportunidades significativas |
+| 40–59 | Pobre | Señales débiles; sistemas de IA pueden batallar para citar |
+| 0–39 | Crítico | Mayormente invisible para los sistemas de IA |
 
 ---
 
-## AI Citability & Visibility (25%)
+## Citabilidad & Visibilidad IA (25%)
 
-**Implemented by:** [`agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) and [`scripts/citability_scorer.py`](../scripts/citability_scorer.py)
+**Implementado por:** [`agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) y [`scripts/citability_scorer.py`](../scripts/citability_scorer.py)
 
-### What the scorer looks at
+### Lo que revisa el calificador
 
-The citability sub-score is itself a weighted composite of four components (weights from `agents/geo-ai-visibility.md`):
+La sub-puntuación de citabilidad es en sí misma un compuesto ponderado de cuatro componentes (pesos de `agents/geo-ai-visibility.md`):
 
-| Component | Weight |
+| Componente | Peso |
 |---|---|
-| Citability Score | 35% |
-| Brand Mention Score | 30% |
-| Crawler Access Score | 25% |
-| llms.txt Score | 10% |
+| Puntuación de Citabilidad | 35% |
+| Puntuación de Mención de Marca | 30% |
+| Puntuación de Acceso a Rastreadores | 25% |
+| Puntuación de llms.txt | 10% |
 
-**Citability scoring** (`scripts/citability_scorer.py`) analyses every substantive content block on the page — sections bounded by headings — and scores each one across five dimensions:
+**La puntuación de citabilidad** (`scripts/citability_scorer.py`) analiza cada bloque sustancial de contenido en la página — secciones delimitadas por encabezados — y puntúa cada uno en cinco dimensiones:
 
-| Dimension | Max points | Key signals |
+| Dimensión | Puntos máx | Señales clave |
 |---|---|---|
-| Answer Block Quality | 30 | Definition patterns ("X is a…", "X refers to…"), answer appearing in the first 60 words, question-based heading, short clear sentences (5–25 words), attributed claims ("research shows…") |
-| Self-Containment | 25 | Word count in the 134–167 word optimal range (10 pts), 100–200 word range (7 pts), 80–250 word range (4 pts); pronoun density below 2% (8 pts); 3+ proper nouns (7 pts) |
-| Structural Readability | 20 | Average sentence length 10–20 words (8 pts); list-like transition words (4 pts); numbered items or step references (4 pts); paragraph breaks (4 pts) |
-| Statistical Density | 15 | Percentages (3 pts each, max 6); dollar amounts (3 pts each, max 5); numbers with unit context (2 pts each, max 4); year references (2 pts); named sources (2 pts) |
-| Uniqueness Signals | 10 | Original-research language ("our study found…") (5 pts); case study or real-world example references (3 pts); specific tool/product mentions (2 pts) |
+| Calidad de Bloque de Respuesta | 30 | Patrones de definición ("X es un…", "X se refiere a…"), respuesta apareciendo en las primeras 60 palabras, encabezado basado en preguntas, oraciones cortas y claras (5–25 palabras), afirmaciones atribuidas ("la investigación muestra que…") |
+| Auto-Contención | 25 | Conteo de palabras en rango óptimo de 134–167 (10 pts), rango de 100–200 (7 pts), rango de 80–250 (4 pts); densidad de pronombres por debajo del 2% (8 pts); 3+ nombres propios (7 pts) |
+| Legibilidad Estructural | 20 | Longitud promedio de oración de 10–20 palabras (8 pts); palabras de transición tipo lista (4 pts); ítems numerados o referencias a pasos (4 pts); saltos de párrafo (4 pts) |
+| Densidad Estadística | 15 | Porcentajes (3 pts c/u, máx 6); cantidades monetarias (3 pts c/u, máx 5); números con contexto de unidad (2 pts c/u, máx 4); referencias a años (2 pts); fuentes nombradas (2 pts) |
+| Señales de Unicidad | 10 | Lenguaje de investigación original ("nuestro estudio encontró…") (5 pts); referencias a casos de estudio o ejemplos del mundo real (3 pts); menciones a herramientas/productos específicos (2 pts) |
 
-The passage score is the sum of all five dimensions (maximum 100). The page-level citability score is the average of the top five scoring blocks, or all blocks when fewer than five exist.
+La puntuación del pasaje es la suma de las cinco dimensiones (máximo 100). La puntuación de citabilidad a nivel de página es el promedio de los cinco bloques con mayor puntuación, o de todos los bloques cuando hay menos de cinco.
 
-**Crawler Access Score** (`agents/geo-ai-visibility.md`) starts at 100 and deducts:
-- 15 points per critical crawler blocked (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, GoogleBot)
-- 5 points per secondary crawler blocked
-- 10 points if no sitemap is referenced in robots.txt
-- Floor at 0
+**Puntuación de Acceso a Rastreadores** (`agents/geo-ai-visibility.md`) comienza en 100 y deduce:
+- 15 puntos por cada rastreador crítico bloqueado (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, GoogleBot)
+- 5 puntos por cada rastreador secundario bloqueado
+- 10 puntos si no se hace referencia a ningún sitemap en robots.txt
+- Piso en 0
 
-**llms.txt Score** (`agents/geo-ai-visibility.md` and `scripts/llmstxt_generator.py`):
-- 0 — absent
-- 30 — present but malformed
-- 50 — present, valid format, minimal content
-- 70 — present, valid, covers primary content areas
-- 90–100 — comprehensive, with `/llms-full.txt` also available
+**Puntuación de llms.txt** (`agents/geo-ai-visibility.md` y `scripts/llmstxt_generator.py`):
+- 0 — ausente
+- 30 — presente pero malformado
+- 50 — presente, formato válido, contenido mínimo
+- 70 — presente, válido, cubre áreas de contenido principales
+- 90–100 — integral, con `/llms-full.txt` también disponible
 
-### What good vs bad looks like
+### Cómo se ve lo bueno vs lo malo
 
-A good AI Citability score (70+) means the page has multiple passages that are self-contained, fact-dense, and directly answer questions; all major AI crawlers are allowed in robots.txt; and an llms.txt file is present and well-structured. A poor score (below 40) typically indicates thin or highly context-dependent prose, blocked AI crawlers, and no llms.txt.
+Una buena puntuación de Citabilidad en IA (70+) significa que la página tiene múltiples pasajes que son autónomos, densos en hechos y responden directamente preguntas; se permiten todos los principales rastreadores de IA en robots.txt; y un archivo llms.txt está presente y bien estructurado. Una puntuación pobre (por debajo de 40) típicamente indica prosa delgada o altamente dependiente del contexto, rastreadores IA bloqueados, y la falta de llms.txt.
 
 ---
 
-## Brand Authority Signals (20%)
+## Señales de Autoridad de Marca (20%)
 
-**Implemented by:** [`agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) and [`scripts/brand_scanner.py`](../scripts/brand_scanner.py)
+**Implementado por:** [`agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) y [`scripts/brand_scanner.py`](../scripts/brand_scanner.py)
 
-### What the scorer looks at
+### Lo que revisa el calificador
 
-Brand authority is assessed by checking the brand's presence on platforms that AI models draw on heavily when forming entity knowledge. The Brand Mention Score (used as input to the AI Visibility composite above) is built from:
+La autoridad de la marca se evalúa comprobando la presencia de la marca en las plataformas de las que los modelos de IA se alimentan en gran medida al formar el conocimiento de las entidades. La Puntuación de Mención de Marca (utilizada como entrada para el compuesto de Visibilidad IA más arriba) se construye a partir de:
 
-| Platform | Points available | Method |
+| Plataforma | Puntos disponibles | Método |
 |---|---|---|
-| Wikipedia | 30 | Wikipedia API search; Wikidata entity lookup (`scripts/brand_scanner.py`) |
-| Industry / niche sources | 25 | Review platforms (G2, Trustpilot, Capterra), press mentions, authoritative industry sites |
-| Reddit | 20 | Presence, recency, and sentiment of brand discussions |
-| YouTube | 15 | Official channel existence and third-party video coverage |
-| LinkedIn | 10 | Company page presence and activity |
+| Wikipedia | 30 | Búsqueda en API Wikipedia; Búsqueda de entidad Wikidata (`scripts/brand_scanner.py`) |
+| Fuentes de industria / nicho | 25 | Plataformas de reseñas (G2, Trustpilot, Capterra), menciones en prensa, sitios de industria autorizados |
+| Reddit | 20 | Presencia, recencia y sentimiento de discusiones de la marca |
+| YouTube | 15 | Existencia de canal oficial y cobertura en videos de terceros |
+| LinkedIn | 10 | Presencia de página de empresa y actividad |
 
-The correlation values cited in `scripts/brand_scanner.py` come from an Ahrefs December 2025 study of 75,000 brands: YouTube shows the strongest correlation (0.737) with AI citations; domain rating / backlinks show a weak correlation (0.266).
+Los valores de correlación citados en `scripts/brand_scanner.py` provienen de un estudio de Ahrefs en Diciembre de 2025 de 75,000 marcas: YouTube muestra la mayor correlación (0.737) con citas en IA; calificación de dominio / enlaces entrantes muestran una correlación débil (0.266).
 
-### What good vs bad looks like
+### Cómo se ve lo bueno vs lo malo
 
-A strong brand authority score requires an active Wikipedia presence (the highest-weight signal), community-level discussion on Reddit, and a YouTube presence with educational or review content. A brand with no Wikipedia page, no Reddit discussion, and no YouTube presence will score near 0 on this sub-score regardless of how well-known it is in traditional search.
+Una puntuación fuerte en autoridad de marca requiere una presencia activa en Wikipedia (la señal de mayor peso), discusión a nivel comunitario en Reddit y presencia en YouTube con contenido educativo o de reseñas. Una marca sin página de Wikipedia, sin discusión en Reddit y sin presencia en YouTube obtendrá una puntuación cercana a 0 en esta sub-puntuación, sin importar cuán conocida sea en la búsqueda tradicional.
 
 ---
 
-## Content Quality & E-E-A-T (20%)
+## Calidad de Contenido & E-E-A-T (20%)
 
-**Implemented by:** [`agents/geo-content.md`](../agents/geo-content.md)
+**Implementado por:** [`agents/geo-content.md`](../agents/geo-content.md)
 
-### What the scorer looks at
+### Lo que revisa el calificador
 
-The content agent evaluates the page against Google's E-E-A-T framework. Each of the four dimensions is scored 0–25 and then normalised to 0–15 for weighting within the content score:
+El agente de contenido evalúa la página frente al marco de E-E-A-T de Google. Cada una de las cuatro dimensiones se puntúa de 0–25 y luego se normaliza a 0–15 para la ponderación dentro de la puntuación de contenido:
 
-| Dimension | Max (raw) | Key signals checked |
+| Dimensión | Máx (bruto) | Señales clave revisadas |
 |---|---|---|
-| Experience | 25 | Original research or data, case studies with measurable outcomes, first-hand accounts, before/after comparisons, specific names and figures |
-| Expertise | 25 | Named author with credentials, linked author page with biography, technical depth, methodology transparency, Person schema |
-| Authoritativeness | 25 | About page quality, external citations, industry recognition, media mentions, sameAs schema links |
-| Trustworthiness | 25 | HTTPS, visible contact information, privacy policy, editorial standards, transparent sourcing, publication and update dates |
+| Experiencia (Experience) | 25 | Investigación o datos originales, estudios de caso con resultados medibles, relatos en primera persona, comparaciones antes/después, nombres y cifras específicas |
+| Conocimiento (Expertise) | 25 | Autor nombrado con credenciales, página de autor enlazada con biografía, profundidad técnica, transparencia en la metodología, Schema de Persona |
+| Autoridad (Authoritativeness) | 25 | Calidad de página Acerca de, citas externas, reconocimiento de la industria, menciones en medios, enlaces schema sameAs |
+| Confiabilidad (Trustworthiness) | 25 | HTTPS, información de contacto visible, política de privacidad, estándares editoriales, fuentes transparentes, fechas de publicación y actualización |
 
-Beyond E-E-A-T, the full content score (0–100) also incorporates:
+Más allá del E-E-A-T, la puntuación de contenido total (0–100) también incorpora:
 
-| Component | Weight | Signals |
+| Componente | Peso | Señales |
 |---|---|---|
-| E-E-A-T (combined, normalised) | 60% | Four dimensions above |
-| Content Metrics | 15% | Word count classification (thin < 300 words; deep-dive 3000+ words), approximate Flesch readability, paragraph length, heading hierarchy |
-| AI Content Assessment | 10% | Absence of generic AI-pattern phrases, presence of authorial voice, original data |
-| Topical Authority | 10% | Content breadth (related pages), internal linking depth, hub-and-cluster structure |
-| Content Freshness | 5% | Publication and modification dates visible, recency for time-sensitive topics |
+| E-E-A-T (combinado, normalizado) | 60% | Las cuatro dimensiones arriba |
+| Métricas de Contenido | 15% | Clasificación de conteo de palabras (delgado < 300 palabras; inmersión profunda 3000+), legibilidad Flesch aproximada, longitud de párrafo, jerarquía de encabezados |
+| Evaluación Contenido IA | 10% | Ausencia de frases patrón de IA genéricas, presencia de voz autoral, datos originales |
+| Autoridad Temática | 10% | Amplitud del contenido (páginas relacionadas), profundidad de enlazado interno, estructura hub-y-cluster |
+| Frescura de Contenido | 5% | Fechas de publicación y modificación visibles, recencia para temas sensibles al tiempo |
 
-### What good vs bad looks like
+### Cómo se ve lo bueno vs lo malo
 
-A score of 70+ requires a clearly identified author with verifiable credentials, original data or case studies, transparent sourcing, HTTPS, and content that goes beyond surface-level coverage of the topic. A score below 30 typically means no author attribution, no external sources, no HTTPS, and content that could have been written by anyone with no subject-matter exposure.
+Una puntuación de 70+ requiere un autor claramente identificado con credenciales verificables, datos originales o casos de estudio, fuentes transparentes, HTTPS, y contenido que vaya más allá de la cobertura superficial del tema. Una puntuación por debajo de 30 normalmente significa sin atribución al autor, sin fuentes externas, sin HTTPS, y un contenido que podría haber sido escrito por cualquiera sin experiencia en la materia.
 
 ---
 
-## Technical Foundations (15%)
+## Fundamentos Técnicos (15%)
 
-**Implemented by:** [`agents/geo-technical.md`](../agents/geo-technical.md)
+**Implementado por:** [`agents/geo-technical.md`](../agents/geo-technical.md)
 
-### What the scorer looks at
+### Lo que revisa el calificador
 
-The technical agent computes a score from nine weighted components:
+El agente técnico calcula una puntuación a partir de nueve componentes ponderados:
 
-| Component | Weight |
+| Componente | Peso |
 |---|---|
-| Server-Side Rendering / JS dependency | 25% |
-| Meta tags & indexability | 15% |
-| Crawlability (robots.txt, sitemap) | 15% |
-| Security headers | 10% |
-| Core Web Vitals risk | 10% |
-| Mobile optimization | 10% |
-| URL structure | 5% |
-| Response headers & status | 5% |
-| Additional checks | 5% |
+| Renderizado en Servidor / dependencia JS | 25% |
+| Etiquetas meta e indexabilidad | 15% |
+| Rastreabilidad (robots.txt, sitemap) | 15% |
+| Encabezados de seguridad | 10% |
+| Riesgo de Core Web Vitals | 10% |
+| Optimización móvil | 10% |
+| Estructura de URL | 5% |
+| Encabezados de respuesta y estado | 5% |
+| Controles adicionales | 5% |
 
-Server-side rendering carries the highest weight because AI crawlers (GPTBot, ClaudeBot, PerplexityBot) generally do not execute JavaScript. A page that requires JS to render its main content is effectively invisible to AI crawlers regardless of how well the content itself is written.
+El renderizado del lado del servidor (SSR) tiene el mayor peso porque los rastreadores de IA (GPTBot, ClaudeBot, PerplexityBot) generalmente no ejecutan JavaScript. Una página que requiere JS para renderizar su contenido principal es efectivamente invisible para los rastreadores IA sin importar qué tan bien esté escrito el contenido en sí.
 
-Security header deductions (from `agents/geo-technical.md`):
-- No HTTPS: -30 points
-- No HSTS: -10 points
-- No CSP: -10 points
-- No X-Frame-Options: -5 points
-- No X-Content-Type-Options: -5 points
-- No Referrer-Policy: -5 points
-- No Permissions-Policy: -3 points
+Deducciones de los encabezados de seguridad (de `agents/geo-technical.md`):
+- Sin HTTPS: -30 puntos
+- Sin HSTS: -10 puntos
+- Sin CSP: -10 puntos
+- Sin X-Frame-Options: -5 puntos
+- Sin X-Content-Type-Options: -5 puntos
+- Sin Referrer-Policy: -5 puntos
+- Sin Permissions-Policy: -3 puntos
 
-Core Web Vitals (LCP, INP, CLS) are assessed as Low / Medium / High risk from static HTML analysis. The agent notes explicitly that actual measurements require field data (PageSpeed Insights or CrUX).
+Core Web Vitals (LCP, INP, CLS) se evalúan como riesgo Bajo / Medio / Alto desde un análisis HTML estático. El agente señala explícitamente que las medidas reales requieren datos de campo (PageSpeed Insights o CrUX).
 
-### What good vs bad looks like
+### Cómo se ve lo bueno vs lo malo
 
-A high technical score requires full server-side rendering, a well-formed robots.txt that allows AI crawlers, a referenced XML sitemap, HTTPS with HSTS, and clean meta tags. A critical finding is any client-side-only SPA where the HTML body is empty without JavaScript execution — in that state, no amount of content optimisation helps AI discoverability.
+Una alta puntuación técnica requiere un renderizado del lado del servidor completo, un robots.txt bien formado que permita los rastreadores IA, un sitemap XML referenciado, HTTPS con HSTS, y etiquetas meta limpias. Un hallazgo crítico es cualquier SPA (Single Page Application) del lado del cliente donde el cuerpo HTML esté vacío sin ejecución de JavaScript — en ese estado, ninguna cantidad de optimización de contenido ayuda a la descubribilidad por IA.
 
 ---
 
-## Structured Data (10%)
+## Datos Estructurados (10%)
 
-**Implemented by:** [`agents/geo-schema.md`](../agents/geo-schema.md)
+**Implementado por:** [`agents/geo-schema.md`](../agents/geo-schema.md)
 
-### What the scorer looks at
+### Lo que revisa el calificador
 
-The schema agent detects JSON-LD, Microdata, and RDFa structured data in the page source and scores completeness across ten components:
+El agente de schema detecta datos estructurados JSON-LD, Microdata, y RDFa en el código fuente de la página y califica la integridad en diez componentes:
 
-| Component | Max points | Criteria |
+| Componente | Puntos máx | Criterios |
 |---|---|---|
-| Organization / LocalBusiness | 20 | Present (10 pts); sameAs linking to 3+ platforms (20 pts) |
-| Article / content schema | 15 | Present (8 pts); author as Person object (12 pts); dateModified present (15 pts) |
-| Person schema for author | 15 | Present (8 pts); sameAs present (12 pts); jobTitle and knowsAbout present (15 pts) |
-| sameAs completeness | 15 | 1–2 platforms (5 pts); 3–4 platforms (10 pts); 5+ platforms including Wikipedia (15 pts) |
-| speakable property | 10 | Present and targeting content sections (10 pts) |
-| BreadcrumbList | 5 | Present and valid (5 pts) |
-| WebSite + SearchAction | 5 | Present and valid (5 pts) |
-| No deprecated schemas | 5 | No HowTo (removed Sep 2023) or SpecialAnnouncement schemas present |
-| JSON-LD format | 5 | All schemas in JSON-LD rather than Microdata or RDFa |
-| Validation (no errors) | 5 | All schemas pass syntax and property validation |
+| Organization / LocalBusiness | 20 | Presente (10 pts); enlaces sameAs hacia 3+ plataformas (20 pts) |
+| Article / Schema de contenido | 15 | Presente (8 pts); autor como objeto Person (12 pts); dateModified presente (15 pts) |
+| Schema Person para autor | 15 | Presente (8 pts); sameAs presente (12 pts); jobTitle y knowsAbout presentes (15 pts) |
+| Completitud sameAs | 15 | 1–2 plataformas (5 pts); 3–4 plataformas (10 pts); 5+ plataformas incluyendo Wikipedia (15 pts) |
+| Propiedad speakable | 10 | Presente y apuntando a secciones de contenido (10 pts) |
+| BreadcrumbList | 5 | Presente y válido (5 pts) |
+| WebSite + SearchAction | 5 | Presente y válido (5 pts) |
+| Sin schemas obsoletos | 5 | Ningún schema HowTo (eliminado Sep 2023) o SpecialAnnouncement presente |
+| Formato JSON-LD | 5 | Todos los schemas en JSON-LD y no en Microdata ni RDFa |
+| Validación (sin errores) | 5 | Todos los schemas pasan validación de sintaxis y propiedades |
 
-The agent also flags schemas that are injected by JavaScript rather than present in the initial HTML response, because AI crawlers will not execute JavaScript and will miss those schemas entirely.
+El agente también señala los esquemas inyectados por JavaScript en lugar de estar presentes en la respuesta HTML inicial, ya que los rastreadores de IA no ejecutarán JavaScript y no verán esos esquemas en absoluto.
 
-Deprecated and restricted statuses checked (from `agents/geo-schema.md`):
-- HowTo: removed from Google rich results September 2023
-- FAQPage: restricted to government and health authority sites since August 2023
-- SpecialAnnouncement: deprecated
+Estados obsoletos y restringidos verificados (de `agents/geo-schema.md`):
+- HowTo: removido de los resultados enriquecidos de Google en Septiembre de 2023
+- FAQPage: restringido a sitios gubernamentales y de autoridades de salud desde Agosto de 2023
+- SpecialAnnouncement: obsoleto
 
-### What good vs bad looks like
+### Cómo se ve lo bueno vs lo malo
 
-A high schema score requires an Organization schema with sameAs links to at least five platforms including Wikipedia, properly nested Person schemas for all content authors, Article schema with dateModified, and all schemas delivered as server-rendered JSON-LD. A score near zero means no structured data at all, which removes any explicit entity-linking signal for AI models.
-
----
-
-## Platform Optimization (10%)
-
-**Implemented by:** [`agents/geo-platform-analysis.md`](../agents/geo-platform-analysis.md)
-
-### What the scorer looks at
-
-The platform agent scores readiness for five AI search platforms independently and aggregates them. Each platform has its own sub-scoring breakdown:
-
-**Google AI Overviews:** Content structure (40 pts) — question-based headings, direct answer paragraphs, comparison tables; source authority signals (30 pts); technical signals (30 pts).
-
-**ChatGPT web search:** Entity recognition (35 pts) — Wikipedia and Wikidata presence, sameAs schema; content preferences (40 pts) — factual, citable statements with attribution; crawler access (25 pts) — OAI-SearchBot and ChatGPT-User allowed in robots.txt.
-
-**Perplexity AI:** Community validation (Reddit, Quora, Stack Overflow) and source directness scored separately.
-
-**Google Gemini and Bing Copilot:** Each platform evaluated against its documented sourcing and ranking signals.
-
-The README notes that only 11% of domains are cited by both ChatGPT and Google AI Overviews for the same query, which motivates treating platform readiness as a distinct scoring dimension rather than folding it into technical or content categories.
-
-### What good vs bad looks like
-
-A strong platform score requires passing the crawler-access and entity-recognition checks that appear in the other categories, plus platform-specific structural patterns: question-answering headings and direct-answer paragraphs for Google AIO, Wikipedia and Wikidata presence for ChatGPT, and community-platform presence for Perplexity. Because this category overlaps with several other categories, a site that scores well on AI Citability and Brand Authority will often score reasonably here too.
+Una alta puntuación de schema requiere un esquema de Organization con enlaces sameAs a al menos cinco plataformas incluyendo Wikipedia, esquemas de Person adecuadamente anidados para todos los autores de contenido, schema Article con dateModified, y que todos los esquemas se entreguen como JSON-LD renderizado por el servidor. Una puntuación cercana a cero significa que no hay datos estructurados en absoluto, lo cual quita cualquier señal de vinculación de entidad explícita para los modelos de IA.
 
 ---
 
-## Caveats
+## Optimización de Plataformas (10%)
 
-**Deterministic vs LLM-judged scoring.** The citability scorer (`scripts/citability_scorer.py`) and the llms.txt validator (`scripts/llmstxt_generator.py`) are fully deterministic: given the same HTML, they return the same numerical result every time. The Brand Authority, Content E-E-A-T, Technical, Schema, and Platform scores are produced by LLM subagents following documented rubrics; they are guided evaluations rather than reproducible computations. Two runs on the same URL may produce small differences in LLM-judged categories.
+**Implementado por:** [`agents/geo-platform-analysis.md`](../agents/geo-platform-analysis.md)
 
-**Weights are opinionated.** The 25/20/20/15/10/10 weight distribution reflects the judgement of the tool's authors about the relative importance of each category for AI citation likelihood at the time of writing. These weights are not derived from a controlled study and are subject to change as AI search platforms evolve.
+### Lo que revisa el calificador
 
-**Diagnostic, not a guarantee.** The GEO Score is a diagnostic instrument. A high score improves the structural conditions for AI citation but does not guarantee that any particular AI system will cite or recommend the site. AI model behaviour depends on many factors outside the scope of this tool, including model training data, query phrasing, and competitor content.
+El agente de plataforma califica de forma independiente la preparación de cinco plataformas de búsqueda mediante IA y las agrega. Cada plataforma tiene su propio desglose de sub-calificaciones:
 
-**Schema validation is structural, not semantic.** The schema agent checks that JSON-LD is syntactically valid, uses recognised Schema.org types and properties, and includes required fields. It does not verify that the values are accurate or that the described entity matches the actual organisation or person. A schema block that passes validation may still contain incorrect information.
+**Google AI Overviews:** Estructura de contenido (40 pts) — encabezados basados en preguntas, párrafos de respuesta directa, tablas comparativas; señales de autoridad de fuente (30 pts); señales técnicas (30 pts).
 
-**llms.txt is an emerging standard.** The llms.txt specification referenced by `scripts/llmstxt_generator.py` and `agents/geo-ai-visibility.md` is not yet universally adopted by AI crawlers. Its presence or absence does not guarantee any specific crawler behaviour at this time.
+**Búsqueda web de ChatGPT:** Reconocimiento de entidad (35 pts) — presencia en Wikipedia y Wikidata, esquema sameAs; preferencias de contenido (40 pts) — afirmaciones fácticas y citables con atribución; acceso de rastreadores (25 pts) — OAI-SearchBot y ChatGPT-User permitidos en robots.txt.
+
+**Perplexity AI:** Validación comunitaria (Reddit, Quora, Stack Overflow) y la franqueza de la fuente se califican por separado.
+
+**Google Gemini y Bing Copilot:** Cada plataforma se evalúa frente a sus señales de obtención de fuentes y posicionamiento documentadas.
+
+El README destaca que solo el 11% de los dominios son citados tanto por ChatGPT como por Google AI Overviews para la misma consulta, lo cual motiva a tratar a la preparación por plataforma como una dimensión de puntuación distinta en lugar de plegarla a categorías técnicas o de contenido.
+
+### Cómo se ve lo bueno vs lo malo
+
+Una puntuación de plataforma fuerte requiere pasar las verificaciones de acceso a rastreadores y reconocimiento de entidades que aparecen en otras categorías, además de patrones estructurales específicos de plataforma: encabezados de preguntas-respuestas y párrafos de respuesta directa para Google AIO, presencia de Wikipedia y Wikidata para ChatGPT, y presencia de plataformas comunitarias para Perplexity. Debido a que esta categoría se solapa con varias otras categorías, un sitio que puntúa bien en Citabilidad IA y Autoridad de Marca normalmente también puntuará razonablemente bien aquí.
+
+---
+
+## Advertencias (Caveats)
+
+**Puntuación Determinística vs Juzgada por LLM.** El puntuador de citabilidad (`scripts/citability_scorer.py`) y el validador de llms.txt (`scripts/llmstxt_generator.py`) son totalmente determinísticos: dado el mismo HTML, retornan el mismo resultado numérico siempre. Las Puntuaciones de Autoridad de Marca, E-E-A-T de Contenido, Técnico, Schema y Plataforma son producidas por subagentes LLM que siguen rúbricas documentadas; son evaluaciones guiadas en lugar de cálculos reproducibles. Dos ejecuciones sobre la misma URL pueden producir pequeñas diferencias en categorías juzgadas por el LLM.
+
+**Los pesos son subjetivos.** La distribución de peso 25/20/20/15/10/10 refleja el juicio de los autores de la herramienta acerca de la importancia relativa de cada categoría en la probabilidad de citación en IA al momento de escribir. Estos pesos no se derivan de un estudio controlado y están sujetos a cambios a medida que las plataformas de búsqueda IA evolucionan.
+
+**Diagnóstico, no garantía.** La Puntuación GEO es un instrumento diagnóstico. Una alta puntuación mejora las condiciones estructurales para la cita de la IA pero no garantiza que ningún sistema de IA en particular citará o recomendará el sitio. El comportamiento del modelo de IA depende de muchos factores fuera del alcance de esta herramienta, incluyendo la información de entrenamiento del modelo, formulación de consultas, y el contenido del competidor.
+
+**Validación de Schema es estructural, no semántica.** El agente de schema comprueba que JSON-LD sea sintácticamente válido, utilice tipos y propiedades reconocidas de Schema.org, e incluya los campos requeridos. No verifica que los valores sean exactos o que la entidad descrita coincida con la organización o persona real. Un bloque de schema que apruebe la validación puede aún contener información incorrecta.
+
+**llms.txt es un estándar emergente.** La especificación llms.txt referenciada por `scripts/llmstxt_generator.py` y `agents/geo-ai-visibility.md` aún no es adoptada universalmente por los rastreadores de IA. Su presencia o ausencia no garantiza ningún comportamiento específico del rastreador en este momento.

@@ -1,335 +1,335 @@
-# Skills, Agents, Scripts, and Schemas
+# Habilidades, Agentes, Scripts y Schemas
 
-This reference describes every moving part in the `geo-seo-claude` skill bundle. The bundle optimizes websites for Generative Engine Optimization (GEO) — making content discoverable and citable by AI search platforms (ChatGPT, Perplexity, Google AI Overviews, Gemini, Bing Copilot) — while maintaining traditional SEO foundations. It is structured as one orchestrator skill, 14 sub-skills, 5 parallel subagents, 6 Python helper scripts, and 6 JSON-LD schema templates.
+Esta referencia describe cada parte móvil en el paquete de habilidades `geo-seo-claude`. El paquete optimiza los sitios web para la Optimización de Motores Generativos (GEO) — haciendo que el contenido sea descubrible y citable por las plataformas de búsqueda de IA (ChatGPT, Perplexity, Google AI Overviews, Gemini, Bing Copilot) — mientras se mantienen los fundamentos tradicionales de SEO. Está estructurado como una habilidad orquestadora, 14 sub-habilidades, 5 subagentes paralelos, 6 scripts de ayuda en Python, y 6 plantillas de esquema JSON-LD.
 
-See [commands-reference.md](commands-reference.md) for the full slash-command reference and [architecture.md](architecture.md) for how the parallel subagent flow works during a full audit.
-
----
-
-## Orchestrator
-
-- **geo** (`geo/SKILL.md`) — Entry point for all GEO commands. Detects business type, dispatches sub-skills for individual commands, and coordinates the three-phase full-audit flow: discovery, parallel subagent delegation, and score synthesis. Produces a composite GEO Score (0–100) weighted across six categories.
+Consulta [commands-reference.md](commands-reference.md) para la referencia completa de los comandos slash y [architecture.md](architecture.md) para ver cómo funciona el flujo de subagentes en paralelo durante una auditoría completa.
 
 ---
 
-## Sub-skills
+## Orquestador
+
+- **geo** (`geo/SKILL.md`) — Punto de entrada para todos los comandos GEO. Detecta el tipo de negocio, despacha sub-habilidades para comandos individuales, y coordina el flujo de auditoría completa de tres fases: descubrimiento, delegación de subagentes paralelos y síntesis de puntuación. Produce una Puntuación GEO compuesta (0–100) ponderada a través de seis categorías.
+
+---
+
+## Sub-habilidades
 
 ### geo-audit
 
-**Purpose:** Orchestrates a full GEO + SEO audit of a website by running discovery, delegating to five parallel subagents, and aggregating their scores into a single composite GEO Score.
+**Propósito:** Orquesta una auditoría completa de GEO + SEO de un sitio web mediante la ejecución del descubrimiento, delegando a cinco subagentes en paralelo, y agregando sus puntuaciones en una única Puntuación GEO compuesta.
 
-**Inputs:** A URL. Optionally, pre-crawled page data.
+**Entradas:** Una URL. Opcionalmente, datos de página pre-rastreados.
 
-**Outputs:** `GEO-AUDIT-REPORT.md` — composite score, per-category breakdown, issue severity list (Critical / High / Medium / Low), 30-day action plan, and an appendix of pages analyzed.
+**Salidas:** `GEO-AUDIT-REPORT.md` — puntuación compuesta, desglose por categoría, lista de severidad de problemas (Crítico / Alto / Medio / Bajo), plan de acción de 30 días, y un apéndice de las páginas analizadas.
 
-**Scoring weights:**
-- AI Citability 25%, Brand Authority 20%, Content E-E-A-T 20%, Technical GEO 15%, Structured Data 10%, Platform Optimization 10%
+**Pesos de puntuación:**
+- Citabilidad IA 25%, Autoridad de Marca 20%, E-E-A-T de Contenido 20%, GEO Técnico 15%, Datos Estructurados 10%, Optimización de Plataforma 10%
 
-**Dependencies:** Delegates to all five subagents (`geo-ai-visibility`, `geo-platform-analysis`, `geo-technical`, `geo-content`, `geo-schema`).
+**Dependencias:** Delega a todos los cinco subagentes (`geo-ai-visibility`, `geo-platform-analysis`, `geo-technical`, `geo-content`, `geo-schema`).
 
-See [commands-reference.md](commands-reference.md) for `/geo audit`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo audit`.
 
 ---
 
 ### geo-citability
 
-**Purpose:** Scores individual content passages on a 0–100 scale for AI citation readiness. Measures how likely an AI system is to extract and quote a passage verbatim.
+**Propósito:** Puntúa pasajes de contenido individuales en una escala de 0–100 para la preparación a la citación por IA. Mide la probabilidad de que un sistema de IA extraiga y cite un pasaje literalmente.
 
-**Inputs:** A URL (fetched with WebFetch).
+**Entradas:** Una URL (obtenida con WebFetch).
 
-**Outputs:** `GEO-CITABILITY-SCORE.md` — per-section scores, top citation-ready passages, weakest blocks with rewrite suggestions, and a citability coverage percentage.
+**Salidas:** `GEO-CITABILITY-SCORE.md` — puntuaciones por sección, pasajes principales listos para cita, bloques más débiles con sugerencias de reescritura y un porcentaje de cobertura de citabilidad.
 
-**Scoring dimensions (per passage):** Answer Block Quality (30%), Self-Containment (25%), Structural Readability (20%), Statistical Density (15%), Uniqueness (10%).
+**Dimensiones de puntuación (por pasaje):** Calidad del Bloque de Respuesta (30%), Auto-contención (25%), Legibilidad Estructural (20%), Densidad Estadística (15%), Unicidad (10%).
 
-**Key threshold:** Optimal AI-cited passages are 134–167 words, self-contained, fact-rich, and answer a question in the first 1–2 sentences.
+**Umbral clave:** Los pasajes óptimos citados por IA tienen entre 134–167 palabras, son independientes, ricos en hechos y responden una pregunta en las primeras 1–2 oraciones.
 
-See [commands-reference.md](commands-reference.md) for `/geo citability`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo citability`.
 
 ---
 
 ### geo-crawlers
 
-**Purpose:** Audits which AI crawlers can access the site by parsing `robots.txt`, meta robots tags, and HTTP `X-Robots-Tag` headers. Produces a complete access map across 14 crawlers in three tiers.
+**Propósito:** Audita qué rastreadores de IA pueden acceder al sitio parseando `robots.txt`, etiquetas meta robots, y encabezados HTTP `X-Robots-Tag`. Produce un mapa de acceso completo a través de 14 rastreadores en tres niveles.
 
-**Inputs:** A domain URL.
+**Entradas:** La URL de un dominio.
 
-**Outputs:** `GEO-CRAWLER-ACCESS.md` — per-crawler status (Allowed / Blocked / Not Mentioned), AI Visibility Score, recommended `robots.txt` configuration, and JavaScript rendering assessment.
+**Salidas:** `GEO-CRAWLER-ACCESS.md` — estado por rastreador (Permitido / Bloqueado / No Mencionado), Puntuación de Visibilidad IA, configuración recomendada de `robots.txt`, y evaluación del renderizado de JavaScript.
 
-**Crawler tiers:**
-- Tier 1 (search visibility): GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot
-- Tier 2 (broader AI ecosystem): Google-Extended, GoogleOther, Applebot-Extended, Amazonbot, FacebookBot
-- Tier 3 (training-only): CCBot, anthropic-ai, Bytespider, cohere-ai
+**Niveles de rastreadores:**
+- Nivel 1 (visibilidad en búsqueda): GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot
+- Nivel 2 (ecosistema IA más amplio): Google-Extended, GoogleOther, Applebot-Extended, Amazonbot, FacebookBot
+- Nivel 3 (solo entrenamiento): CCBot, anthropic-ai, Bytespider, cohere-ai
 
-See [commands-reference.md](commands-reference.md) for `/geo crawlers`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo crawlers`.
 
 ---
 
 ### geo-llmstxt
 
-**Purpose:** Analyzes an existing `llms.txt` file for format compliance and completeness, or generates a new one from scratch by crawling the site. The `llms.txt` standard gives AI systems explicit guidance on site structure and key pages.
+**Propósito:** Analiza un archivo `llms.txt` existente en busca de cumplimiento de formato e integridad, o genera uno nuevo desde cero rastreando el sitio. El estándar `llms.txt` le brinda a los sistemas de IA una orientación explícita sobre la estructura del sitio y las páginas clave.
 
-**Inputs:** A domain URL. Operates in analysis mode (file exists) or generation mode (file absent).
+**Entradas:** La URL de un dominio. Opera en modo de análisis (el archivo existe) o en modo de generación (el archivo está ausente).
 
-**Outputs (analysis mode):** `GEO-LLMSTXT-ANALYSIS.md` — format validation table, missing pages, overall llms.txt score (Completeness 40%, Accuracy 35%, Usefulness 25%).
+**Salidas (modo análisis):** `GEO-LLMSTXT-ANALYSIS.md` — tabla de validación de formato, páginas faltantes, puntuación global de llms.txt (Completitud 40%, Precisión 35%, Utilidad 25%).
 
-**Outputs (generation mode):** A ready-to-deploy `llms.txt` file and `GEO-LLMSTXT-GENERATION.md` explaining page selection rationale.
+**Salidas (modo generación):** Un archivo `llms.txt` listo para desplegar y `GEO-LLMSTXT-GENERATION.md` explicando la lógica de selección de las páginas.
 
-**Dependencies:** `scripts/llmstxt_generator.py` provides validation and generation helpers.
+**Dependencias:** `scripts/llmstxt_generator.py` provee ayudantes de validación y generación.
 
-See [commands-reference.md](commands-reference.md) for `/geo llmstxt`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo llmstxt`.
 
 ---
 
 ### geo-brand-mentions
 
-**Purpose:** Scans brand presence across platforms that AI models use for entity recognition and citation decisions. Produces a Brand Authority Score based on platform-weighted presence.
+**Propósito:** Escanea la presencia de marca a través de plataformas que los modelos de IA usan para el reconocimiento de entidades y las decisiones de citación. Produce una Puntuación de Autoridad de Marca basada en la presencia ponderada por plataforma.
 
-**Inputs:** Brand name, domain URL, industry (gathered from the site if not provided).
+**Entradas:** Nombre de marca, URL del dominio, industria (recopilada del sitio si no se proporciona).
 
-**Outputs:** `GEO-BRAND-MENTIONS.md` — per-platform scores (YouTube 25%, Reddit 25%, Wikipedia/Wikidata 20%, LinkedIn 15%, Other 15%), sentiment assessment, composite Brand Authority Score, and prioritized recommendations.
+**Salidas:** `GEO-BRAND-MENTIONS.md` — puntuaciones por plataforma (YouTube 25%, Reddit 25%, Wikipedia/Wikidata 20%, LinkedIn 15%, Otras 15%), evaluación de sentimiento, Puntuación compuesta de Autoridad de Marca y recomendaciones priorizadas.
 
-**Key insight:** YouTube mention correlation with AI citation is ~0.737; Domain Rating correlation is ~0.266 (Ahrefs, December 2025 study of 75,000 brands).
+**Perspectiva clave:** La correlación de la mención en YouTube con la cita por IA es ~0.737; la correlación con la Clasificación del Dominio (Domain Rating) es ~0.266 (Estudio de Ahrefs, Diciembre 2025 de 75,000 marcas).
 
-**Dependencies:** `scripts/brand_scanner.py` provides the platform-check framework. Wikipedia checks use the Wikipedia API directly via Bash (web search alone produces false negatives).
+**Dependencias:** `scripts/brand_scanner.py` provee el marco de verificación por plataforma. Las revisiones de Wikipedia usan la API de Wikipedia directamente a través de Bash (la búsqueda web sola produce falsos negativos).
 
-See [commands-reference.md](commands-reference.md) for `/geo brands`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo brands`.
 
 ---
 
 ### geo-platform-optimizer
 
-**Purpose:** Audits readiness for each of the five major AI search platforms individually, since only 11% of domains are cited by both ChatGPT and Google AI Overviews for the same query.
+**Propósito:** Audita la preparación para cada una de las cinco principales plataformas de búsqueda con IA individualmente, dado que solo el 11% de los dominios son citados tanto por ChatGPT como por Google AI Overviews para la misma consulta.
 
-**Inputs:** A URL and the site's primary topic or industry.
+**Entradas:** Una URL y el tema principal o industria del sitio.
 
-**Outputs:** `GEO-PLATFORM-OPTIMIZATION.md` — per-platform scores and gaps for Google AI Overviews, ChatGPT Web Search, Perplexity AI, Google Gemini, and Bing Copilot; a cross-platform priority action plan.
+**Salidas:** `GEO-PLATFORM-OPTIMIZATION.md` — puntuaciones por plataforma y brechas para Google AI Overviews, Búsqueda Web de ChatGPT, Perplexity AI, Google Gemini y Bing Copilot; un plan de acción prioritario entre plataformas.
 
-**Platform-specific top factors:** AIO → top-10 ranking + Q&A structure; ChatGPT → Wikipedia entity; Perplexity → Reddit presence + original research; Gemini → YouTube + Knowledge Panel; Bing Copilot → IndexNow + Bing Webmaster Tools.
+**Factores principales específicos por plataforma:** AIO → clasificación top-10 + estructura de P&R; ChatGPT → entidad de Wikipedia; Perplexity → presencia en Reddit + investigación original; Gemini → YouTube + Panel de Conocimiento (Knowledge Panel); Bing Copilot → IndexNow + Bing Webmaster Tools.
 
-See [commands-reference.md](commands-reference.md) for `/geo platforms`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo platforms`.
 
 ---
 
 ### geo-schema
 
-**Purpose:** Detects, validates, and generates Schema.org structured data (JSON-LD preferred). Structured data is the primary machine-readable signal AI models use to identify and trust entities.
+**Propósito:** Detecta, valida, y genera datos estructurados de Schema.org (se prefiere JSON-LD). Los datos estructurados son la principal señal legible por máquinas que los modelos de IA usan para identificar y confiar en las entidades.
 
-**Inputs:** A URL. Uses `scripts/fetch_page.py` to retrieve raw HTML including `<head>` content (WebFetch strips it).
+**Entradas:** Una URL. Usa `scripts/fetch_page.py` para obtener HTML crudo incluyendo el contenido en `<head>` (WebFetch lo elimina).
 
-**Outputs:** `GEO-SCHEMA-REPORT.md` — detected schemas with validation results, `sameAs` entity-linking audit, deprecated schema flags (HowTo removed Sep 2023, FAQPage restricted Aug 2023), and ready-to-paste JSON-LD code blocks.
+**Salidas:** `GEO-SCHEMA-REPORT.md` — esquemas detectados con resultados de validación, auditoría de vinculación de entidades `sameAs`, advertencias sobre esquemas obsoletos (HowTo eliminado en Septiembre de 2023, FAQPage restringido en Agosto de 2023), y bloques de código JSON-LD listos para pegar.
 
-**GEO-critical schemas:** Organization + `sameAs`, Article + Author (Person), speakable property, BreadcrumbList, WebSite + SearchAction.
+**Schemas críticos para GEO:** Organization + `sameAs`, Article + Author (Person), propiedad speakable, BreadcrumbList, WebSite + SearchAction.
 
-**Dependencies:** `scripts/fetch_page.py` (raw HTML extraction); `schema/*.json` templates (used as generation references).
+**Dependencias:** `scripts/fetch_page.py` (extracción de HTML en bruto); plantillas en `schema/*.json` (usadas como referencia para la generación).
 
-See [commands-reference.md](commands-reference.md) for `/geo schema`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo schema`.
 
 ---
 
 ### geo-technical
 
-**Purpose:** Audits eight categories of technical health with emphasis on factors that uniquely affect AI crawler visibility: server-side rendering and AI crawler access.
+**Propósito:** Audita ocho categorías de salud técnica con énfasis en factores que afectan de forma única la visibilidad de los rastreadores de IA: renderizado del lado del servidor (SSR) y acceso de rastreadores de IA.
 
-**Inputs:** A homepage URL plus 2–3 key inner pages.
+**Entradas:** La URL de la página de inicio más 2–3 páginas internas clave.
 
-**Outputs:** `GEO-TECHNICAL-AUDIT.md` — category scores, AI crawler access table, SSR assessment, Core Web Vitals risk (LCP / INP / CLS), security headers, and mobile optimization status.
+**Salidas:** `GEO-TECHNICAL-AUDIT.md` — puntuaciones por categoría, tabla de acceso de rastreadores IA, evaluación de SSR, riesgo de Core Web Vitals (LCP / INP / CLS), encabezados de seguridad, y estado de la optimización móvil.
 
-**Scoring categories (max points):** Server-Side Rendering 15, Core Web Vitals 15, Crawlability 15, Indexability 12, Security 10, Mobile 10, Page Speed 15, URL Structure 8.
+**Categorías de puntuación (puntos máximos):** Renderizado del lado del servidor 15, Core Web Vitals 15, Rastreabilidad 15, Indexabilidad 12, Seguridad 10, Móvil 10, Velocidad de Página 15, Estructura de URL 8.
 
-**Critical check:** AI crawlers do not execute JavaScript. A client-side SPA with no SSR renders an empty page to GPTBot, ClaudeBot, and PerplexityBot.
+**Chequeo Crítico:** Los rastreadores de IA no ejecutan JavaScript. Una SPA del lado del cliente sin SSR renderiza una página vacía a GPTBot, ClaudeBot y PerplexityBot.
 
-See [commands-reference.md](commands-reference.md) for `/geo technical`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo technical`.
 
 ---
 
 ### geo-content
 
-**Purpose:** Evaluates content quality through the E-E-A-T framework (Experience, Expertise, Authoritativeness, Trustworthiness) and measures content depth, readability, AI content indicators, and topical authority.
+**Propósito:** Evalúa la calidad del contenido a través del marco E-E-A-T (Experiencia, Conocimiento, Autoridad, Confiabilidad) y mide la profundidad del contenido, la legibilidad, indicadores de contenido de IA, y la autoridad temática.
 
-**Inputs:** A URL (fetched with WebFetch).
+**Entradas:** Una URL (obtenida con WebFetch).
 
-**Outputs:** `GEO-CONTENT-ANALYSIS.md` — E-E-A-T scores (25 points each), content metrics table, AI content assessment, topical authority rating, freshness assessment, and rewrite recommendations.
+**Salidas:** `GEO-CONTENT-ANALYSIS.md` — puntuaciones de E-E-A-T (25 puntos cada una), tabla de métricas de contenido, evaluación de contenido IA, calificación de autoridad temática, evaluación de frescura, y recomendaciones de reescritura.
 
-**Score modifiers:** Topical authority adds +10 to −5 points on top of the base 100-point E-E-A-T score.
+**Modificadores de puntuación:** La autoridad temática suma de +10 a −5 puntos sobre la base de 100 puntos de la puntuación E-E-A-T.
 
-See [commands-reference.md](commands-reference.md) for `/geo content`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo content`.
 
 ---
 
 ### geo-report
 
-**Purpose:** Aggregates outputs from all audit sub-skills into a single client-facing deliverable written for business owners, not developers — technical findings are translated into business impact and dollar-value framing.
+**Propósito:** Agrega los resultados de todas las sub-habilidades de auditoría en un único entregable orientado al cliente, escrito para propietarios de empresas y no para desarrolladores — los hallazgos técnicos se traducen al impacto empresarial y a una perspectiva de valor económico.
 
-**Inputs:** Output files from `geo-platform-optimizer`, `geo-schema`, `geo-technical`, `geo-content`, and optionally `geo-llmstxt` and `geo-brand-mentions`.
+**Entradas:** Archivos de salida de `geo-platform-optimizer`, `geo-schema`, `geo-technical`, `geo-content`, y opcionalmente `geo-llmstxt` y `geo-brand-mentions`.
 
-**Outputs:** `GEO-CLIENT-REPORT.md` — executive summary, GEO Readiness Score, AI Visibility Dashboard, crawler access table, brand authority table, citability analysis, technical health summary, schema status, action plan with effort and platform impact, and a full glossary appendix. Target length: 3,000–6,000 words.
+**Salidas:** `GEO-CLIENT-REPORT.md` — resumen ejecutivo, Puntuación de Preparación GEO, Panel de Visibilidad IA, tabla de acceso a rastreadores, tabla de autoridad de marca, análisis de citabilidad, resumen de salud técnica, estado de los esquemas, plan de acción con impacto en plataforma y esfuerzo requerido, y un apéndice con glosario completo. Longitud objetivo: 3,000–6,000 palabras.
 
-See [commands-reference.md](commands-reference.md) for `/geo report`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo report`.
 
 ---
 
 ### geo-report-pdf
 
-**Purpose:** Generates a professionally formatted, client-ready PDF from GEO audit data using ReportLab. Includes score gauges, bar charts, and color-coded tables.
+**Propósito:** Genera un PDF formateado profesionalmente y listo para el cliente a partir de los datos de auditoría GEO utilizando ReportLab. Incluye medidores de puntuación, gráficos de barras, y tablas codificadas por color.
 
-**Inputs:** Existing `GEO-AUDIT-REPORT.md` or `GEO-CLIENT-REPORT.md` files in the current directory. If a URL is passed, runs the full audit first.
+**Entradas:** Archivos `GEO-AUDIT-REPORT.md` o `GEO-CLIENT-REPORT.md` existentes en el directorio actual. Si se le pasa una URL, primero ejecuta la auditoría completa.
 
-**Outputs:** `GEO-REPORT-[brand].pdf` — cover page with score gauge, score breakdown with bar chart, AI platform readiness chart, crawler access table (green/red coded), findings by severity, action plan, and methodology appendix.
+**Salidas:** `GEO-REPORT-[marca].pdf` — portada con medidor de puntuación, desglose de puntuación con gráfico de barras, tabla de preparación de plataformas IA, tabla de acceso a rastreadores (codificada verde/rojo), hallazgos por severidad, plan de acción, y apéndice de metodología.
 
-**Dependencies:** `scripts/generate_pdf_report.py` (requires `pip install reportlab`).
+**Dependencias:** `scripts/generate_pdf_report.py` (requiere `pip install reportlab`).
 
-See [commands-reference.md](commands-reference.md) for `/geo report-pdf`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo report-pdf`.
 
 ---
 
 ### geo-prospect
 
-**Purpose:** CRM-lite for managing GEO agency prospects through a five-stage sales pipeline (lead → qualified → proposal → won → lost). Persists all data in `~/.geo-prospects/prospects.json`.
+**Propósito:** Un CRM ligero para gestionar prospectos de agencias GEO a través de un canal de ventas de cinco etapas (lead → calificado → propuesta → ganado → perdido). Persiste todos los datos en `~/.geo-prospects/prospects.json`.
 
-**Inputs:** Domain names, contact details, status updates, and notes entered via sub-commands.
+**Entradas:** Nombres de dominios, detalles de contacto, actualizaciones de estado, y notas introducidas mediante sub-comandos.
 
-**Outputs:** Updates to `prospects.json`; audit snapshots in `~/.geo-prospects/audits/`; pipeline summary table printed to terminal.
+**Salidas:** Actualizaciones a `prospects.json`; instantáneas de auditoría en `~/.geo-prospects/audits/`; tabla de resumen del pipeline impresa en la terminal.
 
-**Key sub-commands:** `new`, `list`, `show`, `audit`, `note`, `status`, `won`, `lost`, `pipeline`.
+**Sub-comandos clave:** `new`, `list`, `show`, `audit`, `note`, `status`, `won`, `lost`, `pipeline`.
 
-**Dependencies:** `scripts/crm_dashboard.py` provides a rich terminal dashboard (requires `pip install rich`).
+**Dependencias:** `scripts/crm_dashboard.py` provee un rico tablero (dashboard) en la terminal (requiere `pip install rich`).
 
-See [commands-reference.md](commands-reference.md) for `/geo prospect`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo prospect`.
 
 ---
 
 ### geo-proposal
 
-**Purpose:** Auto-generates a client-ready GEO service proposal from audit data, including executive summary, score breakdown, three service tiers with pricing, ROI projection, and engagement timeline.
+**Propósito:** Auto-genera una propuesta de servicio GEO lista para el cliente a partir de los datos de la auditoría, incluyendo el resumen ejecutivo, desglose de la puntuación, tres niveles de servicio con precios, proyección de ROI y línea de tiempo de compromiso.
 
-**Inputs:** Domain name or path to an existing audit file. Reads prospect record from `~/.geo-prospects/prospects.json` if available.
+**Entradas:** Nombre de dominio o ruta a un archivo de auditoría existente. Lee el registro de prospecto desde `~/.geo-prospects/prospects.json` si está disponible.
 
-**Outputs:** `~/.geo-prospects/proposals/<domain>-proposal-<date>.md` — a complete proposal ready to send. Also updates the prospect record status to `proposal`.
+**Salidas:** `~/.geo-prospects/proposals/<dominio>-proposal-<fecha>.md` — una propuesta completa lista para enviarse. También actualiza el estado del registro del prospecto a `proposal`.
 
-**Tier recommendation logic:** Score 0–40 → Premium (€9,500/mo); 41–60 → Standard (€5,000/mo); 61–75 → Basic (€2,500/mo).
+**Lógica de recomendación de niveles:** Puntuación 0–40 → Premium (€9,500/mes); 41–60 → Estándar (€5,000/mes); 61–75 → Básico (€2,500/mes).
 
-See [commands-reference.md](commands-reference.md) for `/geo proposal`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo proposal`.
 
 ---
 
 ### geo-compare
 
-**Purpose:** Generates a monthly delta report comparing two GEO audits (baseline vs. current), tracking score improvements across all categories and action-item completion status.
+**Propósito:** Genera un informe delta mensual que compara dos auditorías GEO (base vs. actual), haciendo un seguimiento de las mejoras en la puntuación en todas las categorías y del estado de finalización de los elementos de acción.
 
-**Inputs:** A domain name or two audit file paths. Reads files from `~/.geo-prospects/audits/` sorted by date if only domain is provided.
+**Entradas:** Un nombre de dominio o las rutas a dos archivos de auditoría. Lee archivos desde `~/.geo-prospects/audits/` ordenados por fecha si solo se proporciona el dominio.
 
-**Outputs:** `~/.geo-prospects/reports/<domain>-monthly-<YYYY-MM>.md` — score progress bar, before/after breakdown table, platform and crawler delta tables, action plan status, wins section, new issues discovered, and 6-month trajectory.
+**Salidas:** `~/.geo-prospects/reports/<dominio>-monthly-<YYYY-MM>.md` — barra de progreso de puntuación, tabla de desglose del antes y el después, tablas de delta de rastreadores y plataformas, estado del plan de acción, sección de victorias, nuevos problemas descubiertos, y una trayectoria de 6 meses.
 
-See [commands-reference.md](commands-reference.md) for `/geo compare`.
+Consulta [commands-reference.md](commands-reference.md) para `/geo compare`.
 
 ---
 
-## Parallel Subagents
+## Subagentes en Paralelo
 
-These five agents run simultaneously during a `/geo audit` to reduce total runtime. Each returns a structured markdown section and a category score (0–100) that feeds the composite GEO Score. See [architecture.md](architecture.md) for the parallel flow diagram.
+Estos cinco agentes se ejecutan simultáneamente durante un `/geo audit` para reducir el tiempo total de ejecución. Cada uno devuelve una sección estructurada en markdown y una puntuación de categoría (0–100) que alimenta a la Puntuación GEO compuesta. Consulta [architecture.md](architecture.md) para el diagrama del flujo en paralelo.
 
 ### geo-ai-visibility
 
-**File:** `agents/geo-ai-visibility.md`
+**Archivo:** `agents/geo-ai-visibility.md`
 
-**Role:** GEO specialist covering the four highest-weighted AI visibility dimensions.
+**Rol:** Especialista en GEO que cubre las cuatro dimensiones de visibilidad en IA de mayor peso.
 
-**Dispatched when:** Phase 2 of `/geo audit` begins.
+**Se despacha cuando:** Inicia la Fase 2 del `/geo audit`.
 
-**What it does:** Scores every content block for citability (5-dimension rubric), parses `robots.txt` for 12 AI crawlers, validates `llms.txt` format and completeness, and scans brand presence on YouTube, Reddit, Wikipedia, and LinkedIn.
+**Qué hace:** Puntúa cada bloque de contenido para citabilidad (rúbrica de 5 dimensiones), parsea `robots.txt` para 12 rastreadores IA, valida el formato y la integridad de `llms.txt`, y escanea la presencia de la marca en YouTube, Reddit, Wikipedia y LinkedIn.
 
-**Returns:** AI Visibility Score = Citability (35%) + Brand Mentions (30%) + Crawler Access (25%) + llms.txt (10%).
+**Devuelve:** Puntuación de Visibilidad IA = Citabilidad (35%) + Menciones de Marca (30%) + Acceso a Rastreadores (25%) + llms.txt (10%).
 
-**Sub-skills used:** geo-citability, geo-crawlers, geo-llmstxt, geo-brand-mentions.
+**Sub-habilidades usadas:** geo-citability, geo-crawlers, geo-llmstxt, geo-brand-mentions.
 
 ---
 
 ### geo-platform-analysis
 
-**File:** `agents/geo-platform-analysis.md`
+**Archivo:** `agents/geo-platform-analysis.md`
 
-**Role:** Platform optimization specialist.
+**Rol:** Especialista en optimización de plataformas.
 
-**Dispatched when:** Phase 2 of `/geo audit` begins (concurrent with other agents).
+**Se despacha cuando:** Inicia la Fase 2 del `/geo audit` (concurrente con otros agentes).
 
-**What it does:** Evaluates readiness for each of the five AI search platforms — Google AI Overviews, ChatGPT Web Search, Perplexity AI, Google Gemini, and Bing Copilot — using platform-specific scoring rubrics and signal checks.
+**Qué hace:** Evalúa la preparación para cada una de las cinco plataformas de búsqueda de IA — Google AI Overviews, Búsqueda Web de ChatGPT, Perplexity AI, Google Gemini, y Bing Copilot — utilizando rúbricas de puntuación y verificaciones de señales específicas a la plataforma.
 
-**Returns:** Per-platform scores (0–100 each) and a Platform Readiness Average; cross-platform synergy actions.
+**Devuelve:** Puntuaciones por plataforma (0–100 cada una) y un Promedio de Preparación de Plataformas; acciones de sinergia multiplataforma.
 
-**Sub-skill used:** geo-platform-optimizer.
+**Sub-habilidad usada:** geo-platform-optimizer.
 
 ---
 
 ### geo-technical
 
-**File:** `agents/geo-technical.md`
+**Archivo:** `agents/geo-technical.md`
 
-**Role:** Technical SEO specialist.
+**Rol:** Especialista en SEO técnico.
 
-**Dispatched when:** Phase 2 of `/geo audit` begins (concurrent with other agents).
+**Se despacha cuando:** Inicia la Fase 2 del `/geo audit` (concurrente con otros agentes).
 
-**What it does:** Fetches raw HTML and response headers; audits SSR vs. CSR rendering (the highest-weight check), crawlability, meta tags, security headers, Core Web Vitals risk indicators, mobile optimization, and URL structure.
+**Qué hace:** Obtiene el HTML sin procesar y los encabezados de respuesta; audita renderizado SSR frente a CSR (el control de mayor ponderación), la capacidad de rastreo, las meta etiquetas, los encabezados de seguridad, los indicadores de riesgo de Core Web Vitals, la optimización para dispositivos móviles, y la estructura de la URL.
 
-**Returns:** Technical Score (0–100) with per-category breakdown; SSR severity rating (Critical / High / Medium / Low).
+**Devuelve:** Puntuación Técnica (0–100) con desglose por categoría; calificación de severidad de SSR (Crítica / Alta / Media / Baja).
 
-**Sub-skill used:** geo-technical.
+**Sub-habilidad usada:** geo-technical.
 
 ---
 
 ### geo-content
 
-**File:** `agents/geo-content.md`
+**Archivo:** `agents/geo-content.md`
 
-**Role:** Content quality specialist.
+**Rol:** Especialista en calidad de contenido.
 
-**Dispatched when:** Phase 2 of `/geo audit` begins (concurrent with other agents).
+**Se despacha cuando:** Inicia la Fase 2 del `/geo audit` (concurrente con otros agentes).
 
-**What it does:** Evaluates E-E-A-T across all four dimensions (25 points each), measures word count, readability (Flesch), heading structure, and internal linking, detects AI content quality signals, assesses topical authority and content freshness.
+**Qué hace:** Evalúa el E-E-A-T en sus cuatro dimensiones (25 puntos cada una), mide el recuento de palabras, legibilidad (Flesch), estructura de encabezados, vinculación interna, detecta señales de calidad de contenido por IA, evalúa la autoridad temática y la frescura del contenido.
 
-**Returns:** Content Score (0–100); E-E-A-T breakdown; AI content assessment label.
+**Devuelve:** Puntuación de Contenido (0–100); desglose de E-E-A-T; etiqueta de evaluación de contenido de IA.
 
-**Sub-skill used:** geo-content.
+**Sub-habilidad usada:** geo-content.
 
 ---
 
 ### geo-schema
 
-**File:** `agents/geo-schema.md`
+**Archivo:** `agents/geo-schema.md`
 
-**Role:** Schema markup specialist.
+**Rol:** Especialista en marcado Schema.
 
-**Dispatched when:** Phase 2 of `/geo audit` begins (concurrent with other agents).
+**Se despacha cuando:** Inicia la Fase 2 del `/geo audit` (concurrente con otros agentes).
 
-**What it does:** Uses `fetch_page.py` to retrieve raw HTML, detects all JSON-LD / Microdata / RDFa blocks, validates each against Schema.org specifications, audits `sameAs` entity links, flags deprecated or JS-injected schemas, and generates ready-to-paste JSON-LD templates for missing schemas.
+**Qué hace:** Usa `fetch_page.py` para obtener el HTML sin procesar, detecta todos los bloques JSON-LD / Microdata / RDFa, valida cada uno según las especificaciones de Schema.org, audita enlaces de entidad `sameAs`, advierte sobre esquemas obsoletos o inyectados por JS, y genera plantillas JSON-LD listas para pegar para los esquemas faltantes.
 
-**Returns:** Schema Score (0–100); validated schema inventory; generated JSON-LD code blocks.
+**Devuelve:** Puntuación de Schema (0–100); inventario de esquemas validados; bloques de código JSON-LD generados.
 
-**Sub-skill used:** geo-schema.
+**Sub-habilidad usada:** geo-schema.
 
 ---
 
-## Python Scripts
+## Scripts en Python
 
-| Script | Purpose | Used by |
+| Script | Propósito | Usado por |
 |--------|---------|---------|
-| `scripts/fetch_page.py` | Fetches a URL and returns structured data including raw HTML, meta tags, heading structure, word count, and parsed JSON-LD blocks. Bypasses the markdown conversion that WebFetch applies, preserving `<head>` content. | geo-schema (skill + agent), geo-technical |
-| `scripts/citability_scorer.py` | Scores individual text passages for AI citation readiness using five weighted dimensions (answer quality, self-containment, structure, statistical density, uniqueness). Provides `score_passage()` as a callable function. | geo-citability |
-| `scripts/brand_scanner.py` | Checks brand presence across AI-cited platforms (YouTube, Reddit, Wikipedia, LinkedIn). Provides per-platform check functions and instructions for WebFetch-based verification. Requires `requests` and `beautifulsoup4`. | geo-brand-mentions |
-| `scripts/llmstxt_generator.py` | Validates an existing `llms.txt` against the spec (H1 title, blockquote description, H2 sections, absolute URLs, descriptions) and generates a new file from site crawl data. | geo-llmstxt |
-| `scripts/generate_pdf_report.py` | Generates a multi-page PDF from a JSON audit data file using ReportLab. Renders score gauges, bar charts, color-coded tables, and an action plan. Accepts the JSON file path as a CLI argument or via stdin. Requires `reportlab`. | geo-report-pdf |
-| `scripts/crm_dashboard.py` | Renders a rich terminal dashboard for the prospect CRM. Reads `~/.geo-prospects/prospects.json` and displays pipeline stages, MRR, and prospect detail views. Requires `rich`. | geo-prospect |
+| `scripts/fetch_page.py` | Obtiene una URL y devuelve datos estructurados incluyendo el HTML en bruto, etiquetas meta, estructura de encabezados, recuento de palabras, y bloques JSON-LD parseados. Evita la conversión de markdown que aplica WebFetch, preservando el contenido de `<head>`. | geo-schema (habilidad + agente), geo-technical |
+| `scripts/citability_scorer.py` | Puntúa pasajes de texto individuales para la preparación a la citación por IA utilizando cinco dimensiones ponderadas (calidad de respuesta, auto-contención, estructura, densidad estadística, originalidad/unicidad). Proveee `score_passage()` como una función invocable. | geo-citability |
+| `scripts/brand_scanner.py` | Revisa la presencia de la marca en todas las plataformas citadas por IA (YouTube, Reddit, Wikipedia, LinkedIn). Provee funciones de verificación por plataforma e instrucciones para la verificación basada en WebFetch. Requiere `requests` y `beautifulsoup4`. | geo-brand-mentions |
+| `scripts/llmstxt_generator.py` | Valida un `llms.txt` existente en contra de la especificación (Título H1, descripción tipo blockquote, secciones H2, URLs absolutas, descripciones) y genera un nuevo archivo desde los datos rastreados del sitio. | geo-llmstxt |
+| `scripts/generate_pdf_report.py` | Genera un PDF de múltiples páginas desde un archivo de datos de auditoría JSON usando ReportLab. Renderiza medidores de puntuación, gráficos de barras, tablas codificadas por color, y un plan de acción. Acepta la ruta del archivo JSON como un argumento de CLI o vía stdin. Requiere `reportlab`. | geo-report-pdf |
+| `scripts/crm_dashboard.py` | Renderiza un tablero interactivo rico en la terminal para el CRM de prospectos. Lee `~/.geo-prospects/prospects.json` y muestra las etapas del pipeline, MRR, y las vistas de detalles de prospectos. Requiere `rich`. | geo-prospect |
 
 ---
 
-## Schema Templates
+## Plantillas de Schema
 
-These JSON-LD files in `schema/` serve as generation references when `geo-schema` or `geo-report` need to produce ready-to-paste structured data. All placeholders follow the pattern `YOUR_FIELD_NAME` or `REPLACE_WITH_VALUE`.
+Estos archivos JSON-LD en la carpeta `schema/` sirven como referencias de generación cuando `geo-schema` o `geo-report` necesitan producir datos estructurados listos para ser pegados. Todos los marcadores de posición siguen el patrón `TU_NOMBRE_DE_CAMPO` o `REPLACE_WITH_VALUE`.
 
-| Template | When to use |
+| Plantilla | Cuándo usarlo |
 |----------|-------------|
-| `schema/organization.json` | Any business site; provides the full Organization type with `sameAs` links to Wikipedia, Wikidata, LinkedIn, YouTube, GitHub, and Crunchbase, plus `knowsAbout` for entity topic signals. |
-| `schema/local-business.json` | Businesses with a physical location; extends Organization with address, `geo` coordinates, opening hours, service area, aggregate rating, and an offer catalog. |
-| `schema/article-author.json` | Publisher and blog pages; Article type with a fully populated Person author (credentials, `sameAs`, `alumniOf`, `knowsAbout`) and a `speakable` specification for AI assistant readability. |
-| `schema/product-ecommerce.json` | E-commerce product pages; Product type with Offer (including shipping details and return policy), AggregateRating, and individual Review entries. |
-| `schema/software-saas.json` | SaaS product pages; SoftwareApplication type with tiered AggregateOffer pricing, `featureList`, screenshot, and `sameAs` links to G2, Capterra, ProductHunt, and GitHub. |
-| `schema/website-searchaction.json` | Every site's homepage; WebSite type with a SearchAction `potentialAction` to enable sitelinks search box and provide AI systems with the site's search endpoint. |
+| `schema/organization.json` | Cualquier sitio empresarial; provee el tipo completo de Organization con enlaces `sameAs` a Wikipedia, Wikidata, LinkedIn, YouTube, GitHub, y Crunchbase, más `knowsAbout` para señales de tema de la entidad. |
+| `schema/local-business.json` | Negocios con una ubicación física; extiende Organization con la dirección, coordenadas `geo`, horario de apertura, área de servicio, calificación agregada, y un catálogo de ofertas. |
+| `schema/article-author.json` | Páginas de publicación y blogs; tipo Article con un autor de tipo Person completamente rellenado (credenciales, `sameAs`, `alumniOf`, `knowsAbout`) y una especificación `speakable` para legibilidad por asistentes de IA. |
+| `schema/product-ecommerce.json` | Páginas de productos de comercio electrónico; tipo Product con Offer (incluyendo detalles de envío y política de devolución), AggregateRating, y entradas de Review individuales. |
+| `schema/software-saas.json` | Páginas de productos SaaS; tipo SoftwareApplication con niveles de precio AggregateOffer, `featureList`, capturas de pantalla, y enlaces `sameAs` a G2, Capterra, ProductHunt, y GitHub. |
+| `schema/website-searchaction.json` | La página de inicio de cada sitio; tipo WebSite con un `potentialAction` de SearchAction para habilitar el cuadro de búsqueda en los enlaces del sitio (sitelinks search box) y proporcionar a los sistemas de IA el punto de enlace de la búsqueda del sitio. |

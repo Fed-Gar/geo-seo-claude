@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-GEO-SEO CRM — Web UI (Flask + HTMX)
-Usage:
+CRM GEO-SEO — Interfaz Web (Flask + HTMX)
+Uso:
     pip install flask
     python app.py
     open http://localhost:5050
@@ -26,7 +26,7 @@ PROPOSALS_DIR = Path.home() / ".geo-prospects" / "proposals"
 AUDITS_DIR = Path.home() / ".geo-prospects" / "audits"
 
 
-# ── Helpers ────────────────────────────────────────────────────────────
+# ── Utilidades ────────────────────────────────────────────────────────────
 
 def load_prospects() -> list[dict]:
     if not CRM_PATH.exists():
@@ -72,14 +72,14 @@ def crm_stats(prospects: list[dict]) -> dict:
     }
 
 def find_pdf(prospect: dict) -> Path | None:
-    """Find the PDF file for a prospect."""
+    """Encontrar el archivo PDF para un prospecto."""
     domain = prospect.get("domain", "")
     for f in sorted(PROPOSALS_DIR.glob(f"{domain}*.pdf"), reverse=True):
         return f
     return None
 
 
-# ── Template filters ────────────────────────────────────────────────────
+# ── Filtros de plantilla ────────────────────────────────────────────────────
 
 app.jinja_env.filters["score_tier"] = score_tier
 app.jinja_env.filters["score_label"] = score_label
@@ -87,11 +87,11 @@ app.jinja_env.filters["format_eur"] = format_eur
 
 STATUS_META = {
     "lead":     {"icon": "⬜", "badge": "secondary",  "label": "Lead"},
-    "audit":    {"icon": "🔍", "badge": "warning",    "label": "Audit"},
-    "proposal": {"icon": "📄", "badge": "info",       "label": "Proposal"},
-    "active":   {"icon": "✅", "badge": "success",    "label": "Active"},
-    "churned":  {"icon": "❌", "badge": "danger",     "label": "Churned"},
-    "lost":     {"icon": "💀", "badge": "dark",       "label": "Lost"},
+    "audit":    {"icon": "🔍", "badge": "warning",    "label": "Auditoría"},
+    "proposal": {"icon": "📄", "badge": "info",       "label": "Propuesta"},
+    "active":   {"icon": "✅", "badge": "success",    "label": "Activo"},
+    "churned":  {"icon": "❌", "badge": "danger",     "label": "Cancelado"},
+    "lost":     {"icon": "💀", "badge": "dark",       "label": "Perdido"},
 }
 
 @app.template_filter("status_meta")
@@ -99,7 +99,7 @@ def status_meta_filter(status: str) -> dict:
     return STATUS_META.get(status, {"icon": "?", "badge": "secondary", "label": status})
 
 
-# ── Routes ─────────────────────────────────────────────────────────────
+# ── Rutas ─────────────────────────────────────────────────────────────
 
 @app.route("/")
 def dashboard():
@@ -151,7 +151,7 @@ def prospect_detail(pid):
 
 @app.route("/prospect/<pid>/note", methods=["POST"])
 def add_note(pid):
-    """HTMX endpoint — returns updated notes fragment."""
+    """Endpoint HTMX — devuelve un fragmento de notas actualizado."""
     prospects = load_prospects()
     p = next((x for x in prospects if x.get("id") == pid), None)
     if not p:
@@ -173,7 +173,7 @@ def add_note(pid):
 
 @app.route("/prospect/<pid>/status", methods=["POST"])
 def update_status(pid):
-    """HTMX endpoint — update status, returns badge fragment."""
+    """Endpoint HTMX — actualiza el estado, devuelve un fragmento de insignia."""
     prospects = load_prospects()
     p = next((x for x in prospects if x.get("id") == pid), None)
     if not p:
@@ -208,7 +208,7 @@ def download_pdf(pid):
     )
 
 
-# ── Run ─────────────────────────────────────────────────────────────────
+# ── Ejecutar ─────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     debug = os.environ.get("FLASK_DEBUG", "false").lower() == "true"

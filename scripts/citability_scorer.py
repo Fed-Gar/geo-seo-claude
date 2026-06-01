@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Citability Scorer — Analyzes content blocks for AI citation readiness.
-Scores passages based on how likely AI models are to cite them.
+Puntuador de Citabilidad — Analiza bloques de contenido para preparación de citas por IA.
+Puntúa pasajes basado en qué tan probable es que los modelos de IA los citen.
 
-Based on research showing optimal AI-cited passages are:
-- 134-167 words long
-- Self-contained (extractable without context)
-- Fact-rich with specific statistics
-- Structured with clear answer patterns
+Basado en investigaciones que muestran que los pasajes óptimos citados por IA son:
+- de 134-167 palabras de largo
+- Auto-contenidos (extraíbles sin contexto)
+- Ricos en hechos con estadísticas específicas
+- Estructurados con patrones de respuesta claros
 """
 
 import sys
@@ -19,12 +19,12 @@ try:
     import requests
     from bs4 import BeautifulSoup
 except ImportError:
-    print("ERROR: Required packages not installed. Run: pip install -r requirements.txt")
+    print("ERROR: Paquetes requeridos no instalados. Ejecuta: pip install -r requirements.txt")
     sys.exit(1)
 
 
 def score_passage(text: str, heading: Optional[str] = None) -> dict:
-    """Score a single passage for AI citability (0-100)."""
+    """Puntúa un solo pasaje para citabilidad de IA (0-100)."""
     words = text.split()
     word_count = len(words)
 
@@ -36,10 +36,10 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
         "uniqueness_signals": 0,
     }
 
-    # === 1. Answer Block Quality (30%) ===
+    # === 1. Calidad del Bloque de Respuesta (30%) ===
     abq_score = 0
 
-    # Check for definition patterns ("X is...", "X refers to...", "X means...")
+    # Comprueba patrones de definición ("X es...", "X se refiere a...", "X significa...")
     definition_patterns = [
         r"\b\w+\s+is\s+(?:a|an|the)\s",
         r"\b\w+\s+refers?\s+to\s",
@@ -52,7 +52,7 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
             abq_score += 15
             break
 
-    # Check if answer appears early (first 60 words)
+    # Comprueba si la respuesta aparece temprano (primeras 60 palabras)
     first_60_words = " ".join(words[:60])
     if any(
         re.search(p, first_60_words, re.IGNORECASE)
@@ -65,11 +65,11 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
     ):
         abq_score += 15
 
-    # Question-based heading bonus
+    # Bonus por encabezado basado en pregunta
     if heading and heading.endswith("?"):
         abq_score += 10
 
-    # Clear, direct sentence structure
+    # Estructura de oración clara y directa
     sentences = re.split(r"[.!?]+", text)
     short_clear_sentences = sum(
         1 for s in sentences if 5 <= len(s.split()) <= 25
@@ -78,7 +78,7 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
         clarity_ratio = short_clear_sentences / len(sentences)
         abq_score += int(clarity_ratio * 10)
 
-    # Has specific, quotable claim
+    # Tiene una afirmación específica y citable
     if re.search(
         r"(?:according to|research shows|studies? (?:show|indicate|suggest|found)|data (?:shows|indicates|suggests))",
         text,
@@ -88,10 +88,10 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
 
     scores["answer_block_quality"] = min(abq_score, 30)
 
-    # === 2. Self-Containment (25%) ===
+    # === 2. Auto-contención (25%) ===
     sc_score = 0
 
-    # Optimal word count (134-167 words)
+    # Recuento de palabras óptimo (134-167 palabras)
     if 134 <= word_count <= 167:
         sc_score += 10
     elif 100 <= word_count <= 200:
@@ -103,7 +103,7 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
     else:
         sc_score += 2
 
-    # Low pronoun density (fewer pronouns = more self-contained)
+    # Baja densidad de pronombres (menos pronombres = más auto-contenido)
     pronoun_count = len(
         re.findall(
             r"\b(?:it|they|them|their|this|that|these|those|he|she|his|her)\b",
@@ -120,7 +120,7 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
         elif pronoun_ratio < 0.06:
             sc_score += 3
 
-    # Contains named entities (proper nouns, brands, specific terms)
+    # Contiene entidades nombradas (nombres propios, marcas, términos específicos)
     proper_nouns = len(re.findall(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b", text))
     if proper_nouns >= 3:
         sc_score += 7
@@ -129,10 +129,10 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
 
     scores["self_containment"] = min(sc_score, 25)
 
-    # === 3. Structural Readability (20%) ===
+    # === 3. Legibilidad Estructural (20%) ===
     sr_score = 0
 
-    # Sentence count and length distribution
+    # Distribución de conteo y longitud de oraciones
     if sentences:
         avg_sentence_length = word_count / len(sentences)
         if 10 <= avg_sentence_length <= 20:
@@ -142,41 +142,41 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
         else:
             sr_score += 2
 
-    # Contains list-like structures
+    # Contiene estructuras tipo lista
     if re.search(r"(?:first|second|third|finally|additionally|moreover|furthermore)", text, re.IGNORECASE):
         sr_score += 4
 
-    # Contains numbered items or bullet-like content
+    # Contiene elementos numerados o contenido tipo viñeta
     if re.search(r"(?:\d+[\.\)]\s|\b(?:step|tip|point)\s+\d+)", text, re.IGNORECASE):
         sr_score += 4
 
-    # Paragraph breaks (indicates structure)
+    # Saltos de párrafo (indica estructura)
     if "\n" in text:
         sr_score += 4
 
     scores["structural_readability"] = min(sr_score, 20)
 
-    # === 4. Statistical Density (15%) ===
+    # === 4. Densidad Estadística (15%) ===
     sd_score = 0
 
-    # Percentages
+    # Porcentajes
     pct_count = len(re.findall(r"\d+(?:\.\d+)?%", text))
     sd_score += min(pct_count * 3, 6)
 
-    # Dollar amounts
+    # Cantidades en dólares
     dollar_count = len(re.findall(r"\$[\d,]+(?:\.\d+)?(?:\s*(?:million|billion|M|B|K))?", text))
     sd_score += min(dollar_count * 3, 5)
 
-    # Other numbers with context
+    # Otros números con contexto
     number_count = len(re.findall(r"\b\d+(?:,\d{3})*(?:\.\d+)?\s+(?:users|customers|pages|sites|companies|businesses|people|percent|times|x\b)", text, re.IGNORECASE))
     sd_score += min(number_count * 2, 4)
 
-    # Year references (indicates timeliness)
+    # Referencias de años (indica actualidad)
     year_count = len(re.findall(r"\b20(?:2[3-6]|1\d)\b", text))
     if year_count > 0:
         sd_score += 2
 
-    # Named sources
+    # Fuentes nombradas
     source_patterns = [
         r"(?:according to|per|from|by)\s+[A-Z]",
         r"(?:Gartner|Forrester|McKinsey|Harvard|Stanford|MIT|Google|Microsoft|OpenAI|Anthropic)",
@@ -188,10 +188,10 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
 
     scores["statistical_density"] = min(sd_score, 15)
 
-    # === 5. Uniqueness Signals (10%) ===
+    # === 5. Señales de Unicidad (10%) ===
     us_score = 0
 
-    # Original data indicators
+    # Indicadores de datos originales
     if re.search(
         r"(?:our (?:research|study|data|analysis|survey|findings)|we (?:found|discovered|analyzed|surveyed|measured))",
         text,
@@ -199,7 +199,7 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
     ):
         us_score += 5
 
-    # Case study or example indicators
+    # Indicadores de caso de estudio o ejemplo
     if re.search(
         r"(?:case study|for example|for instance|in practice|real-world|hands-on)",
         text,
@@ -207,31 +207,31 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
     ):
         us_score += 3
 
-    # Specific tool/product mentions (shows practical experience)
+    # Menciones específicas de herramientas/productos (muestra experiencia práctica)
     if re.search(r"(?:using|with|via|through)\s+[A-Z][a-z]+", text):
         us_score += 2
 
     scores["uniqueness_signals"] = min(us_score, 10)
 
-    # === Calculate total ===
+    # === Calcular total ===
     total = sum(scores.values())
 
-    # Determine grade
+    # Determinar grado/calificación
     if total >= 80:
         grade = "A"
-        label = "Highly Citable"
+        label = "Altamente Citable"
     elif total >= 65:
         grade = "B"
-        label = "Good Citability"
+        label = "Buena Citabilidad"
     elif total >= 50:
         grade = "C"
-        label = "Moderate Citability"
+        label = "Citabilidad Moderada"
     elif total >= 35:
         grade = "D"
-        label = "Low Citability"
+        label = "Baja Citabilidad"
     else:
         grade = "F"
-        label = "Poor Citability"
+        label = "Pobre Citabilidad"
 
     return {
         "heading": heading,
@@ -245,7 +245,7 @@ def score_passage(text: str, heading: Optional[str] = None) -> dict:
 
 
 def analyze_page_citability(url: str) -> dict:
-    """Analyze all content blocks on a page for citability."""
+    """Analiza todos los bloques de contenido en una página para citabilidad."""
     try:
         response = requests.get(
             url,
@@ -256,24 +256,24 @@ def analyze_page_citability(url: str) -> dict:
         )
         response.raise_for_status()
     except Exception as e:
-        return {"error": f"Failed to fetch page: {str(e)}"}
+        return {"error": f"Falló al obtener la página: {str(e)}"}
 
     soup = BeautifulSoup(response.text, "lxml")
 
-    # Remove non-content elements
+    # Eliminar elementos que no son contenido
     for element in soup.find_all(
         ["script", "style", "nav", "footer", "header", "aside", "form"]
     ):
         element.decompose()
 
-    # Extract content blocks
+    # Extraer bloques de contenido
     blocks = []
     current_heading = "Introduction"
     current_paragraphs = []
 
     for element in soup.find_all(["h1", "h2", "h3", "h4", "p", "ul", "ol", "table"]):
         if element.name.startswith("h"):
-            # Save previous section
+            # Guardar sección anterior
             if current_paragraphs:
                 combined = " ".join(current_paragraphs)
                 if len(combined.split()) >= 20:
@@ -287,25 +287,25 @@ def analyze_page_citability(url: str) -> dict:
             if text and len(text.split()) >= 5:
                 current_paragraphs.append(text)
 
-    # Last block
+    # Último bloque
     if current_paragraphs:
         combined = " ".join(current_paragraphs)
         if len(combined.split()) >= 20:
             blocks.append({"heading": current_heading, "content": combined})
 
-    # Score each block
+    # Puntuar cada bloque
     scored_blocks = []
     for block in blocks:
         score = score_passage(block["content"], block["heading"])
         scored_blocks.append(score)
 
-    # Calculate page-level metrics
+    # Calcular métricas a nivel de página
     if scored_blocks:
         avg_score = sum(b["total_score"] for b in scored_blocks) / len(scored_blocks)
         top_blocks = sorted(scored_blocks, key=lambda x: x["total_score"], reverse=True)[:5]
         bottom_blocks = sorted(scored_blocks, key=lambda x: x["total_score"])[:5]
 
-        # Optimal passage count (134-167 words)
+        # Recuento óptimo de pasajes (134-167 palabras)
         optimal_count = sum(
             1 for b in scored_blocks if 134 <= b["word_count"] <= 167
         )
@@ -315,7 +315,7 @@ def analyze_page_citability(url: str) -> dict:
         bottom_blocks = []
         optimal_count = 0
 
-    # Grade distribution
+    # Distribución de grados
     grade_dist = {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0}
     for block in scored_blocks:
         grade_dist[block["grade"]] += 1
@@ -334,8 +334,8 @@ def analyze_page_citability(url: str) -> dict:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python citability_scorer.py <url>")
-        print("Returns JSON with citability analysis for all content blocks.")
+        print("Uso: python citability_scorer.py <url>")
+        print("Devuelve JSON con análisis de citabilidad para todos los bloques de contenido.")
         sys.exit(1)
 
     url = sys.argv[1]

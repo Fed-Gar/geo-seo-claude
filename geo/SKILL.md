@@ -1,145 +1,145 @@
 ---
 name: geo
 description: >
-  GEO-first SEO analysis tool. Optimizes websites for AI-powered search engines
-  (ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews) while maintaining
-  traditional SEO foundations. Performs full GEO audits, citability scoring,
-  AI crawler analysis, llms.txt generation, brand mention scanning, platform-specific
-  optimization, schema markup, technical SEO, content quality (E-E-A-T), and
-  client-ready GEO report generation. Use when user says "geo", "seo", "audit",
-  "AI search", "AI visibility", "optimize", "citability", "llms.txt", "schema",
-  "brand mentions", "GEO report", or any URL for analysis.
+  Herramienta de análisis SEO con prioridad GEO (Generative Engine Optimization). Optimiza sitios web para motores de búsqueda con IA
+  (ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews) manteniendo
+  las bases del SEO tradicional. Realiza auditorías GEO completas, puntuación de citabilidad,
+  análisis de rastreadores de IA, generación de llms.txt, escaneo de menciones de marca, optimización
+  específica por plataforma, marcado de esquema (schema), SEO técnico, calidad de contenido (E-E-A-T), y
+  generación de reportes GEO listos para clientes. Usar cuando el usuario diga "geo", "seo", "audit", "auditar", "auditoria",
+  "AI search", "AI visibility", "visibilidad IA", "optimize", "optimizar", "citability", "citabilidad", "llms.txt", "schema", "esquema",
+  "brand mentions", "menciones de marca", "GEO report", "reporte GEO", o cualquier URL para análisis.
 allowed-tools: Read, Grep, Glob, Bash, WebFetch, Write
 ---
 
-# GEO-SEO Analysis Tool — Claude Code Skill (February 2026)
+# Herramienta de Análisis GEO-SEO — Claude Code Skill (Febrero 2026)
 
-> **Philosophy:** GEO-first, SEO-supported. AI search is eating traditional search.
-> This tool optimizes for where traffic is going, not where it was.
+> **Filosofía:** Prioridad GEO, soporte SEO. La búsqueda con IA está devorando a la búsqueda tradicional.
+> Esta herramienta optimiza hacia donde va el tráfico, no donde solía estar.
 
 ---
 
-## Quick Reference
+## Referencia Rápida
 
-| Command | What It Does |
+| Comando | Qué Hace |
 |---------|-------------|
-| `/geo audit <url>` | Full GEO + SEO audit with parallel subagents |
-| `/geo page <url>` | Deep single-page GEO analysis |
-| `/geo citability <url>` | Score content for AI citation readiness |
-| `/geo crawlers <url>` | Check AI crawler access (robots.txt analysis) |
-| `/geo llmstxt <url>` | Analyze or generate llms.txt file |
-| `/geo brands <url>` | Scan brand mentions across AI-cited platforms |
-| `/geo platforms <url>` | Platform-specific optimization (ChatGPT, Perplexity, Google AIO) |
-| `/geo schema <url>` | Detect, validate, and generate structured data |
-| `/geo technical <url>` | Traditional technical SEO audit |
-| `/geo content <url>` | Content quality and E-E-A-T assessment |
-| `/geo report <url>` | Generate client-ready GEO deliverable |
-| `/geo report-pdf <url>` | Generate professional PDF report with charts and scores |
-| `/geo quick <url>` | 60-second GEO visibility snapshot |
-| `/geo prospect <cmd>` | CRM-lite: manage prospects through the sales pipeline |
-| `/geo proposal <domain>` | Auto-generate client proposal from audit data |
-| `/geo compare <domain>` | Monthly delta report: show score improvements to client |
-| `/geo update` | Pull latest GEO skill updates from upstream |
+| `/geo audit <url>` | Auditoría GEO + SEO completa con subagentes en paralelo |
+| `/geo page <url>` | Análisis GEO profundo de una sola página |
+| `/geo citability <url>` | Puntúa el contenido según su preparación para ser citado por IA |
+| `/geo crawlers <url>` | Verifica acceso de rastreadores de IA (análisis robots.txt) |
+| `/geo llmstxt <url>` | Analiza o genera archivo llms.txt |
+| `/geo brands <url>` | Escanea menciones de marca en plataformas citadas por IA |
+| `/geo platforms <url>` | Optimización específica por plataforma (ChatGPT, Perplexity, Google AIO) |
+| `/geo schema <url>` | Detecta, valida y genera datos estructurados (schema) |
+| `/geo technical <url>` | Auditoría SEO técnica tradicional |
+| `/geo content <url>` | Evaluación de calidad del contenido y E-E-A-T |
+| `/geo report <url>` | Genera entregable GEO listo para el cliente |
+| `/geo report-pdf <url>` | Genera reporte profesional en PDF con gráficos y puntuaciones |
+| `/geo quick <url>` | Instantánea de visibilidad GEO de 60 segundos |
+| `/geo prospect <cmd>` | CRM-ligero: gestionar prospectos a través del embudo de ventas |
+| `/geo proposal <domain>` | Autogenerar propuesta para cliente a partir de datos de auditoría |
+| `/geo compare <domain>` | Reporte de diferencia mensual: mostrar mejoras de puntuación al cliente |
+| `/geo update` | Obtener las últimas actualizaciones de la habilidad GEO desde el repositorio principal |
 
 ---
 
-## Market Context (Why GEO Matters)
+## Contexto del Mercado (Por qué importa el GEO)
 
-| Metric | Value | Source |
+| Métrica | Valor | Fuente |
 |--------|-------|--------|
-| GEO services market (2025) | $850M-$886M | Yahoo Finance / Superlines |
-| Projected GEO market (2031) | $7.3B (34% CAGR) | Industry analysts |
-| AI-referred sessions growth | +527% (Jan-May 2025) | SparkToro |
-| AI traffic conversion vs organic | 4.4x higher | Industry data |
-| Google AI Overviews reach | 1.5B users/month, 200+ countries | Google |
-| ChatGPT weekly active users | 900M+ | OpenAI |
-| Perplexity monthly queries | 500M+ | Perplexity |
-| Gartner: search traffic drop by 2028 | -50% | Gartner |
-| Marketers investing in GEO | Only 23% | Industry surveys |
-| Brand mentions vs backlinks for AI | 3x stronger correlation | Ahrefs (Dec 2025) |
+| Mercado de servicios GEO (2025) | $850M-$886M | Yahoo Finance / Superlines |
+| Mercado GEO proyectado (2031) | $7.3B (34% CAGR) | Analistas de la industria |
+| Crecimiento de sesiones referidas por IA | +527% (Ene-May 2025) | SparkToro |
+| Conversión de tráfico IA vs orgánico | 4.4x mayor | Datos de la industria |
+| Alcance de Google AI Overviews | 1.5B usuarios/mes, 200+ países | Google |
+| Usuarios activos semanales de ChatGPT | 900M+ | OpenAI |
+| Consultas mensuales de Perplexity | 500M+ | Perplexity |
+| Gartner: caída del tráfico de búsqueda para 2028 | -50% | Gartner |
+| Marketers invirtiendo en GEO | Solo 23% | Encuestas de la industria |
+| Menciones de marca vs backlinks para IA | Correlación 3x más fuerte | Ahrefs (Dic 2025) |
 
 ---
 
-## Orchestration Logic
+## Lógica de Orquestación
 
-### Full Audit (`/geo audit <url>`)
+### Auditoría Completa (`/geo audit <url>`)
 
-**Phase 1: Discovery (Sequential)**
-1. Fetch homepage HTML (curl or WebFetch)
-2. Detect business type (SaaS, Local, E-commerce, Publisher, Agency, Other)
-3. Extract key pages from sitemap.xml or internal links (up to 50 pages)
+**Fase 1: Descubrimiento (Secuencial)**
+1. Obtener HTML de la página de inicio (curl o WebFetch)
+2. Detectar tipo de negocio (SaaS, Local, E-commerce, Publicador, Agencia, Otro)
+3. Extraer páginas clave de sitemap.xml o enlaces internos (hasta 50 páginas)
 
-**Phase 2: Parallel Analysis (Delegate to Subagents)**
-Launch these 5 subagents simultaneously:
+**Fase 2: Análisis en Paralelo (Delegar a Subagentes)**
+Lanzar estos 5 subagentes simultáneamente:
 
-| Subagent | File | Responsibility |
+| Subagente | Archivo | Responsabilidad |
 |----------|------|---------------|
-| geo-ai-visibility | `agents/geo-ai-visibility.md` | GEO audit, citability, AI crawlers, llms.txt, brand mentions |
-| geo-platform-analysis | `agents/geo-platform-analysis.md` | Platform-specific optimization (ChatGPT, Perplexity, Google AIO) |
-| geo-technical | `agents/geo-technical.md` | Technical SEO, Core Web Vitals, crawlability, indexability |
-| geo-content | `agents/geo-content.md` | Content quality, E-E-A-T, readability, AI content detection |
-| geo-schema | `agents/geo-schema.md` | Schema markup detection, validation, generation |
+| geo-ai-visibility | `agents/geo-ai-visibility.md` | Auditoría GEO, citabilidad, rastreadores de IA, llms.txt, menciones de marca |
+| geo-platform-analysis | `agents/geo-platform-analysis.md` | Optimización específica por plataforma (ChatGPT, Perplexity, Google AIO) |
+| geo-technical | `agents/geo-technical.md` | SEO Técnico, Core Web Vitals, rastreabilidad, indexabilidad |
+| geo-content | `agents/geo-content.md` | Calidad de contenido, E-E-A-T, legibilidad, detección de contenido de IA |
+| geo-schema | `agents/geo-schema.md` | Detección, validación y generación de marcado de esquema |
 
-**Phase 3: Synthesis (Sequential)**
-1. Collect all subagent reports
-2. Calculate composite GEO Score (0-100)
-3. Generate prioritized action plan
-4. Output client-ready report
+**Fase 3: Síntesis (Secuencial)**
+1. Recopilar reportes de todos los subagentes
+2. Calcular Puntuación GEO compuesta (0-100)
+3. Generar plan de acción priorizado
+4. Producir reporte listo para cliente
 
-### Scoring Methodology
+### Metodología de Puntuación
 
-| Category | Weight | Measured By |
+| Categoría | Peso | Medido Por |
 |----------|--------|-------------|
-| AI Citability & Visibility | 25% | Passage scoring, answer block quality, AI crawler access |
-| Brand Authority Signals | 20% | Mentions on Reddit, YouTube, Wikipedia, LinkedIn; entity presence |
-| Content Quality & E-E-A-T | 20% | Expertise signals, original data, author credentials |
-| Technical Foundations | 15% | SSR, Core Web Vitals, crawlability, mobile, security |
-| Structured Data | 10% | Schema completeness, JSON-LD validation, rich result eligibility |
-| Platform Optimization | 10% | Platform-specific readiness (Google AIO, ChatGPT, Perplexity) |
+| Visibilidad y Citabilidad por IA | 25% | Puntuación de pasajes, calidad del bloque de respuestas, acceso de rastreadores de IA |
+| Señales de Autoridad de Marca | 20% | Menciones en Reddit, YouTube, Wikipedia, LinkedIn; presencia de entidad |
+| Calidad de Contenido y E-E-A-T | 20% | Señales de experiencia, datos originales, credenciales del autor |
+| Fundamentos Técnicos | 15% | SSR, Core Web Vitals, rastreabilidad, móvil, seguridad |
+| Datos Estructurados | 10% | Integridad de esquema, validación JSON-LD, elegibilidad de resultados enriquecidos |
+| Optimización de Plataforma | 10% | Preparación específica de plataforma (Google AIO, ChatGPT, Perplexity) |
 
 ---
 
-## Business Type Detection
+## Detección de Tipo de Negocio
 
-Analyze homepage for patterns:
+Analizar página de inicio en busca de patrones:
 
-| Type | Signals |
+| Tipo | Señales |
 |------|---------|
-| **SaaS** | Pricing page, "Sign up", "Free trial", "/app", "/dashboard", API docs |
-| **Local Service** | Phone number, address, "Near me", Google Maps embed, service area |
-| **E-commerce** | Product pages, cart, "Add to cart", price elements, product schema |
-| **Publisher** | Blog, articles, bylines, publication dates, article schema |
-| **Agency** | Portfolio, case studies, "Our services", client logos, testimonials |
-| **Other** | Default — apply general GEO best practices |
+| **SaaS** | Página de precios, "Regístrate", "Prueba gratis", "/app", "/dashboard", docs de API |
+| **Servicio Local** | Número de teléfono, dirección, "Cerca de mí", mapa de Google embebido, área de servicio |
+| **E-commerce** | Páginas de producto, carrito, "Añadir al carrito", elementos de precio, schema Product |
+| **Publicador** | Blog, artículos, firmas de autor, fechas de publicación, schema Article |
+| **Agencia** | Portafolio, casos de estudio, "Nuestros servicios", logos de clientes, testimonios |
+| **Otro** | Por defecto — aplicar mejores prácticas generales de GEO |
 
-Adjust recommendations based on detected type. Local businesses need LocalBusiness schema and Google Business Profile optimization. SaaS needs SoftwareApplication schema and comparison page strategy. E-commerce needs Product schema and review aggregation.
+Ajustar recomendaciones basadas en el tipo detectado. Negocios locales necesitan esquema LocalBusiness y optimización del Perfil de Empresa de Google. SaaS necesita esquema SoftwareApplication y estrategia de página de comparación. E-commerce necesita esquema Product y agregación de reseñas.
 
 ---
 
-## Sub-Skills (14 Specialized Components)
+## Subhabilidades (14 Componentes Especializados)
 
-| # | Skill | Directory | Purpose |
+| # | Habilidad | Directorio | Propósito |
 |---|-------|-----------|---------|
-| 1 | geo-audit | `skills/geo-audit/` | Full audit orchestration and scoring |
-| 2 | geo-citability | `skills/geo-citability/` | Passage-level AI citation readiness |
-| 3 | geo-crawlers | `skills/geo-crawlers/` | AI crawler access and robots.txt |
-| 4 | geo-llmstxt | `skills/geo-llmstxt/` | llms.txt standard analysis and generation |
-| 5 | geo-brand-mentions | `skills/geo-brand-mentions/` | Brand presence on AI-cited platforms |
-| 6 | geo-platform-optimizer | `skills/geo-platform-optimizer/` | Platform-specific AI search optimization |
-| 7 | geo-schema | `skills/geo-schema/` | Structured data for AI discoverability |
-| 8 | geo-technical | `skills/geo-technical/` | Technical SEO foundations |
-| 9 | geo-content | `skills/geo-content/` | Content quality and E-E-A-T |
-| 10 | geo-report | `skills/geo-report/` | Client-ready deliverable generation |
-| 11 | geo-prospect | `skills/geo-prospect/` | CRM-lite prospect and client pipeline management |
-| 12 | geo-proposal | `skills/geo-proposal/` | Auto-generate client proposals from audit data |
-| 13 | geo-compare | `skills/geo-compare/` | Monthly delta tracking and progress reports |
-| 14 | geo-update | `skills/geo-update/` | Pull latest updates from upstream repository |
+| 1 | geo-audit | `skills/geo-audit/` | Orquestación de auditoría completa y puntuación |
+| 2 | geo-citability | `skills/geo-citability/` | Preparación para citación por IA a nivel de pasaje |
+| 3 | geo-crawlers | `skills/geo-crawlers/` | Acceso de rastreadores de IA y robots.txt |
+| 4 | geo-llmstxt | `skills/geo-llmstxt/` | Análisis y generación del estándar llms.txt |
+| 5 | geo-brand-mentions | `skills/geo-brand-mentions/` | Presencia de marca en plataformas citadas por IA |
+| 6 | geo-platform-optimizer | `skills/geo-platform-optimizer/` | Optimización de búsqueda por IA específica por plataforma |
+| 7 | geo-schema | `skills/geo-schema/` | Datos estructurados para descubribilidad por IA |
+| 8 | geo-technical | `skills/geo-technical/` | Bases de SEO técnico |
+| 9 | geo-content | `skills/geo-content/` | Calidad de contenido y E-E-A-T |
+| 10 | geo-report | `skills/geo-report/` | Generación de entregable listo para cliente |
+| 11 | geo-prospect | `skills/geo-prospect/` | CRM-ligero para gestión de prospectos y clientes |
+| 12 | geo-proposal | `skills/geo-proposal/` | Autogenerar propuestas para clientes con datos de auditoría |
+| 13 | geo-compare | `skills/geo-compare/` | Seguimiento de diferencias mensuales y reportes de progreso |
+| 14 | geo-update | `skills/geo-update/` | Obtener últimas actualizaciones desde repositorio principal |
 
 ---
 
-## Subagents (5 Parallel Workers)
+## Subagentes (5 Trabajadores Paralelos)
 
-| Agent | File | Skills Used |
+| Agente | Archivo | Habilidades Usadas |
 |-------|------|-------------|
 | geo-ai-visibility | `agents/geo-ai-visibility.md` | geo-citability, geo-crawlers, geo-llmstxt, geo-brand-mentions |
 | geo-platform-analysis | `agents/geo-platform-analysis.md` | geo-platform-optimizer |
@@ -149,56 +149,56 @@ Adjust recommendations based on detected type. Local businesses need LocalBusine
 
 ---
 
-## Output Files
+## Archivos de Salida
 
-All commands generate structured output:
+Todos los comandos generan salidas estructuradas:
 
-| Command | Output File |
+| Comando | Archivo de Salida |
 |---------|------------|
 | `/geo audit` | `GEO-AUDIT-REPORT.md` |
 | `/geo page` | `GEO-PAGE-ANALYSIS.md` |
 | `/geo citability` | `GEO-CITABILITY-SCORE.md` |
 | `/geo crawlers` | `GEO-CRAWLER-ACCESS.md` |
-| `/geo llmstxt` | `llms.txt` (ready to deploy) |
+| `/geo llmstxt` | `llms.txt` (listo para implementar) |
 | `/geo brands` | `GEO-BRAND-MENTIONS.md` |
 | `/geo platforms` | `GEO-PLATFORM-OPTIMIZATION.md` |
-| `/geo schema` | `GEO-SCHEMA-REPORT.md` + generated JSON-LD |
+| `/geo schema` | `GEO-SCHEMA-REPORT.md` + JSON-LD generado |
 | `/geo technical` | `GEO-TECHNICAL-AUDIT.md` |
 | `/geo content` | `GEO-CONTENT-ANALYSIS.md` |
-| `/geo report` | `GEO-CLIENT-REPORT.md` (presentation-ready) |
-| `/geo report-pdf` | `GEO-REPORT.pdf` (professional PDF with charts) |
-| `/geo quick` | Inline summary (no file) |
-| `/geo prospect` | Updates `~/.geo-prospects/prospects.json` |
+| `/geo report` | `GEO-CLIENT-REPORT.md` (listo para presentación) |
+| `/geo report-pdf` | `GEO-REPORT.pdf` (PDF profesional con gráficos) |
+| `/geo quick` | Resumen en línea (sin archivo) |
+| `/geo prospect` | Actualiza `~/.geo-prospects/prospects.json` |
 | `/geo proposal` | `~/.geo-prospects/proposals/<domain>-proposal-<date>.md` |
 | `/geo compare` | `~/.geo-prospects/reports/<domain>-monthly-<YYYY-MM>.md` |
 
 ---
 
-## PDF Report Generation
+## Generación de Reporte PDF
 
-The `/geo report-pdf <url>` command converts `GEO-AUDIT-REPORT.md` into a styled, client-ready PDF.
+El comando `/geo report-pdf <url>` convierte `GEO-AUDIT-REPORT.md` en un PDF estilizado, listo para el cliente.
 
-### Requirements
+### Requisitos
 - **pandoc** — `brew install pandoc`
-- **Google Chrome** — `/Applications/Google Chrome.app/` (standard Mac install)
+- **Google Chrome** — `/Applications/Google Chrome.app/` (instalación estándar Mac)
 
-No Python dependencies required for PDF generation.
+No requiere dependencias de Python para la generación de PDF.
 
-### What the PDF Includes
-- **Cover page** — dark navy gradient, GEO score badge, brand/domain/date/location metadata
-- **Color-coded score tables** — cells with `XX/100` values are automatically colored green/blue/amber/orange/red
-- **Severity-tagged findings** — Critical/High/Medium/Low sections get colored left-border callout blocks
-- **Section page breaks** — major sections break to new pages automatically
-- **Styled code blocks** — JSON schema templates render with dark monospace theme
+### Qué Incluye el PDF
+- **Página de portada** — gradiente azul marino oscuro, insignia de puntuación GEO, metadatos de marca/dominio/fecha/ubicación
+- **Tablas de puntuación con colores** — celdas con valores `XX/100` se colorean automáticamente de verde/azul/ámbar/naranja/rojo
+- **Hallazgos etiquetados por severidad** — Secciones Crítico/Alto/Medio/Bajo obtienen bloques resaltados con borde izquierdo coloreado
+- **Saltos de página por sección** — las secciones principales saltan a nuevas páginas automáticamente
+- **Bloques de código estilizados** — las plantillas de esquema JSON se renderizan con tema oscuro monoespaciado
 
-### Templates
-Bundled at `~/.claude/skills/geo/templates/`:
-- `geo-report-style.css` — stylesheet (edit colors, fonts, layout here)
-- `geo-report-template.html` — pandoc HTML template (edit cover fields here)
+### Plantillas
+Se incluyen en `~/.claude/skills/geo/templates/`:
+- `geo-report-style.css` — hoja de estilos (edita colores, fuentes, diseño aquí)
+- `geo-report-template.html` — plantilla HTML pandoc (edita campos de portada aquí)
 
-### Workflow
-1. Run `/geo audit <url>` to produce `GEO-AUDIT-REPORT.md`
-2. Run `/geo report-pdf` — extracts metadata from the report and runs:
+### Flujo de Trabajo
+1. Ejecuta `/geo audit <url>` para producir `GEO-AUDIT-REPORT.md`
+2. Ejecuta `/geo report-pdf` — extrae metadatos del reporte y ejecuta:
    ```bash
    pandoc GEO-AUDIT-REPORT.md \
      --to html5 --standalone --embed-resources \
@@ -214,38 +214,38 @@ Bundled at `~/.claude/skills/geo/templates/`:
      --virtual-time-budget=5000 \
      "file://$(pwd)/GEO-REPORT.html"
    ```
-3. Output: `GEO-REPORT.pdf` in the current directory
+3. Salida: `GEO-REPORT.pdf` en el directorio actual
 
 ---
 
-## Quality Gates
+## Controles de Calidad
 
-- **Crawl limit:** Max 50 pages per audit (focus on quality over quantity)
-- **Timeout:** 30 seconds per page fetch
-- **Rate limiting:** 1-second delay between requests, max 5 concurrent
-- **Robots.txt:** Always respect, always check
-- **Duplicate detection:** Skip pages with >80% content similarity
+- **Límite de rastreo:** Máx. 50 páginas por auditoría (enfoque en calidad sobre cantidad)
+- **Tiempo de espera:** 30 segundos por obtención de página
+- **Límite de peticiones:** 1 segundo de retraso entre solicitudes, máx. 5 simultáneas
+- **Robots.txt:** Siempre respetar, siempre verificar
+- **Detección de duplicados:** Omitir páginas con >80% de similitud de contenido
 
 ---
 
-## Quick Start Examples
+## Ejemplos de Inicio Rápido
 
 ```
-# Full GEO audit of a website
+# Auditoría GEO completa de un sitio web
 /geo audit https://example.com
 
-# Check if AI bots can see your site
+# Verificar si los bots de IA pueden ver tu sitio
 /geo crawlers https://example.com
 
-# Score a specific page for AI citability
-/geo citability https://example.com/blog/best-article
+# Puntuar una página específica para citabilidad por IA
+/geo citability https://example.com/blog/mejor-articulo
 
-# Generate an llms.txt file for your site
+# Generar un archivo llms.txt para tu sitio
 /geo llmstxt https://example.com
 
-# Get a 60-second visibility snapshot
+# Obtener una instantánea de visibilidad de 60 segundos
 /geo quick https://example.com
 
-# Generate a client-ready report
+# Generar un reporte listo para clientes
 /geo report https://example.com
 ```

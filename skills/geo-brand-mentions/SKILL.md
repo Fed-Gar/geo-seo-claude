@@ -1,6 +1,6 @@
 ---
 name: geo-brand-mentions
-description: Brand mention and authority scanner for AI visibility. Analyzes brand presence across platforms that AI models rely on for entity recognition and citation decisions. Produces a Brand Authority Score (0-100) with platform-specific recommendations.
+description: Escáner de autoridad y menciones de marca para visibilidad en IA. Analiza la presencia de la marca en plataformas de las que dependen los modelos de IA para el reconocimiento de entidades y decisiones de citación. Produce una Puntuación de Autoridad de Marca (0-100) con recomendaciones específicas por plataforma.
 allowed-tools:
   - Read
   - Grep
@@ -10,471 +10,471 @@ allowed-tools:
   - Write
 ---
 
-# Brand Mention Scanner Skill
+# Habilidad de Escáner de Menciones de Marca
 
-## Core Insight
+## Idea Central
 
-Brand mentions correlate approximately 3x more strongly with AI visibility than traditional backlinks. An Ahrefs study published in December 2025, analyzing 75,000 brands across AI search platforms, found that **unlinked brand mentions** -- references to a brand name without a hyperlink -- are a stronger predictor of whether AI systems cite and recommend a brand than Domain Rating or backlink count.
+Las menciones de marca se correlacionan aproximadamente 3 veces más fuertemente con la visibilidad en IA que los backlinks tradicionales. Un estudio de Ahrefs publicado en diciembre de 2025, analizando 75,000 marcas en plataformas de búsqueda por IA, encontró que las **menciones de marca sin enlace** (unlinked brand mentions) -- referencias a un nombre de marca sin un hipervínculo -- son un predictor más fuerte de si los sistemas de IA citan y recomiendan una marca que el Domain Rating (DR) o el conteo de backlinks.
 
-The critical finding: **the platform where the mention appears matters enormously.** Not all mentions are equal. A mention on YouTube or Reddit carries far more weight for AI citation than a mention on a low-authority blog, because AI training data and retrieval systems disproportionately index high-engagement platforms.
+El hallazgo crítico: **la plataforma donde aparece la mención importa enormemente**. No todas las menciones son iguales. Una mención en YouTube o Reddit tiene mucho más peso para la citación de IA que una mención en un blog de baja autoridad, porque los datos de entrenamiento de IA y los sistemas de recuperación indexan desproporcionadamente las plataformas de alta interacción (engagement).
 
-This inverts a core assumption of traditional SEO. In traditional SEO, a backlink from a high-DR site is the gold standard. In GEO, an unlinked mention on Reddit or a YouTube video description may be more valuable than a dofollow backlink from a DR 70 blog.
+Esto invierte una suposición fundamental del SEO tradicional. En el SEO tradicional, un backlink (dofollow) desde un sitio de alto DR es el estándar de oro. En GEO, una mención sin enlace en Reddit o en la descripción de un video de YouTube puede ser más valiosa que un backlink dofollow de un blog DR 70.
 
 ---
 
-## Platform Importance Ranking for AI Citations
+## Clasificación de Importancia de Plataformas para Citas de IA
 
-Based on the Ahrefs December 2025 study and corroborating research from Profound (2025) and Terakeet (2025):
+Basado en el estudio de Ahrefs de diciembre de 2025 y en la investigación corroborante de Profound (2025) y Terakeet (2025):
 
-### 1. YouTube Mentions -- Correlation ~0.737 (STRONGEST)
+### 1. Menciones en YouTube -- Correlación ~0.737 (LA MÁS FUERTE)
 
-**Why YouTube matters most:**
-- YouTube is the second-largest search engine and the largest video platform globally (2.5B+ monthly users).
-- AI training datasets heavily incorporate YouTube transcripts, descriptions, and metadata.
-- Google's Gemini and AI Overviews directly reference YouTube content.
-- Perplexity and ChatGPT both index and cite YouTube video content.
-- YouTube transcripts are particularly valuable because they contain natural language mentions in conversational context, which aligns with how AI models process and generate text.
+**Por qué importa más YouTube:**
+- YouTube es el segundo motor de búsqueda más grande y la plataforma de video más grande a nivel global (2.5B+ usuarios mensuales).
+- Los conjuntos de datos de entrenamiento de IA incorporan en gran medida transcripciones, descripciones y metadatos de YouTube.
+- Gemini y los Resúmenes de IA (AI Overviews) de Google referencian directamente el contenido de YouTube.
+- Tanto Perplexity como ChatGPT indexan y citan contenido de video de YouTube.
+- Las transcripciones de YouTube son particularmente valiosas porque contienen menciones en lenguaje natural en un contexto conversacional, lo que se alinea con cómo los modelos de IA procesan y generan texto.
 
-**What to check:**
-- **Brand YouTube channel:** Does the brand have an active YouTube channel? How many subscribers? Video count? Upload frequency?
-- **Third-party video mentions:** Are other YouTubers or channels mentioning the brand? In what context (reviews, tutorials, comparisons)?
-- **Video descriptions:** Does the brand name appear in video descriptions of industry-relevant content?
-- **Video transcripts:** Is the brand mentioned in spoken content of relevant videos? (AI models index transcripts)
-- **YouTube search presence:** When searching "[brand name]" on YouTube, do results appear? Are they positive?
-- **Comment mentions:** Is the brand mentioned in comments on relevant industry videos?
+**Qué revisar:**
+- **Canal de YouTube de la marca:** ¿Tiene la marca un canal activo de YouTube? ¿Cuántos suscriptores? ¿Cantidad de videos? ¿Frecuencia de carga?
+- **Menciones en videos de terceros:** ¿Otros YouTubers o canales mencionan la marca? ¿En qué contexto (reseñas, tutoriales, comparaciones)?
+- **Descripciones de videos:** ¿Aparece el nombre de la marca en descripciones de videos de contenido relevante para la industria?
+- **Transcripciones de videos:** ¿Se menciona la marca en el contenido hablado de videos relevantes? (Los modelos de IA indexan las transcripciones)
+- **Presencia en búsqueda de YouTube:** Al buscar "[nombre de marca]" en YouTube, ¿aparecen resultados? ¿Son positivos?
+- **Menciones en comentarios:** ¿Se menciona la marca en comentarios de videos relevantes de la industria?
 
-**Scoring for YouTube (0-100):**
+**Puntuación para YouTube (0-100):**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| 90-100 | Active channel with 10K+ subscribers, regular uploads, brand mentioned in 20+ third-party videos, appears in YouTube search results for industry terms |
-| 70-89 | Active channel with 1K+ subscribers, brand mentioned in 10-19 third-party videos, some YouTube search presence |
-| 50-69 | Channel exists with some content, brand mentioned in 5-9 third-party videos, limited YouTube search presence |
-| 30-49 | Channel exists but inactive, brand mentioned in 1-4 third-party videos |
-| 10-29 | No channel or empty channel, brand mentioned in 1-2 videos only |
-| 0-9 | No YouTube presence whatsoever |
+| 90-100 | Canal activo con 10K+ suscriptores, cargas regulares, marca mencionada en 20+ videos de terceros, aparece en resultados de búsqueda de YouTube para términos de la industria |
+| 70-89 | Canal activo con 1K+ suscriptores, marca mencionada en 10-19 videos de terceros, cierta presencia en búsqueda de YouTube |
+| 50-69 | El canal existe con algo de contenido, marca mencionada en 5-9 videos de terceros, presencia limitada en búsqueda de YouTube |
+| 30-49 | El canal existe pero está inactivo, marca mencionada en 1-4 videos de terceros |
+| 10-29 | No hay canal o está vacío, marca mencionada solo en 1-2 videos |
+| 0-9 | Ninguna presencia en YouTube en absoluto |
 
 ---
 
-### 2. Reddit Mentions -- High Correlation
+### 2. Menciones en Reddit -- Alta Correlación
 
-**Why Reddit matters:**
-- Reddit is one of the most heavily indexed platforms in AI training data (confirmed in Google's $60M/year Reddit licensing deal, 2024).
-- AI systems heavily weight Reddit for product recommendations, comparisons, and user sentiment.
-- "Reddit" is now appended to an estimated 10-15% of Google searches by users seeking authentic opinions.
-- Perplexity frequently cites Reddit threads as sources.
-- ChatGPT and Claude both reference Reddit discussions when answering product/service questions.
+**Por qué importa Reddit:**
+- Reddit es una de las plataformas más fuertemente indexadas en los datos de entrenamiento de IA (confirmado en el acuerdo de licencia de $60M/año de Google con Reddit, 2024).
+- Los sistemas de IA ponderan fuertemente Reddit para recomendaciones de productos, comparaciones y sentimiento de usuario.
+- La palabra "Reddit" ahora se añade a un estimado 10-15% de las búsquedas en Google por usuarios que buscan opiniones auténticas.
+- Perplexity frecuentemente cita hilos de Reddit como fuentes.
+- Tanto ChatGPT como Claude referencian discusiones de Reddit al responder preguntas de productos/servicios.
 
-**What to check:**
-- **Subreddit presence:** Is the brand discussed in relevant subreddits? Which ones?
-- **Mention volume:** How many Reddit threads mention the brand? What is the trend (increasing/decreasing)?
-- **Sentiment:** Are mentions mostly positive, negative, or neutral? What are common praise points and complaints?
-- **Official presence:** Does the brand have an official Reddit account? Do they participate in discussions? Have they done AMAs?
-- **Recommendation threads:** Does the brand appear in "What do you recommend for X?" threads? Is it the top recommendation or an also-ran?
-- **Subreddit community:** Does the brand have its own subreddit? How active is it?
+**Qué revisar:**
+- **Presencia en Subreddits:** ¿Se discute la marca en subreddits relevantes? ¿Cuáles?
+- **Volumen de menciones:** ¿Cuántos hilos de Reddit mencionan la marca? ¿Cuál es la tendencia (en aumento/disminución)?
+- **Sentimiento:** ¿Las menciones son mayormente positivas, negativas o neutrales? ¿Cuáles son los puntos comunes de elogio y queja?
+- **Presencia oficial:** ¿Tiene la marca una cuenta oficial en Reddit? ¿Participan en discusiones? ¿Han hecho AMAs (Ask Me Anything)?
+- **Hilos de recomendación:** ¿Aparece la marca en hilos de "¿Qué recomiendan para X?"? ¿Es la principal recomendación o una opción secundaria?
+- **Comunidad del subreddit:** ¿Tiene la marca su propio subreddit? ¿Qué tan activo es?
 
-**Scoring for Reddit (0-100):**
+**Puntuación para Reddit (0-100):**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| 90-100 | Frequently recommended in relevant subreddits, predominantly positive sentiment, active official presence, own subreddit with 5K+ members, appears in top recommendations for industry queries |
-| 70-89 | Regularly mentioned in relevant subreddits, mostly positive sentiment, some official presence, appears in multiple recommendation threads |
-| 50-69 | Mentioned in several relevant threads, mixed sentiment, brand name is recognized by community members |
-| 30-49 | Occasional mentions, limited to 1-2 subreddits, no official presence |
-| 10-29 | Rare mentions, brand largely unknown on Reddit |
-| 0-9 | No Reddit presence |
+| 90-100 | Frecuentemente recomendada en subreddits relevantes, sentimiento predominantemente positivo, presencia oficial activa, subreddit propio con 5K+ miembros, aparece en las principales recomendaciones para consultas de la industria |
+| 70-89 | Regularmente mencionada en subreddits relevantes, sentimiento mayormente positivo, algo de presencia oficial, aparece en múltiples hilos de recomendación |
+| 50-69 | Mencionada en varios hilos relevantes, sentimiento mixto, el nombre de la marca es reconocido por los miembros de la comunidad |
+| 30-49 | Menciones ocasionales, limitadas a 1-2 subreddits, sin presencia oficial |
+| 10-29 | Menciones raras, marca en gran medida desconocida en Reddit |
+| 0-9 | Ninguna presencia en Reddit |
 
 ---
 
-### 3. Wikipedia Presence -- High Correlation
+### 3. Presencia en Wikipedia -- Alta Correlación
 
-**Why Wikipedia matters:**
-- Wikipedia is one of the highest-authority sources in AI training data. All major AI models have been trained on Wikipedia dumps.
-- AI systems use Wikipedia as a primary source for entity recognition -- determining whether a brand is a "real" entity worth knowing about.
-- Wikidata (Wikipedia's structured data sibling) provides machine-readable facts that AI models use for knowledge graph construction.
-- Having a Wikipedia page is a strong signal of notability, which correlates with AI systems treating the brand as an authoritative entity.
+**Por qué importa Wikipedia:**
+- Wikipedia es una de las fuentes de mayor autoridad en los datos de entrenamiento de IA. Todos los principales modelos de IA han sido entrenados con volcados (dumps) de Wikipedia.
+- Los sistemas de IA usan Wikipedia como fuente principal para el reconocimiento de entidades -- determinando si una marca es una entidad "real" que vale la pena conocer.
+- Wikidata (el hermano de datos estructurados de Wikipedia) proporciona hechos legibles por máquina que los modelos de IA usan para la construcción de grafos de conocimiento.
+- Tener una página de Wikipedia es una fuerte señal de notabilidad, lo que se correlaciona con que los sistemas de IA traten a la marca como una entidad autorizada.
 
-**What to check:**
-- **Wikipedia page:** Does the brand or company have its own Wikipedia article? Is it marked for deletion or quality issues?
-- **Founder page:** Does the founder/CEO have a Wikipedia page? (Strong authority signal)
-- **Wikipedia citations:** Is the brand's website cited as a reference in any Wikipedia articles?
-- **Wikidata entry:** Does the brand have a Wikidata item (Q-number)? How complete is it?
-- **Wikipedia mentions:** Is the brand mentioned in other Wikipedia articles (industry articles, competitor pages, category pages)?
-- **Article quality:** If a Wikipedia page exists, is it a stub, start-class, or higher quality?
+**Qué revisar:**
+- **Página de Wikipedia:** ¿La marca o empresa tiene su propio artículo en Wikipedia? ¿Está marcado para eliminación o problemas de calidad?
+- **Página del Fundador:** ¿El fundador/CEO tiene una página en Wikipedia? (Fuerte señal de autoridad)
+- **Citas en Wikipedia:** ¿Se cita el sitio web de la marca como referencia en algún artículo de Wikipedia?
+- **Entrada en Wikidata:** ¿Tiene la marca un elemento de Wikidata (número Q)? ¿Qué tan completo está?
+- **Menciones en Wikipedia:** ¿Se menciona la marca en otros artículos de Wikipedia (artículos de la industria, páginas de competidores, páginas de categorías)?
+- **Calidad del artículo:** Si existe una página de Wikipedia, ¿es un esbozo (stub), clase inicial (start-class), o de mayor calidad?
 
-**Scoring for Wikipedia (0-100):**
+**Puntuación para Wikipedia (0-100):**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| 90-100 | Detailed Wikipedia article (B-class or higher), Wikidata entry with complete properties, brand cited as reference in multiple articles, founder has Wikipedia page |
-| 70-89 | Wikipedia article exists (start-class or higher), Wikidata entry exists, brand mentioned in 2+ other Wikipedia articles |
-| 50-69 | Wikipedia article exists (stub or start), basic Wikidata entry, limited mentions in other articles |
-| 30-49 | No Wikipedia article but brand is mentioned in other articles or cited as reference; Wikidata entry may exist |
-| 10-29 | Brand mentioned in 1-2 Wikipedia articles as a passing reference only |
-| 0-9 | No Wikipedia or Wikidata presence of any kind |
+| 90-100 | Artículo detallado en Wikipedia (clase B o superior), entrada de Wikidata con propiedades completas, marca citada como referencia en múltiples artículos, fundador tiene página de Wikipedia |
+| 70-89 | Artículo de Wikipedia existe (clase inicial o superior), entrada de Wikidata existe, marca mencionada en 2+ otros artículos de Wikipedia |
+| 50-69 | Artículo de Wikipedia existe (esbozo o inicial), entrada básica de Wikidata, menciones limitadas en otros artículos |
+| 30-49 | Sin artículo de Wikipedia pero la marca se menciona en otros artículos o se cita como referencia; puede existir entrada en Wikidata |
+| 10-29 | Marca mencionada en 1-2 artículos de Wikipedia solo como una referencia pasajera |
+| 0-9 | Sin presencia en Wikipedia ni Wikidata de ningún tipo |
 
 ---
 
-### 4. LinkedIn Presence -- Moderate Correlation
+### 4. Presencia en LinkedIn -- Correlación Moderada
 
-**Why LinkedIn matters:**
-- LinkedIn content is increasingly indexed by AI systems for professional and B2B context.
-- Company LinkedIn pages and employee thought leadership posts build brand entity signals.
-- AI models reference LinkedIn for company information, team credentials, and professional authority.
-- LinkedIn articles and posts are indexed by search engines and AI crawlers.
+**Por qué importa LinkedIn:**
+- El contenido de LinkedIn es cada vez más indexado por sistemas de IA para contexto profesional y B2B.
+- Las páginas de empresas en LinkedIn y las publicaciones de liderazgo intelectual (thought leadership) de los empleados construyen señales de entidad de marca.
+- Los modelos de IA referencian LinkedIn para obtener información de la empresa, credenciales del equipo y autoridad profesional.
+- Los artículos y publicaciones de LinkedIn son indexados por motores de búsqueda y rastreadores de IA.
 
-**What to check:**
-- **Company page:** Does the brand have a LinkedIn company page? Follower count? Post frequency?
-- **Employee thought leadership:** Are employees (especially leadership) posting thought leadership content that mentions the brand?
-- **Company mentions:** Is the brand mentioned in LinkedIn posts by non-employees? Industry analysts? Customers?
-- **LinkedIn articles:** Are there long-form LinkedIn articles about or mentioning the brand?
-- **Employee profiles:** Do employees list the company with detailed descriptions? Do they have strong professional profiles?
-- **Engagement metrics:** What is the typical engagement (likes, comments, shares) on company posts?
+**Qué revisar:**
+- **Página de empresa:** ¿Tiene la marca una página de empresa en LinkedIn? ¿Cantidad de seguidores? ¿Frecuencia de publicación?
+- **Liderazgo intelectual de empleados:** ¿Están los empleados (especialmente el liderazgo) publicando contenido de liderazgo intelectual que mencione la marca?
+- **Menciones a la empresa:** ¿Es la marca mencionada en publicaciones de LinkedIn por personas que no son empleados? ¿Analistas de la industria? ¿Clientes?
+- **Artículos de LinkedIn:** ¿Hay artículos de formato largo en LinkedIn acerca de la marca o mencionándola?
+- **Perfiles de empleados:** ¿Los empleados listan la empresa con descripciones detalladas? ¿Tienen perfiles profesionales fuertes?
+- **Métricas de interacción:** ¿Cuál es la interacción típica (likes, comentarios, compartidos) en las publicaciones de la empresa?
 
-**Scoring for LinkedIn (0-100):**
+**Puntuación para LinkedIn (0-100):**
 
-| Score | Criteria |
+| Puntuación | Criterios |
 |---|---|
-| 90-100 | Active company page with 10K+ followers, leadership regularly posts thought leadership, brand frequently mentioned by industry professionals, strong employee profiles |
-| 70-89 | Active company page with 5K+ followers, some employee thought leadership, occasional third-party mentions |
-| 50-69 | Company page exists with 1K+ followers, irregular posting, limited third-party mentions |
-| 30-49 | Company page exists but is sparse or inactive, few followers, no third-party mentions |
-| 10-29 | Basic company page with minimal information |
-| 0-9 | No LinkedIn company page |
+| 90-100 | Página de empresa activa con 10K+ seguidores, el liderazgo publica regularmente liderazgo intelectual, marca frecuentemente mencionada por profesionales de la industria, fuertes perfiles de empleados |
+| 70-89 | Página de empresa activa con 5K+ seguidores, algo de liderazgo intelectual de empleados, menciones ocasionales de terceros |
+| 50-69 | La página de la empresa existe con 1K+ seguidores, publicación irregular, menciones limitadas de terceros |
+| 30-49 | La página de la empresa existe pero es escasa o inactiva, pocos seguidores, sin menciones de terceros |
+| 10-29 | Página de empresa básica con información mínima |
+| 0-9 | Sin página de empresa en LinkedIn |
 
 ---
 
-### 5. Other Platform Presence -- Supplementary
+### 5. Presencia en Otras Plataformas -- Suplementario
 
-These platforms have lower but still meaningful correlation with AI visibility:
+Estas plataformas tienen una correlación más baja, pero aun así significativa con la visibilidad en IA:
 
 #### Quora
-- **Relevance:** Quora answers are frequently included in AI training data and cited by Perplexity.
-- **What to check:** Is the brand mentioned in Quora answers to industry-relevant questions? Does the brand have an official Quora presence?
-- **Signal strength:** Moderate for B2C, lower for B2B.
+- **Relevancia:** Las respuestas de Quora se incluyen frecuentemente en datos de entrenamiento de IA y son citadas por Perplexity.
+- **Qué revisar:** ¿Se menciona la marca en respuestas de Quora a preguntas relevantes de la industria? ¿Tiene la marca una presencia oficial en Quora?
+- **Fuerza de la señal:** Moderada para B2C, baja para B2B.
 
 #### Stack Overflow / Stack Exchange
-- **Relevance:** Critical for developer-facing brands (SaaS, dev tools, APIs).
-- **What to check:** Is the brand's product discussed in Stack Overflow questions/answers? Does the brand have a tag? Do they have an official account answering questions?
-- **Signal strength:** High for technical products, irrelevant for most B2C.
+- **Relevancia:** Crítica para marcas dirigidas a desarrolladores (SaaS, herramientas dev, APIs).
+- **Qué revisar:** ¿El producto de la marca es discutido en preguntas/respuestas de Stack Overflow? ¿Tiene la marca una etiqueta (tag)? ¿Tienen una cuenta oficial respondiendo preguntas?
+- **Fuerza de la señal:** Alta para productos técnicos, irrelevante para la mayoría de B2C.
 
 #### GitHub
-- **Relevance:** Critical for open-source and developer-focused brands.
-- **What to check:** Does the brand have a GitHub organization? Stars on repositories? Mentions in other repos' documentation or discussions?
-- **Signal strength:** High for dev tools and open-source, low for non-technical brands.
+- **Relevancia:** Crítica para marcas enfocadas en código abierto y desarrolladores.
+- **Qué revisar:** ¿Tiene la marca una organización en GitHub? ¿Estrellas en los repositorios? ¿Menciones en la documentación o discusiones de otros repositorios?
+- **Fuerza de la señal:** Alta para herramientas de desarrollo y código abierto, baja para marcas no técnicas.
 
-#### Industry Forums and Communities
-- **Relevance:** Niche authority signals that AI models pick up from domain-specific training data.
-- **What to check:** Is the brand discussed in industry-specific forums (e.g., Hacker News for tech, ProductHunt for startups, industry-specific Slack communities)?
-- **Signal strength:** Moderate, but valuable for establishing niche authority.
+#### Foros y Comunidades de la Industria
+- **Relevancia:** Señales de autoridad de nicho que los modelos de IA recogen de datos de entrenamiento específicos del dominio.
+- **Qué revisar:** ¿Se discute la marca en foros específicos de la industria (ej., Hacker News para tecnología, ProductHunt para startups, comunidades de Slack específicas)?
+- **Fuerza de la señal:** Moderada, pero valiosa para establecer autoridad de nicho.
 
-#### News and Press
-- **Relevance:** News mentions build entity authority and recency signals.
-- **What to check:** Has the brand been covered by major news outlets or industry publications? How recently? What was the context?
-- **Signal strength:** Moderate. Recency matters -- a mention in the last 6 months is far more valuable than one from 3 years ago.
+#### Noticias y Prensa
+- **Relevancia:** Las menciones en noticias construyen autoridad de entidad y señales de frescura (recencia).
+- **Qué revisar:** ¿La marca ha sido cubierta por medios de noticias importantes o publicaciones de la industria? ¿Qué tan recientemente? ¿En qué contexto?
+- **Fuerza de la señal:** Moderada. La frescura importa -- una mención en los últimos 6 meses es mucho más valiosa que una de hace 3 años.
 
 #### Podcasts
-- **Relevance:** Growing AI training data source. Transcripts are increasingly indexed.
-- **What to check:** Has the brand or its leadership appeared on podcasts? Are podcast transcripts mentioning the brand indexed by search engines?
-- **Signal strength:** Moderate and growing.
+- **Relevancia:** Fuente de datos de entrenamiento de IA en crecimiento. Las transcripciones se indexan cada vez más.
+- **Qué revisar:** ¿La marca o su liderazgo han aparecido en podcasts? ¿Las transcripciones de podcasts que mencionan la marca están indexadas por los motores de búsqueda?
+- **Fuerza de la señal:** Moderada y en crecimiento.
 
 ---
 
-## Composite Brand Authority Score
+## Puntuación de Autoridad de Marca Compuesta
 
-### Scoring Formula
+### Fórmula de Puntuación
 
-| Platform | Weight | Rationale |
+| Plataforma | Peso | Justificación |
 |---|---|---|
-| YouTube Presence | 25% | Strongest correlation with AI citation (0.737) |
-| Reddit Presence | 25% | Second strongest correlation; critical for product recommendations |
-| Wikipedia / Wikidata | 20% | Entity recognition foundation; AI training data cornerstone |
-| LinkedIn Authority | 15% | Professional authority signals; B2B relevance |
-| Other Platforms | 15% | Supplementary signals from Quora, GitHub, news, forums, podcasts |
+| Presencia en YouTube | 25% | Mayor correlación con citación de IA (0.737) |
+| Presencia en Reddit | 25% | Segunda mayor correlación; crítica para recomendaciones de productos |
+| Wikipedia / Wikidata | 20% | Base del reconocimiento de entidades; pilar de datos de entrenamiento IA |
+| Autoridad en LinkedIn | 15% | Señales de autoridad profesional; relevancia B2B |
+| Otras Plataformas | 15% | Señales suplementarias de Quora, GitHub, noticias, foros, podcasts |
 
-**Formula:**
+**Fórmula:**
 ```
-Brand_Authority_Score = (YouTube * 0.25) + (Reddit * 0.25) + (Wikipedia * 0.20) + (LinkedIn * 0.15) + (Other * 0.15)
+Puntuacion_Autoridad_Marca = (YouTube * 0.25) + (Reddit * 0.25) + (Wikipedia * 0.20) + (LinkedIn * 0.15) + (Otros * 0.15)
 ```
 
-### Score Interpretation
+### Interpretación de Puntuación
 
-| Score Range | Rating | Interpretation |
+| Rango de Puntuación | Calificación | Interpretación |
 |---|---|---|
-| 85-100 | Dominant | Brand is a well-recognized entity across AI platforms. Highly likely to be cited and recommended by AI systems. |
-| 70-84 | Strong | Brand has solid cross-platform presence. AI systems likely recognize and cite it for relevant queries. |
-| 50-69 | Moderate | Brand has presence on some platforms but gaps exist. AI citation is inconsistent. |
-| 30-49 | Weak | Brand has limited platform presence. AI systems may not recognize it as a distinct entity. |
-| 0-29 | Minimal | Brand has negligible platform presence. AI systems are unlikely to cite or recommend it. |
+| 85-100 | Dominante | La marca es una entidad bien reconocida a través de plataformas de IA. Altamente probable de ser citada y recomendada por sistemas de IA. |
+| 70-84 | Fuerte | La marca tiene una sólida presencia multiplataforma. Es probable que los sistemas de IA la reconozcan y citen para consultas relevantes. |
+| 50-69 | Moderada | La marca tiene presencia en algunas plataformas pero existen vacíos. La citación en IA es inconsistente. |
+| 30-49 | Débil | La marca tiene presencia limitada en las plataformas. Los sistemas de IA podrían no reconocerla como una entidad distinta. |
+| 0-29 | Mínima | La marca tiene presencia insignificante en las plataformas. Es muy improbable que los sistemas de IA la citen o recomienden. |
 
 ---
 
-## Analysis Procedure
+## Procedimiento de Análisis
 
-### Step 1: Identify Brand Information
+### Paso 1: Identificar Información de la Marca
 
-Gather the following from the user or from the website:
-- **Brand name** (exact spelling, including any official variants)
-- **Founder/CEO name(s)**
-- **Domain URL**
-- **Industry/category**
-- **Key products or services** (top 3)
-- **Key competitors** (for comparison context)
+Recopila lo siguiente del usuario o del sitio web:
+- **Nombre de la marca** (ortografía exacta, incluyendo variantes oficiales)
+- **Nombre(s) de Fundador/CEO**
+- **URL del dominio**
+- **Industria/categoría**
+- **Productos o servicios clave** (top 3)
+- **Principales competidores** (para contexto comparativo)
 
-### Step 2: Platform Scanning
+### Paso 2: Escaneo de Plataformas
 
-For each platform, use WebFetch to search and assess presence:
+Para cada plataforma, usa WebFetch para buscar y evaluar la presencia:
 
-**YouTube Check:**
-1. Search: `[brand name] site:youtube.com`
-2. Check: `youtube.com/@[brand-name]` or `youtube.com/c/[brand-name]` for official channel
-3. Search: `"[brand name]" site:youtube.com` (exact match for mentions in descriptions)
-4. Note: Channel subscriber count, video count, latest upload date, third-party mention count
+**Comprobación en YouTube:**
+1. Buscar: `[nombre de marca] site:youtube.com`
+2. Revisar: `youtube.com/@[nombre-marca]` o `youtube.com/c/[nombre-marca]` para el canal oficial
+3. Buscar: `"[nombre de marca]" site:youtube.com` (coincidencia exacta para menciones en descripciones)
+4. Nota: Cuenta de suscriptores del canal, recuento de videos, fecha de última carga, recuento de menciones de terceros
 
-**Reddit Check:**
-1. Search: `[brand name] site:reddit.com`
-2. Search: `"[brand name]" site:reddit.com` (exact match)
-3. Check: `reddit.com/r/[brand-name]` for official subreddit
-4. Check: `reddit.com/user/[brand-name]` for official account
-5. Note: Thread count, dominant subreddits, sentiment (positive/negative/neutral), recommendation frequency
+**Comprobación en Reddit:**
+1. Buscar: `[nombre de marca] site:reddit.com`
+2. Buscar: `"[nombre de marca]" site:reddit.com` (coincidencia exacta)
+3. Revisar: `reddit.com/r/[nombre-marca]` para subreddit oficial
+4. Revisar: `reddit.com/user/[nombre-marca]` para cuenta oficial
+5. Nota: Cantidad de hilos, subreddits dominantes, sentimiento (positivo/negativo/neutral), frecuencia de recomendación
 
-**Wikipedia Check (IMPORTANT — use BOTH methods to avoid false negatives):**
+**Comprobación en Wikipedia (IMPORTANTE — usar AMBOS métodos para evitar falsos negativos):**
 
-**Method 1 — Python API check (MOST RELIABLE, do this FIRST):**
+**Método 1 — Comprobación con API Python (EL MÁS CONFIABLE, haz este PRIMERO):**
 ```bash
 python3 -c "
 import requests, json
 from urllib.parse import quote_plus
-brand = '[Brand_Name]'
-# Check Wikipedia API directly
+brand = '[Nombre_Marca]'
+# Chequear API de Wikipedia directamente
 api_url = f'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={quote_plus(brand)}&format=json'
 r = requests.get(api_url, headers={'User-Agent': 'GEO-Audit/1.0'}, timeout=15)
 data = r.json()
 results = data.get('query', {}).get('search', [])
 if results and brand.lower() in results[0].get('title', '').lower():
-    print(f'WIKIPEDIA PAGE EXISTS: {results[0][\"title\"]}')
+    print(f'LA PÁGINA DE WIKIPEDIA EXISTE: {results[0][\"title\"]}')
     print(f'URL: https://en.wikipedia.org/wiki/{results[0][\"title\"].replace(\" \", \"_\")}')
 else:
-    print('No direct Wikipedia page found')
-# Check Wikidata
+    print('No se encontró página directa en Wikipedia')
+# Chequear Wikidata
 wd_url = f'https://www.wikidata.org/w/api.php?action=wbsearchentities&search={quote_plus(brand)}&language=en&format=json'
 r2 = requests.get(wd_url, headers={'User-Agent': 'GEO-Audit/1.0'}, timeout=15)
 wd = r2.json()
 entities = wd.get('search', [])
 if entities:
-    print(f'WIKIDATA ENTRY: {entities[0].get(\"id\", \"\")} — {entities[0].get(\"description\", \"\")}')
+    print(f'ENTRADA DE WIKIDATA: {entities[0].get(\"id\", \"\")} — {entities[0].get(\"description\", \"\")}')
 "
 ```
 
-**Method 2 — Direct URL check (backup verification):**
-1. WebFetch: `https://en.wikipedia.org/wiki/[Brand_Name]` — check if the page loads (not a redirect to search)
-2. WebFetch: `https://en.wikipedia.org/wiki/[Founder_Name]` for founder article
+**Método 2 — Comprobación directa de URL (verificación de respaldo):**
+1. WebFetch: `https://en.wikipedia.org/wiki/[Nombre_Marca]` — revisar si la página carga (no una redirección a la búsqueda)
+2. WebFetch: `https://en.wikipedia.org/wiki/[Nombre_Fundador]` para el artículo del fundador
 
-**Method 3 — Search (least reliable, use only for supplemental info):**
-1. Search: `[brand name] site:wikipedia.org`
-2. Search: `[brand name] site:wikidata.org`
+**Método 3 — Búsqueda (menos confiable, úsalo solo para info suplementaria):**
+1. Buscar: `[nombre de marca] site:wikipedia.org`
+2. Buscar: `[nombre de marca] site:wikidata.org`
 
-**CRITICAL:** Web search alone is NOT reliable for determining Wikipedia presence. ALWAYS run the Python API check first. If the API says a page exists, it exists — do not override this with a search result that fails to find it.
+**CRÍTICO:** La búsqueda web por sí sola NO es confiable para determinar la presencia en Wikipedia. SIEMPRE ejecuta primero la comprobación con la API de Python. Si la API dice que existe una página, existe — no invalides esto con un resultado de búsqueda que no la encuentre.
 
-5. Note: Article existence, quality, edit history, Wikidata completeness
+5. Nota: Existencia de artículo, calidad, historial de edición, exhaustividad de Wikidata
 
-**LinkedIn Check:**
-1. Search: `[brand name] site:linkedin.com`
-2. Check: `linkedin.com/company/[brand-name]` for company page
-3. Note: Follower count, post frequency, employee count listed, engagement levels
+**Comprobación en LinkedIn:**
+1. Buscar: `[nombre de marca] site:linkedin.com`
+2. Revisar: `linkedin.com/company/[nombre-marca]` para la página de empresa
+3. Nota: Cantidad de seguidores, frecuencia de publicación, recuento de empleados listados, niveles de interacción
 
-**Other Platforms:**
-1. Search: `[brand name] site:quora.com`
-2. Search: `[brand name] site:stackoverflow.com` (if technical brand)
-3. Search: `[brand name] site:github.com` (if technical brand)
-4. Search: `[brand name] site:news.ycombinator.com` (Hacker News)
-5. Search: `"[brand name]"` broadly for news mentions (filter to last 6 months)
-6. Note: Presence/absence and quality of mentions on each platform
+**Otras Plataformas:**
+1. Buscar: `[nombre de marca] site:quora.com`
+2. Buscar: `[nombre de marca] site:stackoverflow.com` (si es marca técnica)
+3. Buscar: `[nombre de marca] site:github.com` (si es marca técnica)
+4. Buscar: `[nombre de marca] site:news.ycombinator.com` (Hacker News)
+5. Buscar: `"[nombre de marca]"` ampliamente para menciones en noticias (filtrar a los últimos 6 meses)
+6. Nota: Presencia/ausencia y calidad de las menciones en cada plataforma
 
-### Step 3: Sentiment Assessment
+### Paso 3: Evaluación de Sentimiento
 
-For Reddit and other discussion platforms, assess sentiment by analyzing the most recent and most prominent mentions:
+Para Reddit y otras plataformas de discusión, evalúa el sentimiento analizando las menciones más recientes y prominentes:
 
-| Sentiment | Indicators |
+| Sentimiento | Indicadores |
 |---|---|
-| **Positive** | Recommendations ("I love [brand]," "We switched to [brand] and...", "Highly recommend"), upvoted mentions, positive comparison against competitors |
-| **Neutral** | Factual mentions ("We use [brand] for...", "[Brand] offers..."), questions about the brand, balanced comparisons |
-| **Negative** | Complaints ("Avoid [brand]", "[Brand] has terrible support"), downvoted recommendations, negative comparisons |
-| **Mixed** | Combination of positive and negative. Note the ratio and primary themes. |
+| **Positivo** | Recomendaciones ("Me encanta [marca]", "Cambiamos a [marca] y...", "Altamente recomendable"), menciones upvoteadas (con votos a favor), comparación positiva frente a competidores |
+| **Neutral** | Menciones factuales ("Usamos [marca] para...", "[Marca] ofrece..."), preguntas sobre la marca, comparaciones equilibradas |
+| **Negativo** | Quejas ("Evita [marca]", "[Marca] tiene un soporte terrible"), recomendaciones downvoteadas, comparaciones negativas |
+| **Mixto** | Combinación de positivo y negativo. Anota la proporción y los temas principales. |
 
-### Step 4: Competitive Comparison (Optional)
+### Paso 4: Comparación Competitiva (Opcional)
 
-If competitors are identified, do a quick scan of their platform presence for context. This helps calibrate the score -- a brand with "moderate" Reddit presence in an industry where competitors have zero Reddit presence is relatively strong.
+Si se identifican competidores, haz un escaneo rápido de su presencia en las plataformas para dar contexto. Esto ayuda a calibrar la puntuación -- una marca con "moderada" presencia en Reddit en una industria donde los competidores tienen cero presencia en Reddit es relativamente fuerte.
 
-### Step 5: Score Calculation
+### Paso 5: Cálculo de Puntuación
 
-1. Score each platform (0-100) using the rubrics above.
-2. Apply weights to calculate the composite Brand Authority Score.
-3. Identify the strongest and weakest platforms.
-4. Generate specific, actionable recommendations for the weakest platforms.
+1. Puntúa cada plataforma (0-100) usando las rúbricas anteriores.
+2. Aplica los pesos para calcular la Puntuación Compuesta de Autoridad de Marca.
+3. Identifica las plataformas más fuertes y más débiles.
+4. Genera recomendaciones específicas y accionables para las plataformas más débiles.
 
 ---
 
-## Output Format
+## Formato de Salida
 
-Generate a file called `GEO-BRAND-MENTIONS.md`:
+Genera un archivo llamado `GEO-BRAND-MENTIONS.md`:
 
 ```markdown
-# Brand Authority Report: [Brand Name]
+# Reporte de Autoridad de Marca: [Nombre de Marca]
 
-**Analysis Date:** [Date]
-**Brand:** [Brand Name]
-**Domain:** [URL]
-**Industry:** [Industry]
+**Fecha de Análisis:** [Fecha]
+**Marca:** [Nombre de Marca]
+**Dominio:** [URL]
+**Industria:** [Industria]
 
 ---
 
-## Brand Authority Score: [X]/100 ([Rating])
+## Puntuación de Autoridad de Marca: [X]/100 ([Calificación])
 
-### Platform Breakdown
+### Desglose por Plataforma
 
-| Platform | Score | Weight | Weighted | Status |
+| Plataforma | Puntuación | Peso | Ponderado | Estado |
 |---|---|---|---|---|
-| YouTube | [X]/100 | 25% | [X] | [Active Channel / Mentioned / Absent] |
-| Reddit | [X]/100 | 25% | [X] | [Active / Discussed / Absent] |
-| Wikipedia | [X]/100 | 20% | [X] | [Article / Mentioned / Absent] |
-| LinkedIn | [X]/100 | 15% | [X] | [Active / Basic / Absent] |
-| Other Platforms | [X]/100 | 15% | [X] | [Summary] |
+| YouTube | [X]/100 | 25% | [X] | [Canal Activo / Mencionada / Ausente] |
+| Reddit | [X]/100 | 25% | [X] | [Activa / Discutida / Ausente] |
+| Wikipedia | [X]/100 | 20% | [X] | [Artículo / Mencionada / Ausente] |
+| LinkedIn | [X]/100 | 15% | [X] | [Activa / Básica / Ausente] |
+| Otras Plataformas | [X]/100 | 15% | [X] | [Resumen] |
 | **Total** | | | **[X]/100** | |
 
 ---
 
-## Platform Detail
+## Detalle de Plataforma
 
 ### YouTube ([X]/100)
 
-**Official Channel:** [Yes/No] | [URL if exists]
-**Subscribers:** [Count or N/A]
-**Videos:** [Count or N/A]
-**Last Upload:** [Date or N/A]
-**Third-Party Mentions:** [Estimated count]
-**Key Findings:**
-- [Finding 1]
-- [Finding 2]
+**Canal Oficial:** [Sí/No] | [URL si existe]
+**Suscriptores:** [Cantidad o N/A]
+**Videos:** [Cantidad o N/A]
+**Última Carga:** [Fecha o N/A]
+**Menciones de Terceros:** [Cantidad estimada]
+**Hallazgos Clave:**
+- [Hallazgo 1]
+- [Hallazgo 2]
 
 ### Reddit ([X]/100)
 
-**Official Account:** [Yes/No] | [URL if exists]
-**Own Subreddit:** [Yes/No] | [URL and member count if exists]
-**Mention Volume:** [Estimated thread count]
-**Primary Subreddits:** [List of subreddits where brand is discussed]
-**Sentiment:** [Positive/Negative/Neutral/Mixed]
-**Key Findings:**
-- [Finding 1]
-- [Finding 2]
+**Cuenta Oficial:** [Sí/No] | [URL si existe]
+**Subreddit Propio:** [Sí/No] | [URL y número de miembros si existe]
+**Volumen de Menciones:** [Cantidad estimada de hilos]
+**Subreddits Principales:** [Lista de subreddits donde se discute la marca]
+**Sentimiento:** [Positivo/Negativo/Neutral/Mixto]
+**Hallazgos Clave:**
+- [Hallazgo 1]
+- [Hallazgo 2]
 
 ### Wikipedia ([X]/100)
 
-**Company Article:** [Yes/No] | [URL if exists]
-**Founder Article:** [Yes/No] | [URL if exists]
-**Wikidata Entry:** [Yes/No] | [Q-number if exists]
-**Cited in Other Articles:** [Yes/No] | [Which articles]
-**Key Findings:**
-- [Finding 1]
-- [Finding 2]
+**Artículo de la Empresa:** [Sí/No] | [URL si existe]
+**Artículo del Fundador:** [Sí/No] | [URL si existe]
+**Entrada en Wikidata:** [Sí/No] | [Número Q si existe]
+**Citada en Otros Artículos:** [Sí/No] | [Cuáles artículos]
+**Hallazgos Clave:**
+- [Hallazgo 1]
+- [Hallazgo 2]
 
 ### LinkedIn ([X]/100)
 
-**Company Page:** [Yes/No] | [URL if exists]
-**Followers:** [Count or N/A]
-**Post Frequency:** [Weekly/Monthly/Rare/Never]
-**Key Findings:**
-- [Finding 1]
-- [Finding 2]
+**Página de Empresa:** [Sí/No] | [URL si existe]
+**Seguidores:** [Cantidad o N/A]
+**Frecuencia de Publicación:** [Semanal/Mensual/Rara vez/Nunca]
+**Hallazgos Clave:**
+- [Hallazgo 1]
+- [Hallazgo 2]
 
-### Other Platforms ([X]/100)
+### Otras Plataformas ([X]/100)
 
-| Platform | Presence | Notes |
+| Plataforma | Presencia | Notas |
 |---|---|---|
-| Quora | [Yes/No] | [Brief note] |
-| Stack Overflow | [Yes/No] | [Brief note] |
-| GitHub | [Yes/No] | [Brief note] |
-| Hacker News | [Yes/No] | [Brief note] |
-| News/Press | [Yes/No] | [Brief note] |
-| Podcasts | [Yes/No] | [Brief note] |
+| Quora | [Sí/No] | [Nota breve] |
+| Stack Overflow | [Sí/No] | [Nota breve] |
+| GitHub | [Sí/No] | [Nota breve] |
+| Hacker News | [Sí/No] | [Nota breve] |
+| Noticias/Prensa | [Sí/No] | [Nota breve] |
+| Podcasts | [Sí/No] | [Nota breve] |
 
 ---
 
-## Recommendations
+## Recomendaciones
 
-### Immediate Actions (Week 1-2)
+### Acciones Inmediatas (Semana 1-2)
 
-1. **[Platform]:** [Specific action to take with expected impact]
-2. **[Platform]:** [Specific action]
+1. **[Plataforma]:** [Acción específica a tomar con impacto esperado]
+2. **[Plataforma]:** [Acción específica]
 
-### Short-Term Strategy (Month 1-3)
+### Estrategia a Corto Plazo (Mes 1-3)
 
-1. **[Platform]:** [Strategy with tactics]
-2. **[Platform]:** [Strategy with tactics]
+1. **[Plataforma]:** [Estrategia con tácticas]
+2. **[Plataforma]:** [Estrategia con tácticas]
 
-### Long-Term Authority Building (Month 3-12)
+### Construcción de Autoridad a Largo Plazo (Mes 3-12)
 
-1. **[Platform]:** [Long-term strategy]
-2. **[Platform]:** [Long-term strategy]
+1. **[Plataforma]:** [Estrategia a largo plazo]
+2. **[Plataforma]:** [Estrategia a largo plazo]
 
 ---
 
-## Competitive Context
+## Contexto Competitivo
 
-[If competitors were analyzed, show a brief comparison table]
+[Si se analizaron competidores, mostrar una breve tabla de comparación]
 
-| Brand | YouTube | Reddit | Wikipedia | LinkedIn | Other | Total |
+| Marca | YouTube | Reddit | Wikipedia | LinkedIn | Otros | Total |
 |---|---|---|---|---|---|---|
-| [Subject Brand] | [X] | [X] | [X] | [X] | [X] | **[X]** |
-| [Competitor 1] | [X] | [X] | [X] | [X] | [X] | **[X]** |
-| [Competitor 2] | [X] | [X] | [X] | [X] | [X] | **[X]** |
+| [Marca Principal] | [X] | [X] | [X] | [X] | [X] | **[X]** |
+| [Competidor 1] | [X] | [X] | [X] | [X] | [X] | **[X]** |
+| [Competidor 2] | [X] | [X] | [X] | [X] | [X] | **[X]** |
 
-## Key Takeaway
+## Conclusión Clave
 
-[1-2 sentence summary of the brand's AI visibility standing and the single most impactful action to take]
+[Resumen de 1-2 oraciones del estado de visibilidad en IA de la marca y la acción individual más impactante a tomar]
 ```
 
 ---
 
-## Reference Data
+## Datos de Referencia
 
-### Correlation Strengths (Ahrefs Dec 2025, 75K Brands)
+### Fuerza de Correlaciones (Ahrefs Dic 2025, 75K Marcas)
 
-| Signal | Correlation with AI Citation | Traditional SEO Value |
+| Señal | Correlación con Citas IA | Valor SEO Tradicional |
 |---|---|---|
-| YouTube mentions | ~0.737 | Low (not a ranking factor) |
-| Reddit mentions | High (exact coefficient not published) | Low |
-| Wikipedia presence | High | Moderate (trust signal) |
-| LinkedIn presence | Moderate | Low |
-| Domain Rating | ~0.266 | Very High |
-| Backlink count | ~0.266 | Very High |
-| Organic traffic | Moderate | Very High |
+| Menciones en YouTube | ~0.737 | Bajo (no es factor de ranking) |
+| Menciones en Reddit | Alto (coef. exacto no publicado) | Bajo |
+| Presencia en Wikipedia | Alto | Moderado (señal de confianza) |
+| Presencia en LinkedIn | Moderado | Bajo |
+| Domain Rating (DR) | ~0.266 | Muy Alto |
+| Cantidad de backlinks | ~0.266 | Muy Alto |
+| Tráfico orgánico | Moderado | Muy Alto |
 
-**Key insight:** The signals that matter most for AI visibility (YouTube, Reddit) are almost irrelevant in traditional SEO, and the signals that matter most for traditional SEO (backlinks, DR) are weak predictors of AI visibility. This requires a fundamentally different optimization strategy.
+**Idea clave:** Las señales que más importan para la visibilidad en IA (YouTube, Reddit) son casi irrelevantes en SEO tradicional, y las señales que más importan en el SEO tradicional (backlinks, DR) son predictores débiles de visibilidad en IA. Esto requiere una estrategia de optimización fundamentalmente diferente.
 
-### Platform-Specific Tips for Building Presence
+### Consejos Específicos por Plataforma para Construir Presencia
 
-**YouTube Quick Wins:**
-- Create a channel and upload 3-5 explainer videos about your core topics.
-- Ensure your brand name appears in video titles, descriptions, and spoken content.
-- Pursue guest appearances on relevant industry YouTube channels.
-- Create comparison or "alternatives" videos (these get cited by AI for comparison queries).
+**Victorias Rápidas en YouTube:**
+- Crea un canal y sube 3-5 videos explicativos sobre tus temas principales.
+- Asegúrate de que tu nombre de marca aparezca en los títulos, descripciones y contenido hablado de los videos.
+- Busca apariciones como invitado en canales de YouTube relevantes de la industria.
+- Crea videos de comparación o "alternativas" (estos son citados por IA para consultas de comparación).
 
-**Reddit Quick Wins:**
-- Identify 3-5 subreddits where your target audience is active.
-- Participate authentically (do not shill -- Reddit communities detect and punish this).
-- Do an AMA if appropriate for your brand.
-- Monitor and respond to mentions of your brand.
-- Create genuinely helpful posts that naturally mention your brand's expertise.
+**Victorias Rápidas en Reddit:**
+- Identifica 3-5 subreddits donde tu audiencia objetivo sea activa.
+- Participa de manera auténtica (no hagas spam/promoción engañosa -- las comunidades de Reddit detectan y castigan esto).
+- Haz un AMA si es apropiado para tu marca.
+- Monitorea y responde a las menciones de tu marca.
+- Crea publicaciones genuinamente útiles que naturalmente mencionen la experiencia de tu marca.
 
-**Wikipedia Strategy:**
-- Hire a Wikipedia-knowledgeable consultant -- do NOT edit your own article (conflict of interest).
-- Build notability through press coverage, academic citations, and industry recognition first.
-- Ensure your Wikidata entry is complete even if you do not have a Wikipedia article.
-- Contribute to industry-relevant articles where your brand can be naturally cited as a source.
+**Estrategia para Wikipedia:**
+- Contrata un consultor conocedor de Wikipedia -- NO edites tu propio artículo (conflicto de intereses).
+- Construye notabilidad a través de cobertura de prensa, citas académicas y reconocimiento de la industria primero.
+- Asegúrate de que tu entrada de Wikidata esté completa, incluso si no tienes un artículo en Wikipedia.
+- Contribuye en artículos relevantes de la industria donde tu marca pueda ser naturalmente citada como fuente.
 
-**LinkedIn Quick Wins:**
-- Optimize your company page with complete information and regular posting.
-- Encourage leadership to post thought leadership content weekly.
-- Publish LinkedIn articles on topics where your brand has unique expertise.
-- Engage with industry discussions to increase brand visibility in professional contexts.
+**Victorias Rápidas en LinkedIn:**
+- Optimiza tu página de empresa con información completa y publicaciones regulares.
+- Anima al liderazgo a publicar contenido de liderazgo intelectual (thought leadership) semanalmente.
+- Publica artículos de LinkedIn sobre temas en los que tu marca tenga una experiencia única.
+- Participa en discusiones de la industria para aumentar la visibilidad de la marca en contextos profesionales.

@@ -14,7 +14,7 @@
   <div class="col-6 col-md-4 col-xl-2">
     <div class="kpi-card">
       <div class="kpi-value" style="color:var(--geo-good)">{{ stats.active }}</div>
-      <div class="kpi-label"><i class="bi bi-check-circle me-1"></i>Clienti Attivi</div>
+      <div class="kpi-label"><i class="bi bi-check-circle me-1"></i>Clientes Activos</div>
     </div>
   </div>
   <div class="col-6 col-md-4 col-xl-2">
@@ -34,15 +34,15 @@
       <div class="kpi-value tier-{{ stats.avg_tier }} score-num" style="font-size:1.9rem">
         {{ stats.avg_score }}<small style="font-size:1rem;color:#8b949e">/100</small>
       </div>
-      <div class="kpi-label"><i class="bi bi-graph-up me-1"></i>GEO Score Medio</div>
+      <div class="kpi-label"><i class="bi bi-graph-up me-1"></i>Puntaje GEO Promedio</div>
     </div>
   </div>
 </div>
 
 <!-- Filters + sort -->
 <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
-  <span class="text-secondary" style="font-size:.8rem">Status:</span>
-  <a href="/" class="btn btn-sm {% if not status_filter %}btn-primary{% else %}btn-outline-secondary{% endif %}">Tutti</a>
+  <span class="text-secondary" style="font-size:.8rem">Estado:</span>
+  <a href="/" class="btn btn-sm {% if not status_filter %}btn-primary{% else %}btn-outline-secondary{% endif %}">Todos</a>
   {% for s in statuses %}
     {% set meta = s | status_meta %}
     <a href="/?status={{ s }}&sort={{ sort }}"
@@ -52,14 +52,14 @@
   {% endfor %}
 
   <div class="ms-auto d-flex align-items-center gap-2">
-    <span class="text-secondary" style="font-size:.8rem">Ordina:</span>
+    <span class="text-secondary" style="font-size:.8rem">Ordenar:</span>
     <a href="/?status={{ status_filter }}&sort=score"
        class="btn btn-sm {% if sort == 'score' %}btn-primary{% else %}btn-outline-secondary{% endif %}">
-       Score
+       Puntuación
     </a>
     <a href="/?status={{ status_filter }}&sort=company"
        class="btn btn-sm {% if sort == 'company' %}btn-primary{% else %}btn-outline-secondary{% endif %}">
-       Azienda
+       Empresa
     </a>
     <a href="/?status={{ status_filter }}&sort=mrr"
        class="btn btn-sm {% if sort == 'mrr' %}btn-primary{% else %}btn-outline-secondary{% endif %}">
@@ -74,13 +74,13 @@
   <table class="table align-middle">
     <thead>
       <tr>
-        <th>Azienda</th>
+        <th>Empresa</th>
         <th>Dominio</th>
-        <th>Status</th>
+        <th>Estado</th>
         <th>GEO Score</th>
-        <th>Audit</th>
+        <th>Auditoría</th>
         <th class="text-end">MRR</th>
-        <th class="text-center">Proposta</th>
+        <th class="text-center">Propuesta</th>
         <th class="text-center">PDF</th>
       </tr>
     </thead>
@@ -114,7 +114,7 @@
         <td class="text-center" onclick="event.stopPropagation()">
           <a href="/prospect/{{ p.id }}/pdf"
              class="btn btn-sm btn-outline-danger {% if not p.proposal_file %}disabled{% endif %}"
-             title="Scarica PDF">
+             title="Descargar PDF">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>
         </td>
@@ -126,9 +126,9 @@
 {% else %}
 <div class="text-center py-5 text-secondary">
   <i class="bi bi-inbox display-4 d-block mb-3"></i>
-  Nessun prospect trovato.
+  Ningún prospecto encontrado.
   {% if status_filter %}
-    <a href="/" class="d-block mt-2">Rimuovi filtro</a>
+    <a href="/" class="d-block mt-2">Quitar filtro</a>
   {% endif %}
 </div>
 {% endif %}

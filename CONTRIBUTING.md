@@ -1,41 +1,41 @@
-# Contributing to GEO-SEO Claude
+# Contribuir a GEO-SEO Claude
 
-First off, thank you for considering contributing to `geo-seo-claude`! It's people like you that make it such a great tool.
+Antes que nada, ¡gracias por considerar contribuir a `geo-seo-claude`! Son personas como tú las que hacen que sea una herramienta tan genial.
 
-Below you'll find guidelines that help explain how to contribute to the project.
+A continuación, encontrarás pautas que ayudan a explicar cómo contribuir al proyecto.
 
-## How Can I Contribute?
+## ¿Cómo puedo contribuir?
 
-### Reporting Bugs
-If you find a bug:
-- Ensure the bug was not already reported by searching on GitHub under Issues.
-- If you're unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.
+### Reporte de Errores (Bugs)
+Si encuentras un error:
+- Asegúrate de que el error no haya sido reportado previamente buscando en GitHub en la sección de "Issues".
+- Si no encuentras un "issue" abierto que aborde el problema, abre uno nuevo. Asegúrate de incluir un título y una descripción clara, tanta información relevante como sea posible y un ejemplo de código o un caso de prueba ejecutable que demuestre el comportamiento esperado que no está ocurriendo.
 
-### Suggesting Enhancements
-If you have an idea for a feature or you think of something the tool is lacking:
-- Open a feature request under Issues.
-- Provide a clear and detailed explanation of the feature you want and why it's important.
+### Sugerencia de Mejoras
+Si tienes una idea para una función o crees que a la herramienta le falta algo:
+- Abre una solicitud de función (feature request) en "Issues".
+- Proporciona una explicación clara y detallada de la función que deseas y por qué es importante.
 
 ### Pull Requests
-The process described here has several goals:
+El proceso descrito aquí tiene varios objetivos:
 
-1. Maintain the quality of the tool.
-2. Fix problems that are important to users.
-3. Engage the community in working toward the best possible product.
+1. Mantener la calidad de la herramienta.
+2. Solucionar problemas que son importantes para los usuarios.
+3. Involucrar a la comunidad para trabajar hacia el mejor producto posible.
 
-Please follow these steps to have your contribution considered by the maintainers:
+Sigue estos pasos para que los mantenedores consideren tu contribución:
 
-1. Follow all instructions in the template.
-2. Follow the styleguides provided below.
-3. After you submit your pull request, verify that all status checks are passing.
+1. Sigue todas las instrucciones de la plantilla.
+2. Sigue las guías de estilo que se proporcionan a continuación.
+3. Después de enviar tu pull request, verifica que todas las comprobaciones de estado (status checks) estén pasando.
 
-## Styleguides
+## Guías de Estilo
 
-### Git Commit Messages
-- Use the present tense ("Add feature" not "Added feature")
-- Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-- Limit the first line to 72 characters or less
-- Reference issues and pull requests liberally after the first line
+### Mensajes de Commit en Git
+- Usa el tiempo presente ("Añadir función" no "Añadida función")
+- Usa el modo imperativo ("Mover cursor a..." no "Mueve cursor a...")
+- Limita la primera línea a 72 caracteres o menos
+- Haz referencia a issues y pull requests generosamente después de la primera línea
 
-### Documentation
-When modifying code or behavior, ensure that corresponding updates have been made to the documentation in the `/docs` directory. Read the existing docs beforehand to maintain structural and tonal consistency.
+### Documentación
+Al modificar código o comportamiento, asegúrate de que se hayan realizado las actualizaciones correspondientes a la documentación en el directorio `/docs`. Lee la documentación existente de antemano para mantener la coherencia estructural y de tono.

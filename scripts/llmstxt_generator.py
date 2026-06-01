@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-llms.txt Generator — Creates and validates llms.txt files for AI crawler guidance.
+Generador de llms.txt — Crea y valida archivos llms.txt para guiar a los rastreadores de IA.
 
-The llms.txt standard is an emerging specification that helps AI crawlers
-understand your site structure and find your most important content.
+El estándar llms.txt es una especificación emergente que ayuda a los rastreadores de IA a
+entender la estructura de tu sitio y encontrar tu contenido más importante.
 
-Location: /llms.txt (root of domain)
-Extended: /llms-full.txt (detailed version)
+Ubicación: /llms.txt (raíz del dominio)
+Extendido: /llms-full.txt (versión detallada)
 """
 
 import sys
@@ -18,7 +18,7 @@ try:
     import requests
     from bs4 import BeautifulSoup
 except ImportError:
-    print("ERROR: Required packages not installed. Run: pip install -r requirements.txt")
+    print("ERROR: Paquetes requeridos no instalados. Ejecuta: pip install -r requirements.txt")
     sys.exit(1)
 
 DEFAULT_HEADERS = {
@@ -28,7 +28,7 @@ DEFAULT_HEADERS = {
 
 
 def validate_llmstxt(url: str) -> dict:
-    """Check if llms.txt exists and validate its format."""
+    """Comprobar si llms.txt existe y validar su formato."""
     parsed = urlparse(url)
     base_url = f"{parsed.scheme}://{parsed.netloc}"
     llms_url = f"{base_url}/llms.txt"
@@ -53,7 +53,7 @@ def validate_llmstxt(url: str) -> dict:
         },
     }
 
-    # Check llms.txt
+    # Comprobar llms.txt
     try:
         response = requests.get(llms_url, headers=DEFAULT_HEADERS, timeout=15)
         if response.status_code == 200:
@@ -61,39 +61,39 @@ def validate_llmstxt(url: str) -> dict:
             result["content"] = response.text
             content = response.text
 
-            # Validate format
+            # Validar formato
             lines = content.strip().split("\n")
 
-            # Check for title (# at start)
+            # Comprobar si hay título (# al inicio)
             if lines and lines[0].startswith("# "):
                 result["has_title"] = True
             else:
-                result["issues"].append("Missing title (should start with '# Site Name')")
+                result["issues"].append("Falta el título (debe comenzar con '# Nombre del Sitio')")
 
-            # Check for description (> blockquote)
+            # Comprobar si hay descripción (> blockquote)
             for line in lines:
                 if line.startswith("> "):
                     result["has_description"] = True
                     break
             if not result["has_description"]:
-                result["issues"].append("Missing description (use '> Brief description')")
+                result["issues"].append("Falta la descripción (usa '> Breve descripción')")
 
-            # Check for sections (## headings)
+            # Comprobar si hay secciones (## encabezados)
             sections = [l for l in lines if l.startswith("## ")]
             result["section_count"] = len(sections)
             result["has_sections"] = len(sections) > 0
             if not result["has_sections"]:
-                result["issues"].append("No sections found (use '## Section Name')")
+                result["issues"].append("No se encontraron secciones (usa '## Nombre de la Sección')")
 
-            # Check for links
+            # Comprobar si hay enlaces
             link_pattern = r"- \[.+\]\(.+\)"
             links = re.findall(link_pattern, content)
             result["link_count"] = len(links)
             result["has_links"] = len(links) > 0
             if not result["has_links"]:
-                result["issues"].append("No page links found (use '- [Page Title](url): Description')")
+                result["issues"].append("No se encontraron enlaces de página (usa '- [Título de la Página](url): Descripción')")
 
-            # Overall format validity
+            # Validez general del formato
             result["format_valid"] = (
                 result["has_title"]
                 and result["has_description"]
@@ -101,22 +101,22 @@ def validate_llmstxt(url: str) -> dict:
                 and result["has_links"]
             )
 
-            # Suggestions
+            # Sugerencias
             if result["link_count"] < 5:
-                result["suggestions"].append("Consider adding more key pages (aim for 10-20)")
+                result["suggestions"].append("Considera añadir más páginas clave (apunta a 10-20)")
             if result["section_count"] < 2:
-                result["suggestions"].append("Add more sections to organize content types")
+                result["suggestions"].append("Añade más secciones para organizar los tipos de contenido")
             if "contact" not in content.lower():
-                result["suggestions"].append("Add a Contact section with email and location")
+                result["suggestions"].append("Añade una sección de Contacto con correo y ubicación")
             if "key fact" not in content.lower() and "about" not in content.lower():
-                result["suggestions"].append("Add key facts about your business/service")
+                result["suggestions"].append("Añade datos clave sobre tu negocio/servicio")
 
         else:
-            result["issues"].append(f"llms.txt returned status {response.status_code}")
+            result["issues"].append(f"llms.txt devolvió el estado {response.status_code}")
     except Exception as e:
-        result["issues"].append(f"Error fetching llms.txt: {str(e)}")
+        result["issues"].append(f"Error al obtener llms.txt: {str(e)}")
 
-    # Check llms-full.txt
+    # Comprobar llms-full.txt
     try:
         response = requests.get(llms_full_url, headers=DEFAULT_HEADERS, timeout=15)
         if response.status_code == 200:
@@ -128,7 +128,7 @@ def validate_llmstxt(url: str) -> dict:
 
 
 def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
-    """Generate an llms.txt file by crawling the site."""
+    """Generar un archivo llms.txt rastreando el sitio."""
     parsed = urlparse(url)
     base_url = f"{parsed.scheme}://{parsed.netloc}"
 
@@ -139,30 +139,30 @@ def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
         "sections": {},
     }
 
-    # Fetch homepage
+    # Obtener página de inicio
     try:
         response = requests.get(url, headers=DEFAULT_HEADERS, timeout=30)
         soup = BeautifulSoup(response.text, "lxml")
     except Exception as e:
-        result["error"] = f"Failed to fetch homepage: {str(e)}"
+        result["error"] = f"Falló al obtener la página de inicio: {str(e)}"
         return result
 
-    # Extract site name and description
+    # Extraer nombre y descripción del sitio
     title = soup.find("title")
     site_name = title.get_text(strip=True).split("|")[0].split("-")[0].strip() if title else parsed.netloc
     meta_desc = soup.find("meta", attrs={"name": "description"})
-    site_description = meta_desc.get("content", "") if meta_desc else f"Official website of {site_name}"
+    site_description = meta_desc.get("content", "") if meta_desc else f"Sitio web oficial de {site_name}"
 
-    # Discover and categorize pages
+    # Descubrir y categorizar páginas
     pages = {
-        "Main Pages": [],
-        "Products & Services": [],
-        "Resources & Blog": [],
-        "Company": [],
-        "Support": [],
+        "Páginas Principales": [],
+        "Productos y Servicios": [],
+        "Recursos y Blog": [],
+        "Compañía": [],
+        "Soporte": [],
     }
 
-    # Crawl internal links
+    # Rastrear enlaces internos
     seen_urls = set()
     for link in soup.find_all("a", href=True):
         href = urljoin(base_url, link["href"])
@@ -184,29 +184,29 @@ def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
         seen_urls.add(href)
         path = parsed_href.path.lower()
 
-        # Categorize
+        # Categorizar
         page_entry = {"url": href, "title": link_text}
 
         if any(kw in path for kw in ["/pricing", "/feature", "/product", "/solution", "/demo"]):
-            pages["Products & Services"].append(page_entry)
+            pages["Productos y Servicios"].append(page_entry)
         elif any(kw in path for kw in ["/blog", "/article", "/resource", "/guide", "/learn", "/docs", "/documentation"]):
-            pages["Resources & Blog"].append(page_entry)
+            pages["Recursos y Blog"].append(page_entry)
         elif any(kw in path for kw in ["/about", "/team", "/career", "/contact", "/press", "/partner"]):
-            pages["Company"].append(page_entry)
+            pages["Compañía"].append(page_entry)
         elif any(kw in path for kw in ["/help", "/support", "/faq", "/status"]):
-            pages["Support"].append(page_entry)
+            pages["Soporte"].append(page_entry)
         elif path in ["/", ""] or any(kw in path for kw in ["/home", "/index"]):
             if href != base_url and href != base_url + "/":
-                pages["Main Pages"].append(page_entry)
+                pages["Páginas Principales"].append(page_entry)
         else:
-            pages["Main Pages"].append(page_entry)
+            pages["Páginas Principales"].append(page_entry)
 
         if len(seen_urls) >= max_pages:
             break
 
     result["pages_analyzed"] = len(seen_urls)
 
-    # Generate llms.txt (concise version)
+    # Generar llms.txt (versión concisa)
     llms_lines = [
         f"# {site_name}",
         f"> {site_description}",
@@ -216,22 +216,22 @@ def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
     for section, section_pages in pages.items():
         if section_pages:
             llms_lines.append(f"## {section}")
-            # Limit to top 10 per section for concise version
+            # Limitar a los 10 primeros por sección para la versión concisa
             for page in section_pages[:10]:
                 llms_lines.append(f"- [{page['title']}]({page['url']})")
             llms_lines.append("")
 
-    # Add contact section placeholder
+    # Añadir marcador de posición para la sección de contacto
     llms_lines.extend([
-        "## Contact",
-        f"- Website: {base_url}",
-        f"- Email: contact@{parsed.netloc}",
+        "## Contacto",
+        f"- Sitio web: {base_url}",
+        f"- Correo: contact@{parsed.netloc}",
         "",
     ])
 
     result["generated_llmstxt"] = "\n".join(llms_lines)
 
-    # Generate llms-full.txt (detailed version with descriptions)
+    # Generar llms-full.txt (versión detallada con descripciones)
     full_lines = [
         f"# {site_name}",
         f"> {site_description}",
@@ -242,12 +242,12 @@ def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
         if section_pages:
             full_lines.append(f"## {section}")
             for page in section_pages:
-                # Skip cross-origin URLs to prevent SSRF via redirect chains
+                # Omitir URLs de origen cruzado para prevenir SSRF a través de cadenas de redirección
                 if urlparse(page["url"]).netloc != parsed.netloc:
                     full_lines.append(f"- [{page['title']}]({page['url']})")
                     continue
 
-                # Try to fetch page description
+                # Intentar obtener la descripción de la página
                 try:
                     page_resp = requests.get(page["url"], headers=DEFAULT_HEADERS, timeout=10)
                     page_soup = BeautifulSoup(page_resp.text, "lxml")
@@ -262,9 +262,9 @@ def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
             full_lines.append("")
 
     full_lines.extend([
-        "## Contact",
-        f"- Website: {base_url}",
-        f"- Email: contact@{parsed.netloc}",
+        "## Contacto",
+        f"- Sitio web: {base_url}",
+        f"- Correo: contact@{parsed.netloc}",
         "",
     ])
 
@@ -276,8 +276,8 @@ def generate_llmstxt(url: str, max_pages: int = 30) -> dict:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python llmstxt_generator.py <url> [mode]")
-        print("Modes: validate (default), generate")
+        print("Uso: python llmstxt_generator.py <url> [modo]")
+        print("Modos: validate (por defecto), generate")
         sys.exit(1)
 
     target_url = sys.argv[1]
@@ -288,7 +288,7 @@ if __name__ == "__main__":
     elif mode == "generate":
         data = generate_llmstxt(target_url)
     else:
-        print(f"Unknown mode: {mode}. Use 'validate' or 'generate'.")
+        print(f"Modo desconocido: {mode}. Usa 'validate' o 'generate'.")
         sys.exit(1)
 
     print(json.dumps(data, indent=2, default=str))

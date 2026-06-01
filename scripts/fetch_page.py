@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Fetch and parse web pages for GEO analysis.
-Extracts HTML, text content, meta tags, headers, and structured data.
+Obtiene y analiza páginas web para análisis GEO.
+Extrae HTML, contenido de texto, metaetiquetas, encabezados y datos estructurados.
 """
 
 import sys
@@ -13,10 +13,10 @@ try:
     import requests
     from bs4 import BeautifulSoup
 except ImportError:
-    print("ERROR: Required packages not installed. Run: pip install -r requirements.txt")
+    print("ERROR: Paquetes requeridos no instalados. Ejecuta: pip install -r requirements.txt")
     sys.exit(1)
 
-# Common AI crawler user agents for testing
+# Agentes de usuario de rastreadores de IA comunes para pruebas
 AI_CRAWLERS = {
     "GPTBot": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.2; +https://openai.com/gptbot)",
     "ClaudeBot": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0; +https://www.anthropic.com/claude-bot)",
@@ -34,7 +34,7 @@ DEFAULT_HEADERS = {
 
 
 def fetch_page(url: str, timeout: int = 30) -> dict:
-    """Fetch a page and return structured analysis data."""
+    """Obtiene una página y devuelve datos de análisis estructurados."""
     result = {
         "url": url,
         "status_code": None,
@@ -59,7 +59,7 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
 
     parsed_url = urlparse(url)
     if parsed_url.scheme not in ("http", "https"):
-        result["errors"].append(f"Unsupported URL scheme: {parsed_url.scheme!r}. Only http and https are allowed.")
+        result["errors"].append(f"Esquema de URL no soportado: {parsed_url.scheme!r}. Solo se permiten http y https.")
         return result
 
     try:
@@ -70,7 +70,7 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
             allow_redirects=True,
         )
 
-        # Track redirects
+        # Rastrear redirecciones
         if response.history:
             result["redirect_chain"] = [
                 {"url": r.url, "status": r.status_code} for r in response.history
@@ -79,7 +79,7 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
         result["status_code"] = response.status_code
         result["headers"] = dict(response.headers)
 
-        # Security headers check
+        # Comprobación de encabezados de seguridad
         security_headers = [
             "Strict-Transport-Security",
             "Content-Security-Policy",
@@ -91,14 +91,14 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
         for header in security_headers:
             result["security_headers"][header] = response.headers.get(header, None)
 
-        # Parse HTML
+        # Analizar HTML
         soup = BeautifulSoup(response.text, "lxml")
 
-        # Title
+        # Título
         title_tag = soup.find("title")
         result["title"] = title_tag.get_text(strip=True) if title_tag else None
 
-        # Meta tags
+        # Metaetiquetas
         for meta in soup.find_all("meta"):
             name = meta.get("name", meta.get("property", ""))
             content = meta.get("content", "")
@@ -107,11 +107,11 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
                 if name.lower() == "description":
                     result["description"] = content
 
-        # Canonical
+        # Canónica
         canonical = soup.find("link", rel="canonical")
         result["canonical"] = canonical.get("href") if canonical else None
 
-        # Headings
+        # Encabezados
         for level in range(1, 7):
             for heading in soup.find_all(f"h{level}"):
                 text = heading.get_text(strip=True)
@@ -119,21 +119,21 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
                 if level == 1:
                     result["h1_tags"].append(text)
 
-        # Structured data (JSON-LD) — extract before decompose() mutates the tree
+        # Datos estructurados (JSON-LD) — extraer antes de que decompose() mute el árbol
         for script in soup.find_all("script", type="application/ld+json"):
             try:
                 data = json.loads(script.string)
                 result["structured_data"].append(data)
             except (json.JSONDecodeError, TypeError):
-                result["errors"].append("Invalid JSON-LD detected")
+                result["errors"].append("JSON-LD inválido detectado")
 
-        # SSR check — must run BEFORE decompose() mutates the tree
+        # Comprobación de SSR — debe ejecutarse ANTES de que decompose() mute el árbol
         js_app_roots = soup.find_all(
             id=re.compile(r"(app|root|__next|__nuxt)", re.I)
         )
 
-        # Check SSR by measuring content inside framework root divs
-        # before decompose() strips elements from the tree
+        # Comprobar SSR midiendo el contenido dentro de los divs raíz del framework
+        # antes de que decompose() elimine elementos del árbol
         ssr_check_results = []
         for root_el in js_app_roots:
             inner_text = root_el.get_text(strip=True)
@@ -142,14 +142,14 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
                 "text_length": len(inner_text),
             })
 
-        # Text content — decompose non-content elements (destructive)
+        # Contenido de texto — eliminar elementos que no son contenido (destructivo)
         for element in soup.find_all(["script", "style", "nav", "footer", "header"]):
             element.decompose()
         text = soup.get_text(separator=" ", strip=True)
         result["text_content"] = text
         result["word_count"] = len(text.split())
 
-        # Links
+        # Enlaces
         parsed_url = urlparse(url)
         base_domain = parsed_url.netloc
         for link in soup.find_all("a", href=True):
@@ -161,7 +161,7 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
             elif parsed_href.scheme in ("http", "https"):
                 result["external_links"].append({"url": href, "text": link_text})
 
-        # Images
+        # Imágenes
         for img in soup.find_all("img"):
             img_data = {
                 "src": img.get("src", ""),
@@ -172,34 +172,34 @@ def fetch_page(url: str, timeout: int = 30) -> dict:
             }
             result["images"].append(img_data)
 
-        # SSR assessment — use pre-decompose measurements + overall content
+        # Evaluación de SSR — usar medidas pre-decompose + contenido general
         if js_app_roots:
             for check in ssr_check_results:
-                # Only flag as client-rendered if both the root div has
-                # minimal content AND the overall page has little text.
-                # Sites using SSR/prerendering (WordPress, LiteSpeed Cache,
-                # Prerender.io) will have substantial text despite having
-                # framework-style root divs.
+                # Solo marcar como renderizado por el cliente si el div raíz tiene
+                # contenido mínimo Y la página general tiene poco texto.
+                # Los sitios que usan SSR/prerenderizado (WordPress, LiteSpeed Cache,
+                # Prerender.io) tendrán texto sustancial a pesar de tener
+                # divs raíz de estilo framework.
                 if check["text_length"] < 50 and result["word_count"] < 200:
                     result["has_ssr_content"] = False
                     result["errors"].append(
-                        f"Possible client-side only rendering detected: "
-                        f"#{check['id']} has minimal server-rendered content "
-                        f"({result['word_count']} words on page)"
+                        f"Posible renderizado solo del lado del cliente detectado: "
+                        f"#{check['id']} tiene contenido mínimo renderizado por el servidor "
+                        f"({result['word_count']} palabras en la página)"
                     )
 
     except requests.exceptions.Timeout:
-        result["errors"].append(f"Timeout after {timeout} seconds")
+        result["errors"].append(f"Tiempo de espera agotado después de {timeout} segundos")
     except requests.exceptions.ConnectionError as e:
-        result["errors"].append(f"Connection error: {str(e)}")
+        result["errors"].append(f"Error de conexión: {str(e)}")
     except Exception as e:
-        result["errors"].append(f"Unexpected error: {str(e)}")
+        result["errors"].append(f"Error inesperado: {str(e)}")
 
     return result
 
 
 def fetch_robots_txt(url: str, timeout: int = 15) -> dict:
-    """Fetch and parse robots.txt for AI crawler directives."""
+    """Obtiene y analiza robots.txt para directivas de rastreadores de IA."""
     parsed = urlparse(url)
     robots_url = f"{parsed.scheme}://{parsed.netloc}/robots.txt"
 
@@ -236,7 +236,7 @@ def fetch_robots_txt(url: str, timeout: int = 15) -> dict:
             result["exists"] = True
             result["content"] = response.text
 
-            # Parse for each AI crawler
+            # Analizar para cada rastreador de IA
             lines = response.text.split("\n")
             current_agent = None
             agent_rules = {}
@@ -259,12 +259,12 @@ def fetch_robots_txt(url: str, timeout: int = 15) -> dict:
                     )
                 elif line.lower().startswith("sitemap:"):
                     sitemap_url = line.split(":", 1)[1].strip()
-                    # Handle case where "Sitemap:" splits off the "http"
+                    # Manejar el caso donde "Sitemap:" separa el "http"
                     if not sitemap_url.startswith("http"):
                         sitemap_url = "http" + sitemap_url
                     result["sitemaps"].append(sitemap_url)
 
-            # Determine status for each AI crawler
+            # Determinar el estado para cada rastreador de IA
             for crawler in ai_crawlers:
                 if crawler in agent_rules:
                     rules = agent_rules[crawler]
@@ -292,22 +292,22 @@ def fetch_robots_txt(url: str, timeout: int = 15) -> dict:
                     result["ai_crawler_status"][crawler] = "NOT_MENTIONED"
 
         elif response.status_code == 404:
-            result["errors"].append("No robots.txt found (404)")
+            result["errors"].append("No se encontró robots.txt (404)")
             for crawler in ai_crawlers:
                 result["ai_crawler_status"][crawler] = "NO_ROBOTS_TXT"
         else:
             result["errors"].append(
-                f"Unexpected status code: {response.status_code}"
+                f"Código de estado inesperado: {response.status_code}"
             )
 
     except Exception as e:
-        result["errors"].append(f"Error fetching robots.txt: {str(e)}")
+        result["errors"].append(f"Error al obtener robots.txt: {str(e)}")
 
     return result
 
 
 def fetch_llms_txt(url: str, timeout: int = 15) -> dict:
-    """Check for llms.txt file."""
+    """Comprobar archivo llms.txt."""
     parsed = urlparse(url)
     llms_url = f"{parsed.scheme}://{parsed.netloc}/llms.txt"
     llms_full_url = f"{parsed.scheme}://{parsed.netloc}/llms-full.txt"
@@ -327,23 +327,23 @@ def fetch_llms_txt(url: str, timeout: int = 15) -> dict:
                 result[key]["exists"] = True
                 result[key]["content"] = response.text
         except Exception as e:
-            result["errors"].append(f"Error checking {check_url}: {str(e)}")
+            result["errors"].append(f"Error al comprobar {check_url}: {str(e)}")
 
     return result
 
 
 def extract_content_blocks(html: str) -> list:
-    """Extract content blocks for citability analysis."""
+    """Extraer bloques de contenido para análisis de citabilidad."""
     soup = BeautifulSoup(html, "lxml")
 
-    # Remove non-content elements
+    # Eliminar elementos que no son contenido
     for element in soup.find_all(
         ["script", "style", "nav", "footer", "header", "aside"]
     ):
         element.decompose()
 
     blocks = []
-    # Extract content sections (between headings)
+    # Extraer secciones de contenido (entre encabezados)
     current_heading = None
     current_content = []
 
@@ -353,7 +353,7 @@ def extract_content_blocks(html: str) -> list:
         tag = element.name
 
         if tag.startswith("h"):
-            # Save previous block
+            # Guardar bloque anterior
             if current_content:
                 text = " ".join(current_content)
                 word_count = len(text.split())
@@ -381,7 +381,7 @@ def extract_content_blocks(html: str) -> list:
             if text:
                 current_content.append(text)
 
-    # Don't forget the last block
+    # No olvidar el último bloque
     if current_content:
         text = " ".join(current_content)
         blocks.append(
@@ -396,7 +396,7 @@ def extract_content_blocks(html: str) -> list:
 
 
 def crawl_sitemap(url: str, max_pages: int = 50, timeout: int = 15) -> list:
-    """Crawl sitemap.xml to discover pages."""
+    """Rastrear sitemap.xml para descubrir páginas."""
     parsed = urlparse(url)
     sitemap_urls = [
         f"{parsed.scheme}://{parsed.netloc}/sitemap.xml",
@@ -414,11 +414,11 @@ def crawl_sitemap(url: str, max_pages: int = 50, timeout: int = 15) -> list:
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, "lxml")
 
-                # Check for sitemap index
+                # Comprobar el índice del sitemap
                 for sitemap in soup.find_all("sitemap"):
                     loc = sitemap.find("loc")
                     if loc:
-                        # Fetch child sitemap
+                        # Obtener sitemap hijo
                         try:
                             child_resp = requests.get(
                                 loc.text.strip(),
@@ -438,7 +438,7 @@ def crawl_sitemap(url: str, max_pages: int = 50, timeout: int = 15) -> list:
                     if len(discovered_pages) >= max_pages:
                         break
 
-                # Direct URL entries
+                # Entradas de URL directas
                 for url_tag in soup.find_all("url"):
                     loc = url_tag.find("loc")
                     if loc:
@@ -457,8 +457,8 @@ def crawl_sitemap(url: str, max_pages: int = 50, timeout: int = 15) -> list:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python fetch_page.py <url> [mode]")
-        print("Modes: page (default), robots, llms, sitemap, blocks, full")
+        print("Uso: python fetch_page.py <url> [modo]")
+        print("Modos: page (por defecto), robots, llms, sitemap, blocks, full")
         sys.exit(1)
 
     target_url = sys.argv[1]
@@ -484,7 +484,7 @@ if __name__ == "__main__":
             "sitemap": crawl_sitemap(target_url),
         }
     else:
-        print(f"Unknown mode: {mode}")
+        print(f"Modo desconocido: {mode}")
         sys.exit(1)
 
     print(json.dumps(data, indent=2, default=str))

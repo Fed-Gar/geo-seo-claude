@@ -1,275 +1,275 @@
 ---
 name: geo-platform-optimizer
-description: Platform-specific AI search optimization — audit and optimize for Google AI Overviews, ChatGPT, Perplexity, Gemini, and Bing Copilot individually
+description: Optimización de búsqueda de IA específica por plataforma — auditar y optimizar para Google AI Overviews, ChatGPT, Perplexity, Gemini y Bing Copilot individualmente
 version: 1.0.0
 author: geo-seo-claude
 tags: [geo, ai-search, platform-optimization, chatgpt, perplexity, gemini, aio]
 allowed-tools: Read, Grep, Glob, Bash, WebFetch, Write
 ---
 
-# GEO Platform Optimizer
+# Optimizador de Plataformas GEO
 
-## Core Insight
+## Idea Central
 
-Only **11% of domains** are cited by BOTH ChatGPT and Google AI Overviews for the same query. Each AI search platform uses different indexes, ranking logic, and source preferences. A page optimized for Google AI Overviews may be invisible to ChatGPT, and vice versa. Platform-specific optimization is not optional — it is the foundation of any serious GEO strategy.
+Solo el **11% de los dominios** son citados TANTO por ChatGPT como por Google AI Overviews para la misma consulta. Cada plataforma de búsqueda de IA usa diferentes índices, lógicas de clasificación y preferencias de fuentes. Una página optimizada para Google AI Overviews puede ser invisible para ChatGPT, y viceversa. La optimización específica por plataforma no es opcional — es la base de cualquier estrategia GEO seria.
 
-## How to Use This Skill
+## Cómo Usar Esta Habilidad
 
-1. Collect the target URL and the site's primary topic/industry
-2. Run each platform checklist below against the site
-3. Score each platform on the 0-100 rubric
-4. Generate GEO-PLATFORM-OPTIMIZATION.md with per-platform scores, gaps, and action items
+1. Recopila la URL objetivo y el tema/industria principal del sitio
+2. Ejecuta cada lista de verificación de plataforma a continuación contra el sitio
+3. Puntúa cada plataforma en la rúbrica de 0-100
+4. Genera GEO-PLATFORM-OPTIMIZATION.md con puntuaciones por plataforma, brechas y elementos de acción
 
 ---
 
-## Platform 1: Google AI Overviews (AIO)
+## Plataforma 1: Google AI Overviews (AIO)
 
-### How AIO Selects Sources
-- 92% of AIO citations come from pages already ranking in the **top 10 organic results** — traditional SEO is the gateway
-- However, 47% of citations come from pages ranking **below position 5** — AIO has its own selection logic favoring clarity and directness over raw rank
-- AIO strongly favors pages with **clean structure, direct answers, and scannable formatting**
-- Featured snippet optimization has ~70% overlap with AIO optimization
-- AIO prefers **concise, factual, unambiguous answers** — hedging and filler reduce citation probability
+### Cómo AIO Selecciona Fuentes
+- El 92% de las citas de AIO provienen de páginas que ya clasifican en los **top 10 resultados orgánicos** — el SEO tradicional es la puerta de entrada
+- Sin embargo, el 47% de las citas provienen de páginas que clasifican **por debajo de la posición 5** — AIO tiene su propia lógica de selección que favorece la claridad y franqueza sobre el ranking bruto
+- AIO favorece fuertemente las páginas con **estructura limpia, respuestas directas y formato escaneable**
+- La optimización de fragmentos destacados (featured snippets) tiene ~70% de superposición con la optimización para AIO
+- AIO prefiere **respuestas concisas, fácticas y sin ambigüedades** — las evasivas y el relleno reducen la probabilidad de citación
 
-### Optimization Checklist
+### Lista de Verificación de Optimización
 
-1. **Question-Based Headings**: Use H2/H3 headings phrased as questions matching real user queries. Check Google's "People Also Ask" for the target topic and mirror those exact phrasings.
-2. **Direct Answer in First Paragraph**: After each question heading, provide a clear 1-2 sentence answer immediately. Then expand with supporting detail. The first sentence should be a standalone citation candidate.
-3. **Tables and Structured Comparisons**: AIO heavily cites tables. Convert any comparison, pricing, specification, or feature data into HTML tables. Use clear column headers.
-4. **Ordered and Unordered Lists**: Step-by-step processes should use ordered lists. Feature lists should use unordered lists. AIO extracts these directly.
-5. **FAQ Sections**: Add a dedicated FAQ section with 5-10 real questions. Use proper H3 headings for each question. While FAQPage schema rich results are restricted to govt/health sites since Aug 2023, the content pattern still helps AIO extraction.
-6. **Definitions and Glossary Boxes**: For any industry-specific term, provide a clear definition. Format: "**[Term]** is [concise definition]." AIO frequently cites definitions.
-7. **Statistics with Sources**: Include specific numbers with attribution. "According to [Source], [statistic]." AIO prefers citeable, specific claims over vague assertions.
-8. **Publication Date**: Include a visible publication date and last-updated date. AIO deprioritizes undated content for time-sensitive queries.
-9. **Author Byline**: Display author name with credentials. Link to an author page with bio, credentials, and sameAs links.
-10. **Page Depth**: Keep target pages within 3 clicks of homepage. AIO rarely cites deep, orphaned content.
+1. **Encabezados Basados en Preguntas**: Usa encabezados H2/H3 formulados como preguntas que coincidan con las consultas reales de los usuarios. Revisa la sección "Otras preguntas de los usuarios" (People Also Ask) de Google para el tema objetivo y refleja esas frases exactas.
+2. **Respuesta Directa en el Primer Párrafo**: Después de cada encabezado de pregunta, proporciona una respuesta clara de 1-2 oraciones inmediatamente. Luego expande con detalles de apoyo. La primera oración debe ser una candidata a cita independiente.
+3. **Tablas y Comparaciones Estructuradas**: AIO cita mucho las tablas. Convierte cualquier dato de comparación, precios, especificaciones o características en tablas HTML. Usa encabezados de columna claros.
+4. **Listas Ordenadas y Desordenadas**: Los procesos paso a paso deben usar listas ordenadas. Las listas de características deben usar listas desordenadas. AIO las extrae directamente.
+5. **Secciones FAQ**: Añade una sección dedicada de Preguntas Frecuentes con 5-10 preguntas reales. Usa encabezados H3 adecuados para cada pregunta. Aunque los resultados enriquecidos de schema FAQPage están restringidos a sitios gubernamentales/de salud desde agosto de 2023, el patrón de contenido sigue ayudando a la extracción de AIO.
+6. **Definiciones y Cajas de Glosario**: Para cualquier término específico de la industria, proporciona una definición clara. Formato: "**[Término]** es [definición concisa]." AIO cita definiciones con frecuencia.
+7. **Estadísticas con Fuentes**: Incluye números específicos con atribución. "Según [Fuente], [estadística]." AIO prefiere afirmaciones específicas y citables sobre aseveraciones vagas.
+8. **Fecha de Publicación**: Incluye una fecha de publicación visible y una fecha de última actualización. AIO resta prioridad al contenido sin fecha para consultas sensibles al tiempo.
+9. **Firma del Autor (Byline)**: Muestra el nombre del autor con credenciales. Enlaza a una página de autor con biografía, credenciales y enlaces sameAs.
+10. **Profundidad de Página**: Mantén las páginas objetivo a no más de 3 clics de la página de inicio. AIO rara vez cita contenido profundo y huérfano.
 
-### Scoring Rubric (0-100)
+### Rúbrica de Puntuación (0-100)
 
-| Criterion | Points | How to Score |
+| Criterio | Puntos | Cómo Puntuar |
 |---|---|---|
-| Ranks in top 10 for target queries | 20 | 20 if yes, 10 if top 20, 0 if beyond |
-| Question-based headings present | 10 | 2 points per question heading, max 10 |
-| Direct answers after headings | 15 | 3 points per direct answer, max 15 |
-| Tables present for comparison data | 10 | 10 if tables used appropriately, 5 if partial, 0 if absent |
-| Lists for processes/features | 10 | 10 if present, 5 if partial |
-| FAQ section with 5+ questions | 10 | 10 if 5+, 5 if 1-4, 0 if none |
-| Statistics with citations | 10 | 2 points per cited stat, max 10 |
-| Publication/updated date visible | 5 | 5 if both dates, 3 if one, 0 if none |
-| Author byline with credentials | 5 | 5 if full byline, 3 if name only, 0 if none |
-| Clean URL + heading hierarchy | 5 | 5 if H1>H2>H3 clean, 3 if minor issues, 0 if broken |
+| Clasifica en el top 10 para consultas objetivo | 20 | 20 si sí, 10 si top 20, 0 si más allá |
+| Encabezados basados en preguntas presentes | 10 | 2 puntos por encabezado de pregunta, máx 10 |
+| Respuestas directas después de los encabezados | 15 | 3 puntos por respuesta directa, máx 15 |
+| Tablas presentes para datos de comparación | 10 | 10 si se usan tablas apropiadamente, 5 si parcial, 0 si ausentes |
+| Listas para procesos/características | 10 | 10 si presentes, 5 si parcial |
+| Sección FAQ con 5+ preguntas | 10 | 10 si 5+, 5 si 1-4, 0 si ninguna |
+| Estadísticas con citas | 10 | 2 puntos por estadística citada, máx 10 |
+| Fecha de publicación/actualización visible | 5 | 5 si ambas fechas, 3 si una, 0 si ninguna |
+| Firma de autor con credenciales | 5 | 5 si firma completa, 3 si solo nombre, 0 si ninguna |
+| Jerarquía limpia de URLs + encabezados | 5 | 5 si H1>H2>H3 limpio, 3 si problemas menores, 0 si roto |
 
 ---
 
-## Platform 2: ChatGPT Web Search
+## Plataforma 2: ChatGPT Web Search
 
-### How ChatGPT Selects Sources
-- Uses **Bing's search index** as its foundation (not Google)
-- Top citation sources by domain share: **Wikipedia (47.9%)**, Reddit (11.3%), YouTube, major news outlets
-- ChatGPT heavily weights **entity recognition** — if your brand exists as a structured entity (Wikipedia, Wikidata, Crunchbase), it is far more likely to be cited
-- Prefers **authoritative, well-established sources** over new or niche sites
-- Longer, more comprehensive articles get cited more often than short pieces
-- ChatGPT tends to cite **the most canonical source** for a claim rather than the original
+### Cómo ChatGPT Selecciona Fuentes
+- Usa **el índice de búsqueda de Bing** como base (no Google)
+- Principales fuentes de citación por cuota de dominio: **Wikipedia (47.9%)**, Reddit (11.3%), YouTube, principales medios de noticias
+- ChatGPT pondera en gran medida el **reconocimiento de entidades** — si tu marca existe como una entidad estructurada (Wikipedia, Wikidata, Crunchbase), es mucho más probable que sea citada
+- Prefiere **fuentes autorizadas y bien establecidas** sobre sitios nuevos o de nicho
+- Los artículos más largos y completos son citados más a menudo que los textos cortos
+- ChatGPT tiende a citar **la fuente más canónica** para una afirmación en lugar de la original
 
-### Optimization Checklist
+### Lista de Verificación de Optimización
 
-1. **Wikipedia Presence**: Check if the brand/person/product has a Wikipedia article. If not, assess notability criteria. If notable, create a draft. If an article exists, ensure it is accurate and current.
-2. **Wikidata Entity**: Verify the entity exists on Wikidata (wikidata.org). If not, create a Wikidata item with key properties: instance of, official website, social media links, founding date, headquarters location.
-3. **Bing Webmaster Tools**: Verify the site is registered in Bing Webmaster Tools. Submit sitemap. Check for crawl errors.
-4. **Bing Index Coverage**: Use `site:domain.com` on Bing to verify key pages are indexed. Bing may have different indexed pages than Google.
-5. **Reddit Authority**: Check for brand mentions on Reddit. Identify relevant subreddits. Assess whether the brand participates authentically in discussions.
-6. **YouTube Presence**: Verify YouTube channel exists with relevant content. Video descriptions should contain full URLs and entity information.
-7. **Authoritative Backlinks**: ChatGPT/Bing weight .edu, .gov, and major publication backlinks heavily. Audit backlink profile for these sources.
-8. **Entity Consistency**: Brand name, founding date, leadership, and key facts must be consistent across Wikipedia, Crunchbase, LinkedIn, and the official website.
-9. **Comprehensive Content**: Pages targeting ChatGPT citation should be **2000+ words** with thorough topic coverage. ChatGPT prefers single authoritative sources over combining multiple thin pages.
-10. **Clear Attribution**: Include "About" sections, company descriptions, and founding stories. ChatGPT uses these for entity grounding.
+1. **Presencia en Wikipedia**: Comprueba si la marca/persona/producto tiene un artículo en Wikipedia. Si no, evalúa los criterios de relevancia (notability). Si es relevante, crea un borrador. Si existe un artículo, asegúrate de que sea preciso y actual.
+2. **Entidad Wikidata**: Verifica que la entidad existe en Wikidata (wikidata.org). Si no, crea un elemento en Wikidata con propiedades clave: instancia de, sitio web oficial, enlaces de redes sociales, fecha de fundación, ubicación de la sede.
+3. **Bing Webmaster Tools**: Verifica que el sitio esté registrado en Bing Webmaster Tools. Envía el sitemap. Comprueba si hay errores de rastreo.
+4. **Cobertura del Índice de Bing**: Usa `site:domain.com` en Bing para verificar que las páginas clave estén indexadas. Bing puede tener páginas indexadas diferentes a las de Google.
+5. **Autoridad en Reddit**: Busca menciones de la marca en Reddit. Identifica subreddits relevantes. Evalúa si la marca participa auténticamente en las discusiones.
+6. **Presencia en YouTube**: Verifica que exista un canal de YouTube con contenido relevante. Las descripciones de los videos deben contener URLs completas e información de la entidad.
+7. **Backlinks de Autoridad**: ChatGPT/Bing dan mucho peso a los backlinks de dominios .edu, .gov y publicaciones importantes. Audita el perfil de backlinks para estas fuentes.
+8. **Consistencia de la Entidad**: El nombre de la marca, fecha de fundación, liderazgo y datos clave deben ser consistentes a través de Wikipedia, Crunchbase, LinkedIn y el sitio web oficial.
+9. **Contenido Exhaustivo**: Las páginas que apuntan a la citación de ChatGPT deben tener **2000+ palabras** con una cobertura exhaustiva del tema. ChatGPT prefiere fuentes únicas y autorizadas en lugar de combinar múltiples páginas delgadas.
+10. **Atribución Clara**: Incluye secciones de "Acerca de", descripciones de la empresa e historias de fundación. ChatGPT usa esto para la consolidación (grounding) de entidades.
 
-### Scoring Rubric (0-100)
+### Rúbrica de Puntuación (0-100)
 
-| Criterion | Points | How to Score |
+| Criterio | Puntos | Cómo Puntuar |
 |---|---|---|
-| Wikipedia article exists and is accurate | 20 | 20 if exists, 10 if stub, 0 if none |
-| Wikidata entity with 5+ properties | 10 | 10 if complete, 5 if basic, 0 if none |
-| Bing index coverage of key pages | 10 | 10 if full, 5 if partial, 0 if poor |
-| Reddit brand mentions (positive) | 10 | 10 if active discussions, 5 if mentions, 0 if none |
-| YouTube channel with relevant content | 10 | 10 if active, 5 if present but sparse, 0 if none |
-| Authoritative backlinks (.edu, .gov, press) | 15 | 3 points per authoritative backlink category, max 15 |
-| Entity consistency across platforms | 10 | 10 if consistent, 5 if minor discrepancies, 0 if major |
-| Content comprehensiveness (2000+ words) | 10 | 10 if thorough, 5 if adequate, 0 if thin |
-| Bing Webmaster Tools configured | 5 | 5 if verified, 0 if not |
+| Artículo de Wikipedia existe y es preciso | 20 | 20 si existe, 10 si esbozo (stub), 0 si ninguno |
+| Entidad Wikidata con 5+ propiedades | 10 | 10 si completa, 5 si básica, 0 si ninguna |
+| Cobertura del índice de Bing en páginas clave | 10 | 10 si completa, 5 si parcial, 0 si pobre |
+| Menciones de marca en Reddit (positivas) | 10 | 10 si hay debates activos, 5 si hay menciones, 0 si ninguna |
+| Canal de YouTube con contenido relevante | 10 | 10 si activo, 5 si presente pero escaso, 0 si ninguno |
+| Backlinks autorizados (.edu, .gov, prensa) | 15 | 3 puntos por categoría de backlink autorizado, máx 15 |
+| Consistencia de entidad en las plataformas | 10 | 10 si consistente, 5 si discrepancias menores, 0 si mayores |
+| Exhaustividad del contenido (2000+ palabras) | 10 | 10 si exhaustivo, 5 si adecuado, 0 si delgado/pobre |
+| Bing Webmaster Tools configurado | 5 | 5 si verificado, 0 si no |
 
 ---
 
-## Platform 3: Perplexity AI
+## Plataforma 3: Perplexity AI
 
-### How Perplexity Selects Sources
-- Top citation sources: **Reddit (46.7%)**, Wikipedia, YouTube, major publications
-- Perplexity places the **heaviest emphasis on community validation** of all AI search platforms
-- Strongly favors **discussion threads** where claims are debated, validated, or expanded by multiple participants
-- Prefers recent content — publication date is a strong ranking signal
-- Cites **multiple sources per answer** (typically 5-15), so there is more opportunity for mid-authority sites to appear
-- Uses its own crawling infrastructure in addition to search APIs
+### Cómo Perplexity Selecciona Fuentes
+- Principales fuentes de citación: **Reddit (46.7%)**, Wikipedia, YouTube, principales publicaciones
+- Perplexity pone el **mayor énfasis en la validación de la comunidad** de todas las plataformas de búsqueda de IA
+- Favorece fuertemente los **hilos de discusión** donde las afirmaciones son debatidas, validadas o ampliadas por múltiples participantes
+- Prefiere contenido reciente — la fecha de publicación es una fuerte señal de clasificación
+- Cita **múltiples fuentes por respuesta** (típicamente 5-15), por lo que hay más oportunidades de que aparezcan sitios de autoridad media
+- Usa su propia infraestructura de rastreo además de las APIs de búsqueda
 
-### Optimization Checklist
+### Lista de Verificación de Optimización
 
-1. **Active Reddit Presence**: The brand or its representatives should participate authentically in relevant subreddit discussions. Not promotional — helpful, specific, and community-oriented.
-2. **Reddit AMAs and Threads**: Encourage or participate in AMAs, detailed discussion threads, and community Q&As. Perplexity treats these as high-signal content.
-3. **Forum and Community Presence**: Beyond Reddit, check Hacker News, Stack Overflow, Quora, and niche industry forums. Perplexity indexes these heavily.
-4. **Discussion-Friendly Content**: Publish content that invites discussion — opinion pieces, research findings, contrarian takes, original data. Content that gets shared and debated in communities ranks higher.
-5. **Freshness Signals**: Publish content with clear dates. Update content regularly. Perplexity deprioritizes stale content more aggressively than other platforms.
-6. **Multiple Source Validation**: Claims in your content should be supported by other sources. Perplexity cross-references and prefers claims it can verify from multiple origins.
-7. **YouTube Video Content**: Create video content that Perplexity can reference. Ensure video titles, descriptions, and transcripts contain target information.
-8. **Direct, Quotable Passages**: Write paragraphs that can stand alone as citations. Each paragraph should make one clear point with supporting evidence.
-9. **Original Data and Research**: Publish original surveys, benchmarks, case studies, or datasets. Perplexity heavily favors primary sources.
-10. **Perplexity Pages**: Check if Perplexity has created a "Page" about your topic/brand. These are curated summaries that influence future citations.
+1. **Presencia Activa en Reddit**: La marca o sus representantes deben participar auténticamente en discusiones de subreddits relevantes. No promocional — útil, específico y orientado a la comunidad.
+2. **AMAs e Hilos de Reddit**: Fomenta o participa en AMAs (Ask Me Anything), hilos de discusión detallados y preguntas/respuestas de la comunidad. Perplexity trata estos como contenido de alta señal.
+3. **Presencia en Foros y Comunidades**: Más allá de Reddit, revisa Hacker News, Stack Overflow, Quora y foros de la industria del nicho. Perplexity los indexa fuertemente.
+4. **Contenido Abierto al Debate**: Publica contenido que invite a la discusión — artículos de opinión, hallazgos de investigación, opiniones contrarias, datos originales. El contenido que se comparte y debate en las comunidades clasifica más alto.
+5. **Señales de Frescura**: Publica contenido con fechas claras. Actualiza el contenido regularmente. Perplexity resta prioridad al contenido obsoleto más agresivamente que otras plataformas.
+6. **Validación de Múltiples Fuentes**: Las afirmaciones en tu contenido deben estar respaldadas por otras fuentes. Perplexity cruza referencias y prefiere afirmaciones que puede verificar desde múltiples orígenes.
+7. **Contenido de Video de YouTube**: Crea contenido de video que Perplexity pueda referenciar. Asegúrate de que los títulos, descripciones y transcripciones de los videos contengan la información objetivo.
+8. **Pasajes Directos y Citables**: Escribe párrafos que puedan funcionar solos como citas. Cada párrafo debe plantear un punto claro con evidencia de apoyo.
+9. **Datos e Investigación Originales**: Publica encuestas originales, benchmarks, casos de estudio o conjuntos de datos. Perplexity favorece enormemente las fuentes primarias.
+10. **Páginas de Perplexity**: Comprueba si Perplexity ha creado una "Página" (Page) sobre tu tema/marca. Estos son resúmenes seleccionados que influyen en futuras citas.
 
-### Scoring Rubric (0-100)
+### Rúbrica de Puntuación (0-100)
 
-| Criterion | Points | How to Score |
+| Criterio | Puntos | Cómo Puntuar |
 |---|---|---|
-| Active Reddit presence in relevant subreddits | 20 | 20 if active contributor, 10 if mentioned, 0 if absent |
-| Forum/community mentions (HN, SO, Quora) | 10 | 10 if multiple platforms, 5 if one, 0 if none |
-| Content freshness (updated within 6 months) | 10 | 10 if recent, 5 if within year, 0 if older |
-| Original research/data published | 15 | 15 if original research, 10 if case studies, 5 if some data, 0 if none |
-| YouTube content with transcripts | 10 | 10 if active channel, 5 if some videos, 0 if none |
-| Quotable, standalone paragraphs | 10 | 2 points per well-structured quotable paragraph, max 10 |
-| Multi-source claim validation | 10 | 10 if claims well-sourced, 5 if some sourcing, 0 if none |
-| Discussion-generating content | 10 | 10 if content gets shared/discussed, 5 if some engagement, 0 if none |
-| Wikipedia/Wikidata presence | 5 | 5 if present, 0 if absent |
+| Presencia activa en subreddits relevantes | 20 | 20 si es contribuidor activo, 10 si mencionado, 0 si ausente |
+| Menciones en foros/comunidades (HN, SO, Quora)| 10 | 10 si en múltiples plataformas, 5 si en una, 0 si ninguna |
+| Frescura de contenido (actualizado en los últimos 6 meses) | 10 | 10 si reciente, 5 si en el último año, 0 si más antiguo |
+| Investigación/datos originales publicados | 15 | 15 si inv. original, 10 si casos estudio, 5 si algunos datos, 0 si nada |
+| Contenido de YouTube con transcripciones | 10 | 10 si canal activo, 5 si algunos videos, 0 si ninguno |
+| Párrafos citables independientes | 10 | 2 puntos por párrafo citable bien estructurado, máx 10 |
+| Validación de afirmaciones multifuente | 10 | 10 si afirmaciones bien documentadas, 5 si algo documentadas, 0 si nada |
+| Contenido que genera discusión | 10 | 10 si se comparte/debate, 5 si hay algo de interacción, 0 si ninguna |
+| Presencia en Wikipedia/Wikidata | 5 | 5 si presente, 0 si ausente |
 
 ---
 
-## Platform 4: Google Gemini
+## Plataforma 4: Google Gemini
 
-### How Gemini Selects Sources
-- Uses **Google's search index** plus strong weighting toward **Google-owned properties**
-- YouTube content is weighted significantly more heavily than in standard Google Search
-- Google Business Profile data is directly accessible to Gemini
-- Gemini uses Google's Knowledge Graph directly — entity presence in Knowledge Graph is a major advantage
-- Structured data (Schema.org) is consumed directly by Gemini for entity understanding
-- Gemini multi-modal: can reference images, videos, and text together
+### Cómo Gemini Selecciona Fuentes
+- Usa **el índice de búsqueda de Google** con un fuerte peso hacia las **propiedades propiedad de Google**
+- El contenido de YouTube tiene un peso significativamente mayor que en la Búsqueda de Google estándar
+- Los datos del Perfil de Empresa de Google (Google Business Profile) son accesibles directamente para Gemini
+- Gemini usa directamente el Google Knowledge Graph — la presencia de entidades en el Knowledge Graph es una gran ventaja
+- Los datos estructurados (Schema.org) son consumidos directamente por Gemini para entender entidades
+- Gemini es multi-modal: puede referenciar imágenes, videos y texto juntos
 
-### Optimization Checklist
+### Lista de Verificación de Optimización
 
-1. **Google Knowledge Panel**: Check if the brand has a Google Knowledge Panel. If not, claim it through Google Business Profile or structured data. Ensure all information is accurate.
-2. **Google Business Profile**: Complete and optimize GBP with all fields: hours, services, photos, posts, Q&A. Gemini pulls directly from GBP for local queries.
-3. **YouTube Strategy**: Create YouTube content for every key topic. Optimize titles, descriptions, timestamps, and closed captions. Gemini cites YouTube more than any other AI platform.
-4. **YouTube Chapters and Timestamps**: Use chapters (timestamps in description) so Gemini can reference specific segments of videos.
-5. **Google Merchant Center**: For e-commerce, ensure products are in Google Merchant Center. Gemini references product data directly.
-6. **Structured Data (Schema.org)**: Implement comprehensive Schema.org markup. Gemini uses this for entity understanding more aggressively than other platforms.
-7. **Google Sites Ecosystem**: Ensure presence across Google ecosystem: Google Scholar (for research), Google News (for publishers), Google Maps (for local).
-8. **Image Optimization**: Gemini is multi-modal. Use descriptive alt text, structured image filenames, and high-quality images. Include relevant images with every piece of content.
-9. **Google E-E-A-T Signals**: All standard Google E-E-A-T signals apply with extra weight. Author pages, about pages, editorial policies, and expertise demonstrations.
-10. **Chrome Web Store / Google Workspace Marketplace**: For software companies, presence on Google platforms adds entity signals.
+1. **Panel de Conocimiento de Google (Knowledge Panel)**: Comprueba si la marca tiene un Panel de Conocimiento. Si no, reclámalo a través del Perfil de Empresa de Google o con datos estructurados. Asegúrate de que toda la información sea precisa.
+2. **Perfil de Empresa de Google (GBP)**: Completa y optimiza el GBP con todos los campos: horarios, servicios, fotos, publicaciones, preguntas y respuestas. Gemini extrae información directamente del GBP para consultas locales.
+3. **Estrategia de YouTube**: Crea contenido en YouTube para cada tema clave. Optimiza títulos, descripciones, marcas de tiempo y subtítulos. Gemini cita a YouTube más que cualquier otra plataforma de IA.
+4. **Capítulos y Marcas de Tiempo en YouTube**: Usa capítulos (marcas de tiempo en la descripción) para que Gemini pueda referenciar segmentos específicos de los videos.
+5. **Google Merchant Center**: Para e-commerce, asegúrate de que los productos estén en Google Merchant Center. Gemini hace referencia directa a los datos de productos.
+6. **Datos Estructurados (Schema.org)**: Implementa marcado completo de Schema.org. Gemini usa esto para la comprensión de entidades más agresivamente que otras plataformas.
+7. **Ecosistema de Sitios de Google**: Asegura presencia en el ecosistema de Google: Google Scholar (para investigación), Google News (para publicadores), Google Maps (para locales).
+8. **Optimización de Imágenes**: Gemini es multi-modal. Usa texto alternativo descriptivo (alt text), nombres de archivo de imagen estructurados e imágenes de alta calidad. Incluye imágenes relevantes en cada contenido.
+9. **Señales E-E-A-T de Google**: Se aplican todas las señales E-E-A-T estándar de Google con peso extra. Páginas de autor, páginas de "acerca de", políticas editoriales y demostraciones de conocimiento.
+10. **Chrome Web Store / Google Workspace Marketplace**: Para empresas de software, la presencia en las plataformas de Google añade señales a la entidad.
 
-### Scoring Rubric (0-100)
+### Rúbrica de Puntuación (0-100)
 
-| Criterion | Points | How to Score |
+| Criterio | Puntos | Cómo Puntuar |
 |---|---|---|
-| Google Knowledge Panel exists | 15 | 15 if complete, 10 if partial, 0 if none |
-| Google Business Profile complete | 10 | 10 if fully optimized, 5 if basic, 0 if none |
-| YouTube channel with topic-relevant content | 20 | 20 if active with chapters, 10 if present, 0 if none |
-| Schema.org structured data implemented | 15 | 15 if comprehensive, 10 if basic, 5 if minimal, 0 if none |
-| Google ecosystem presence (Scholar, News, Maps) | 10 | 10 if 3+, 5 if 1-2, 0 if none |
-| Image optimization (alt text, filenames) | 10 | 10 if all images optimized, 5 if partial, 0 if none |
-| E-E-A-T signals (author pages, about, editorial) | 10 | 10 if strong, 5 if partial, 0 if weak |
-| Google Merchant Center (if e-commerce) | 5 | 5 if applicable and active, N/A otherwise |
-| Multi-modal content (text + images + video) | 5 | 5 if rich multi-modal, 3 if some, 0 if text-only |
+| Panel de Conocimiento de Google existe | 15 | 15 si completo, 10 si parcial, 0 si ninguno |
+| Perfil de Empresa de Google completo | 10 | 10 si totalmente optimizado, 5 si básico, 0 si ninguno |
+| Canal YouTube con contenido relevante al tema | 20 | 20 si activo con capítulos, 10 si presente, 0 si ninguno |
+| Datos estructurados Schema.org implementados | 15 | 15 si exhaustivo, 10 si básico, 5 si mínimo, 0 si ninguno |
+| Presencia en el ecosistema de Google (Scholar, News, Maps) | 10 | 10 si 3+, 5 si 1-2, 0 si ninguna |
+| Optimización de imágenes (alt text, archivos) | 10 | 10 si todas optimizadas, 5 si parcial, 0 si ninguna |
+| Señales E-E-A-T (autor, acerca de, editorial) | 10 | 10 si fuertes, 5 si parcial, 0 si débiles |
+| Google Merchant Center (si es e-commerce) | 5 | 5 si aplica y activo, N/A de otro modo |
+| Contenido multi-modal (texto + fotos + video) | 5 | 5 si es rico multi-modal, 3 si algo, 0 si solo texto |
 
 ---
 
-## Platform 5: Bing Copilot
+## Plataforma 5: Bing Copilot
 
-### How Copilot Selects Sources
-- Uses **Bing's search index** (shared infrastructure with ChatGPT but different ranking/selection)
-- Supports **IndexNow protocol** for near-instant indexing of new and updated content
-- Copilot tends to cite **fewer sources per answer** (typically 3-5) but gives more prominent attribution
-- Microsoft ecosystem integration: LinkedIn, GitHub, Microsoft Learn content is weighted
-- Copilot prefers pages with clear, structured markup and fast load times
+### Cómo Copilot Selecciona Fuentes
+- Usa **el índice de búsqueda de Bing** (infraestructura compartida con ChatGPT pero con clasificación/selección diferente)
+- Soporta el **protocolo IndexNow** para la indexación casi instantánea de contenido nuevo y actualizado
+- Copilot tiende a citar **menos fuentes por respuesta** (típicamente 3-5) pero da una atribución más prominente
+- Integración con el ecosistema de Microsoft: se pondera el contenido de LinkedIn, GitHub, Microsoft Learn
+- Copilot prefiere páginas con marcado claro y estructurado, y tiempos de carga rápidos
 
-### Optimization Checklist
+### Lista de Verificación de Optimización
 
-1. **Bing Webmaster Tools**: Register and verify site. Submit XML sitemap. Review and fix any crawl issues.
-2. **IndexNow Implementation**: Implement the IndexNow protocol to notify Bing of content changes in real-time. Submit a key file at `/.well-known/indexnow-key.txt` and ping the IndexNow API on content publish/update.
-3. **LinkedIn Company Page**: Ensure the company LinkedIn page is complete with accurate description, employee connections, and regular posts. Copilot indexes LinkedIn content.
-4. **GitHub Presence**: For tech companies, maintain an active GitHub presence. Copilot references GitHub repos, documentation, and README files.
-5. **Microsoft Learn / Documentation**: If relevant, contribute to Microsoft Learn or ensure documentation is compatible with Microsoft's documentation standards.
-6. **Bing Places for Business**: Equivalent to Google Business Profile. Complete all fields for local search visibility in Copilot.
-7. **Clear Meta Descriptions**: Bing/Copilot weights meta descriptions more heavily than Google does. Write compelling, keyword-rich meta descriptions for every page.
-8. **Social Signals**: Bing has historically weighted social signals (shares, likes, engagement) more than Google. Maintain active social media presence.
-9. **Exact-Match Keywords**: Bing's algorithm is more literal about keyword matching than Google. Include exact target phrases in titles, headings, and body content.
-10. **Fast Page Load**: Copilot deprioritizes slow pages. Target sub-2-second load time. Optimize images, enable compression, minimize render-blocking resources.
+1. **Bing Webmaster Tools**: Registra y verifica el sitio. Envía el sitemap XML. Revisa y soluciona cualquier problema de rastreo.
+2. **Implementación de IndexNow**: Implementa el protocolo IndexNow para notificar a Bing sobre cambios de contenido en tiempo real. Envía un archivo clave en `/.well-known/indexnow-key.txt` y haz ping a la API IndexNow al publicar/actualizar contenido.
+3. **Página de Empresa de LinkedIn**: Asegúrate de que la página de la empresa en LinkedIn esté completa con descripción precisa, conexiones de empleados y publicaciones regulares. Copilot indexa el contenido de LinkedIn.
+4. **Presencia en GitHub**: Para empresas tecnológicas, mantén una presencia activa en GitHub. Copilot referencia repositorios, documentación y archivos README de GitHub.
+5. **Microsoft Learn / Documentación**: Si es relevante, contribuye a Microsoft Learn o asegúrate de que tu documentación sea compatible con los estándares de documentación de Microsoft.
+6. **Bing Places for Business**: Equivalente al Perfil de Empresa de Google. Completa todos los campos para la visibilidad en búsquedas locales en Copilot.
+7. **Meta Descripciones Claras**: Bing/Copilot pondera las meta descripciones más fuertemente que Google. Escribe meta descripciones persuasivas y ricas en palabras clave para cada página.
+8. **Señales Sociales**: Bing ha ponderado históricamente las señales sociales (compartidos, me gusta, interacción) más que Google. Mantén una presencia activa en redes sociales.
+9. **Palabras Clave de Coincidencia Exacta**: El algoritmo de Bing es más literal sobre la coincidencia de palabras clave que Google. Incluye frases objetivo exactas en títulos, encabezados y contenido del cuerpo.
+10. **Carga de Página Rápida**: Copilot resta prioridad a páginas lentas. Apunta a un tiempo de carga inferior a 2 segundos. Optimiza imágenes, habilita compresión, minimiza recursos que bloquean el renderizado.
 
-### Scoring Rubric (0-100)
+### Rúbrica de Puntuación (0-100)
 
-| Criterion | Points | How to Score |
+| Criterio | Puntos | Cómo Puntuar |
 |---|---|---|
-| Bing Webmaster Tools verified + sitemap | 15 | 15 if verified, 5 if partial, 0 if not |
-| IndexNow protocol implemented | 15 | 15 if active, 0 if not |
-| Bing index coverage of key pages | 10 | 10 if full, 5 if partial, 0 if poor |
-| LinkedIn company page (complete) | 10 | 10 if complete, 5 if basic, 0 if none |
-| GitHub presence (if applicable) | 5 | 5 if active, N/A if not applicable |
-| Meta descriptions optimized | 10 | 10 if all key pages, 5 if partial, 0 if missing |
-| Social media engagement signals | 10 | 10 if active engagement, 5 if present, 0 if none |
-| Exact-match keywords in titles/headings | 10 | 10 if well-optimized, 5 if partial, 0 if not |
-| Page load speed < 2 seconds | 10 | 10 if < 2s, 5 if < 4s, 0 if > 4s |
-| Bing Places configured (if local) | 5 | 5 if complete, N/A if not local |
+| Bing Webmaster Tools verificado + sitemap | 15 | 15 si verificado, 5 si parcial, 0 si no |
+| Protocolo IndexNow implementado | 15 | 15 si activo, 0 si no |
+| Cobertura del índice de Bing de páginas clave | 10 | 10 si completa, 5 si parcial, 0 si pobre |
+| Página de empresa de LinkedIn (completa) | 10 | 10 si completa, 5 si básica, 0 si ninguna |
+| Presencia en GitHub (si aplica) | 5 | 5 si activa, N/A si no aplica |
+| Meta descripciones optimizadas | 10 | 10 si todas las páginas clave, 5 si parcial, 0 si falta |
+| Señales de interacción en redes sociales | 10 | 10 si interacción activa, 5 si presente, 0 si ninguna |
+| Palabras clave de coincidencia exacta en títulos/encabezados | 10 | 10 si bien optimizado, 5 si parcial, 0 si no |
+| Velocidad de carga < 2 segundos | 10 | 10 si < 2s, 5 si < 4s, 0 si > 4s |
+| Bing Places configurado (si es local) | 5 | 5 si completo, N/A si no es local |
 
 ---
 
-## Cross-Platform Summary
+## Resumen Multi-plataforma
 
-### Universal Optimization Actions (help ALL platforms)
-1. Wikipedia/Wikidata entity presence
-2. YouTube channel with relevant content
-3. Comprehensive, well-structured content with clear headings
-4. Schema.org structured data (especially Organization + sameAs)
-5. Fast page load and clean HTML
-6. Author pages with credentials and sameAs links
-7. Regular content updates with visible dates
+### Acciones de Optimización Universales (ayudan a TODAS las plataformas)
+1. Presencia de entidad en Wikipedia/Wikidata
+2. Canal de YouTube con contenido relevante
+3. Contenido exhaustivo y bien estructurado con encabezados claros
+4. Datos estructurados Schema.org (especialmente Organization + sameAs)
+5. Carga de página rápida y HTML limpio
+6. Páginas de autor con credenciales y enlaces sameAs
+7. Actualizaciones regulares de contenido con fechas visibles
 
-### Platform-Specific Priorities
-| Priority | Google AIO | ChatGPT | Perplexity | Gemini | Copilot |
+### Prioridades Específicas de Plataforma
+| Prioridad | Google AIO | ChatGPT | Perplexity | Gemini | Copilot |
 |---|---|---|---|---|---|
-| #1 | Top-10 ranking | Wikipedia | Reddit presence | YouTube | IndexNow |
-| #2 | Q&A structure | Entity graph | Original research | Knowledge Panel | Bing WMT |
-| #3 | Tables/lists | Bing SEO | Freshness | Schema.org | LinkedIn |
-| #4 | Featured snippets | Reddit | Community forums | GBP | Meta descriptions |
+| #1 | Ranking Top-10 | Wikipedia | Presencia en Reddit | YouTube | IndexNow |
+| #2 | Estructura Q&A | Grafo de Entidades | Investigación original | Knowledge Panel | Bing WMT |
+| #3 | Tablas/Listas | SEO Bing | Frescura | Schema.org | LinkedIn |
+| #4 | Featured snippets | Reddit | Foros de comunidad | GBP | Meta descripciones |
 
 ---
 
-## Output Format
+## Formato de Salida
 
-Generate **GEO-PLATFORM-OPTIMIZATION.md** with the following structure:
+Genera **GEO-PLATFORM-OPTIMIZATION.md** con la siguiente estructura:
 
 ```markdown
-# GEO Platform Optimization Report — [Domain]
-Date: [Date]
+# Reporte de Optimización de Plataformas GEO — [Dominio]
+Fecha: [Fecha]
 
-## Overall Platform Readiness
-- Combined GEO Score: XX/100 (average of all platform scores)
+## Preparación General de Plataforma
+- Puntuación GEO Combinada: XX/100 (promedio de todas las puntuaciones de plataforma)
 
-## Platform Scores
-| Platform | Score | Status |
+## Puntuaciones de Plataforma
+| Plataforma | Puntuación | Estado |
 |---|---|---|
-| Google AI Overviews | XX/100 | [Strong/Moderate/Weak] |
-| ChatGPT Web Search | XX/100 | [Strong/Moderate/Weak] |
-| Perplexity AI | XX/100 | [Strong/Moderate/Weak] |
-| Google Gemini | XX/100 | [Strong/Moderate/Weak] |
-| Bing Copilot | XX/100 | [Strong/Moderate/Weak] |
+| Google AI Overviews | XX/100 | [Fuerte/Moderado/Débil] |
+| ChatGPT Web Search | XX/100 | [Fuerte/Moderado/Débil] |
+| Perplexity AI | XX/100 | [Fuerte/Moderado/Débil] |
+| Google Gemini | XX/100 | [Fuerte/Moderado/Débil] |
+| Bing Copilot | XX/100 | [Fuerte/Moderado/Débil] |
 
-Status thresholds: Strong = 70+, Moderate = 40-69, Weak = 0-39
+Umbrales de estado: Fuerte = 70+, Moderado = 40-69, Débil = 0-39
 
-## Platform Details
-[Per-platform breakdown with score, gaps found, specific actions]
+## Detalles de Plataforma
+[Desglose por plataforma con puntuación, brechas encontradas y acciones específicas]
 
-## Prioritized Action Plan
-### Quick Wins (this week)
-[Actions that improve multiple platform scores with minimal effort]
+## Plan de Acción Priorizado
+### Victorias Rápidas (esta semana)
+[Acciones que mejoran múltiples puntuaciones de plataforma con mínimo esfuerzo]
 
-### Medium-Term (this month)
-[Actions requiring content creation or technical changes]
+### A Medio Plazo (este mes)
+[Acciones que requieren creación de contenido o cambios técnicos]
 
-### Strategic (this quarter)
-[Actions requiring entity building, community development, or platform presence]
+### Estratégico (este trimestre)
+[Acciones que requieren construcción de entidades, desarrollo de comunidad o presencia en plataformas]
 ```

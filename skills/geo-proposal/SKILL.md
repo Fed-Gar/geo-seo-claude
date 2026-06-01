@@ -1,36 +1,36 @@
 ---
 name: geo-proposal
 description: >
-  Auto-generate a professional, client-ready GEO service proposal from audit data.
-  Creates a full proposal in markdown and PDF including executive summary, findings,
-  recommended service packages (Basic/Standard/Premium), pricing, timeline, and terms.
-  Use when user says "proposal", "proposta", "offerta", "preventivo", "generate proposal",
-  or after completing a GEO audit for a prospect.
+  Genera automáticamente una propuesta de servicios GEO profesional y lista para el cliente a partir de datos de auditoría.
+  Crea una propuesta completa en markdown y PDF incluyendo resumen ejecutivo, hallazgos,
+  paquetes de servicios recomendados (Básico/Estándar/Premium), precios, línea de tiempo y términos.
+  Úsalo cuando el usuario diga "propuesta", "proposal", "proposta", "offerta", "preventivo", "generar propuesta",
+  o después de completar una auditoría GEO para un prospecto.
 version: 1.0.0
 tags: [geo, business, proposal, sales, pricing, client]
 allowed-tools: Read, Write, Bash, Glob, WebFetch
 ---
 
-# GEO Proposal Generator
+# Generador de Propuesta GEO
 
-## Purpose
+## Propósito
 
-Generate a fully customized, client-ready GEO service proposal that:
-1. Pulls findings directly from the prospect's GEO audit
-2. Translates technical gaps into business pain points
-3. Presents 3 service tiers with clear pricing
-4. Includes a realistic ROI projection
-5. Outputs a professional markdown document ready to send
+Generar una propuesta de servicios GEO completamente personalizada y lista para el cliente que:
+1. Extraiga hallazgos directamente de la auditoría GEO del prospecto
+2. Traduzca las brechas técnicas en puntos de dolor comerciales (pain points)
+3. Presente 3 niveles de servicio con precios claros
+4. Incluya una proyección de ROI realista
+5. Genere un documento markdown profesional listo para enviar
 
 ---
 
-## Command
+## Comando
 
 ```
-/geo proposal <domain-or-audit-file> [--tier basic|standard|premium] [--client-name "Name"] [--monthly EUR]
+/geo proposal <dominio-o-archivo-auditoria> [--tier basic|standard|premium] [--client-name "Nombre"] [--monthly EUR]
 ```
 
-**Examples:**
+**Ejemplos:**
 ```
 /geo proposal electron-srl.com
 /geo proposal electron-srl.com --tier standard --client-name "Electron Srl"
@@ -39,307 +39,307 @@ Generate a fully customized, client-ready GEO service proposal that:
 
 ---
 
-## Workflow
+## Flujo de Trabajo
 
-### Step 1: Load Audit Data
+### Paso 1: Cargar Datos de Auditoría
 
-1. Check if `~/.geo-prospects/audits/<domain>*.md` exists
-2. If not, suggest running `/geo quick <domain>` first
-3. Extract from audit:
-   - GEO Score (overall and per-category)
-   - Top 3 critical findings
-   - Quick wins list
-   - Business type
-   - Estimated organic traffic impact
+1. Comprueba si existe `~/.geo-prospects/audits/<dominio>*.md`
+2. Si no, sugiere ejecutar `/geo quick <dominio>` primero
+3. Extrae de la auditoría:
+   - Puntuación GEO (general y por categoría)
+   - Top 3 hallazgos críticos
+   - Lista de victorias rápidas (quick wins)
+   - Tipo de negocio
+   - Impacto estimado en tráfico orgánico
 
-### Step 2: Customize the Proposal
+### Paso 2: Personalizar la Propuesta
 
-Auto-fill proposal template with:
-- Company name (from domain or prospect record)
-- GEO score and tier label
-- 3 most critical pain points (translated to business language)
-- Estimated revenue at risk from AI search shift
-- Recommended service tier based on score:
-  - Score 0-40 → Recommend Premium (critical issues need full attention)
-  - Score 41-60 → Recommend Standard (significant gaps, needs monthly work)
-  - Score 61-75 → Recommend Basic (solid base, needs monitoring)
+Rellena automáticamente la plantilla de propuesta con:
+- Nombre de la empresa (del dominio o registro de prospecto)
+- Puntuación GEO y etiqueta de nivel
+- 3 puntos de dolor más críticos (traducidos a lenguaje comercial)
+- Ingresos estimados en riesgo por el cambio a búsqueda por IA
+- Nivel de servicio recomendado basado en la puntuación:
+  - Puntuación 0-40 → Recomendar Premium (problemas críticos necesitan atención total)
+  - Puntuación 41-60 → Recomendar Estándar (brechas significativas, necesita trabajo mensual)
+  - Puntuación 61-75 → Recomendar Básico (base sólida, necesita monitoreo)
 
-### Step 3: Generate Proposal File
+### Paso 3: Generar Archivo de Propuesta
 
-Output to `~/.geo-prospects/proposals/<domain>-proposal-<date>.md`
-Also update prospect record if it exists in `~/.geo-prospects/prospects.json`
+Genera la salida en `~/.geo-prospects/proposals/<dominio>-proposal-<fecha>.md`
+También actualiza el registro del prospecto si existe en `~/.geo-prospects/prospects.json`
 
 ---
 
-## Proposal Template
+## Plantilla de Propuesta
 
-Generate the following document, filling all `[PLACEHOLDERS]` with real audit data:
+Genera el siguiente documento, rellenando todos los `[MARCADORES]` con datos reales de la auditoría:
 
 ---
 
 ```markdown
-# GEO Optimization Proposal
-## [COMPANY NAME] — AI Search Visibility
+# Propuesta de Optimización GEO
+## [NOMBRE EMPRESA] — Visibilidad en Búsqueda por IA
 
-**Prepared by:** [YOUR AGENCY NAME]
-**Prepared for:** [CONTACT NAME], [COMPANY NAME]
-**Date:** [DATE]
-**Valid until:** [DATE + 30 DAYS]
-**Reference:** GEO-PROP-[YYMMDD]-[DOMAIN]
-
----
-
-## Executive Summary
-
-[COMPANY NAME] operates in [INDUSTRY] and serves customers across [GEOGRAPHY].
-Our GEO audit of [DOMAIN], conducted on [DATE], reveals a GEO Readiness Score
-of **[SCORE]/100 ([TIER LABEL])**.
-
-This means your website currently has [TIER DESCRIPTION — use score interpretation table].
-As AI-powered search (ChatGPT, Google AI Overviews, Perplexity) now influences
-**[X]% of online discovery** and is growing at 527% year-over-year, this gap
-represents a measurable risk to your pipeline.
-
-The three most urgent issues are:
-1. **[CRITICAL FINDING 1]** — [Business impact in one sentence]
-2. **[CRITICAL FINDING 2]** — [Business impact in one sentence]
-3. **[CRITICAL FINDING 3]** — [Business impact in one sentence]
-
-We recommend the **[TIER NAME] package** at **€[PRICE]/month**, which addresses
-all critical issues within 90 days and positions [COMPANY] as an AI-visible
-authority in [INDUSTRY].
+**Preparado por:** [NOMBRE DE TU AGENCIA]
+**Preparado para:** [NOMBRE CONTACTO], [NOMBRE EMPRESA]
+**Fecha:** [FECHA]
+**Válido hasta:** [FECHA + 30 DÍAS]
+**Referencia:** GEO-PROP-[AAMMDD]-[DOMINIO]
 
 ---
 
-## The Opportunity: Why GEO Matters for [COMPANY NAME]
+## Resumen Ejecutivo
 
-### The AI Search Shift Is Already Happening
+[NOMBRE EMPRESA] opera en [INDUSTRIA] y sirve a clientes en todo [GEOGRAFÍA].
+Nuestra auditoría GEO de [DOMINIO], llevada a cabo el [FECHA], revela una Puntuación
+de Preparación GEO de **[PUNTUACIÓN]/100 ([ETIQUETA DE NIVEL])**.
 
-| Metric | Value |
+Esto significa que su sitio web actualmente tiene [DESCRIPCIÓN DE NIVEL — usa la tabla de interpretación de puntuación].
+Como la búsqueda impulsada por IA (ChatGPT, Google AI Overviews, Perplexity) ahora influye en
+el **[X]% del descubrimiento en línea** y está creciendo a un 527% interanual, esta brecha
+representa un riesgo medible para su canal de ventas (pipeline).
+
+Los tres problemas más urgentes son:
+1. **[HALLAZGO CRÍTICO 1]** — [Impacto de negocio en una oración]
+2. **[HALLAZGO CRÍTICO 2]** — [Impacto de negocio en una oración]
+3. **[HALLAZGO CRÍTICO 3]** — [Impacto de negocio en una oración]
+
+Recomendamos el **paquete [NOMBRE DE NIVEL]** a **€[PRECIO]/mes**, el cual aborda
+todos los problemas críticos dentro de 90 días y posiciona a [EMPRESA] como una
+autoridad visible en IA en [INDUSTRIA].
+
+---
+
+## La Oportunidad: Por Qué Importa GEO para [NOMBRE EMPRESA]
+
+### El Cambio a la Búsqueda por IA Ya Está Ocurriendo
+
+| Métrica | Valor |
 |--------|-------|
-| AI-referred traffic growth (2025) | +527% YoY |
-| AI traffic conversion vs. organic | 4.4x higher |
-| ChatGPT weekly active users | 900M+ |
-| Google AI Overviews monthly reach | 1.5B users, 200+ countries |
-| Gartner: traditional search traffic drop by 2028 | -50% |
-| Marketers investing in GEO today | Only 23% |
+| Crecimiento de tráfico referido por IA (2025) | +527% interanual |
+| Conversión de tráfico IA vs. orgánico | 4.4x más alto |
+| Usuarios activos semanales en ChatGPT | 900M+ |
+| Alcance mensual de Google AI Overviews | 1.5B usuarios, 200+ países |
+| Gartner: caída de tráfico de búsqueda tradicional para 2028 | -50% |
+| Especialistas de marketing invirtiendo en GEO hoy | Solo 23% |
 
-**First-mover advantage is real.** Companies that invest in GEO now will
-capture the AI search channel before competitors do.
+**La ventaja del pionero es real.** Las compañías que inviertan en GEO ahora
+capturarán el canal de búsqueda de IA antes de que lo hagan los competidores.
 
-### Your Current Position
+### Su Posición Actual
 
-| Metric | [COMPANY] | Industry Average | Top Performers |
+| Métrica | [EMPRESA] | Promedio Industria | Top Rendimiento |
 |--------|-----------|------------------|----------------|
-| GEO Score | [SCORE]/100 | 45/100 | 75+/100 |
-| AI Crawlers Allowed | [X]/14 | 8/14 | 14/14 |
-| Brand Mentions (AI platforms) | [STATUS] | Moderate | High |
-| Schema Coverage | [STATUS] | Partial | Complete |
-| llms.txt | [Yes/No] | 12% have it | 78% have it |
+| Puntuación GEO | [PUNTUACIÓN]/100 | 45/100 | 75+/100 |
+| Rastreadores IA Permitidos | [X]/14 | 8/14 | 14/14 |
+| Menciones de Marca (plataformas IA) | [ESTADO] | Moderado | Alto |
+| Cobertura de Esquema | [ESTADO] | Parcial | Completa |
+| llms.txt | [Sí/No] | 12% lo tienen | 78% lo tienen |
 
 ---
 
-## Audit Findings Summary
+## Resumen de Hallazgos de Auditoría
 
-### GEO Score Breakdown
+### Desglose de Puntuación GEO
 
-| Category | Your Score | Weight | Weighted | Priority |
+| Categoría | Su Puntuación | Peso | Ponderada | Prioridad |
 |----------|-----------|--------|---------|----------|
-| AI Citability & Visibility | [SCORE]/100 | 25% | [WEIGHTED] | [HIGH/MED/LOW] |
-| Brand Authority Signals | [SCORE]/100 | 20% | [WEIGHTED] | [HIGH/MED/LOW] |
-| Content Quality & E-E-A-T | [SCORE]/100 | 20% | [WEIGHTED] | [HIGH/MED/LOW] |
-| Technical Foundations | [SCORE]/100 | 15% | [WEIGHTED] | [HIGH/MED/LOW] |
-| Structured Data | [SCORE]/100 | 10% | [WEIGHTED] | [HIGH/MED/LOW] |
-| Platform Optimization | [SCORE]/100 | 10% | [WEIGHTED] | [HIGH/MED/LOW] |
-| **TOTAL GEO SCORE** | | | **[SCORE]/100** | **[TIER]** |
+| Citabilidad & Visibilidad IA | [PUNTUACIÓN]/100 | 25% | [PONDERADA] | [ALTA/MED/BAJA] |
+| Señales de Autoridad de Marca | [PUNTUACIÓN]/100 | 20% | [PONDERADA] | [ALTA/MED/BAJA] |
+| Calidad de Contenido & E-E-A-T | [PUNTUACIÓN]/100 | 20% | [PONDERADA] | [ALTA/MED/BAJA] |
+| Fundamentos Técnicos | [PUNTUACIÓN]/100 | 15% | [PONDERADA] | [ALTA/MED/BAJA] |
+| Datos Estructurados | [PUNTUACIÓN]/100 | 10% | [PONDERADA] | [ALTA/MED/BAJA] |
+| Optimización de Plataformas | [PUNTUACIÓN]/100 | 10% | [PONDERADA] | [ALTA/MED/BAJA] |
+| **PUNTUACIÓN GEO TOTAL** | | | **[PUNTUACIÓN]/100** | **[NIVEL]** |
 
-### Critical Issues Found
+### Problemas Críticos Encontrados
 
-[For each critical issue from audit:]
+[Para cada problema crítico de la auditoría:]
 
-#### 🔴 [ISSUE TITLE]
-**What we found:** [Technical finding in plain language]
-**Business impact:** [What this means for their revenue/visibility]
-**Our fix:** [What we will do to resolve it]
-**Timeline:** [When they will see improvement]
-
----
-
-## Our Solution: Service Packages
-
-We offer three engagement models based on the scope of optimization needed.
+#### 🔴 [TÍTULO DEL PROBLEMA]
+**Qué encontramos:** [Hallazgo técnico en lenguaje llano]
+**Impacto en negocio:** [Lo que esto significa para sus ingresos/visibilidad]
+**Nuestra solución:** [Qué haremos para resolverlo]
+**Línea de tiempo:** [Cuándo verán mejora]
 
 ---
 
-### BASIC — €2,500/month
-*Best for: Sites with score 61-75 needing targeted improvements*
+## Nuestra Solución: Paquetes de Servicios
 
-**What's included:**
-- Quarterly full GEO audit (4x/year)
-- Quarterly client report with score tracking
-- Schema.org implementation (Organization + key page schemas)
-- AI crawler access optimization (robots.txt)
-- llms.txt creation and maintenance
-- Email support (48-hour response)
-
-**Estimated GEO score improvement:** +10-20 points in 6 months
-**Contract:** Minimum 6 months
+Ofrecemos tres modelos de compromiso basados en el alcance de la optimización necesaria.
 
 ---
 
-### STANDARD — €5,000/month ⭐ Recommended for [COMPANY]
-*Best for: Sites with score 40-60 needing structured monthly work*
+### BÁSICO — €2,500/mes
+*Ideal para: Sitios con puntuación 61-75 que necesitan mejoras dirigidas*
 
-**Everything in Basic, plus:**
-- Monthly full GEO audit + delta report
-- Monthly strategy call (60 minutes)
-- Content citability optimization (up to 10 pages/month)
-- Brand authority building (Wikipedia, Wikidata, LinkedIn optimization)
-- Platform-specific optimization (Google AIO, ChatGPT, Perplexity)
-- E-E-A-T improvements (author pages, credentials, freshness signals)
-- Slack channel for fast communication (24-hour response)
+**Qué incluye:**
+- Auditoría GEO completa trimestral (4x/año)
+- Reporte trimestral para el cliente con seguimiento de puntuación
+- Implementación de Schema.org (Organización + esquemas de páginas clave)
+- Optimización de acceso a rastreadores de IA (robots.txt)
+- Creación y mantenimiento de llms.txt
+- Soporte por correo (respuesta en 48 horas)
 
-**Estimated GEO score improvement:** +25-40 points in 6 months
-**Contract:** Minimum 6 months
-
----
-
-### PREMIUM — €9,500/month
-*Best for: Sites with score 0-40 with critical issues, or competitive industries*
-
-**Everything in Standard, plus:**
-- Bi-weekly strategy calls
-- Technical SEO implementation support (Core Web Vitals, SSR, speed)
-- Full content strategy + production (4 optimized articles/month)
-- Active brand building (Reddit, YouTube, industry citations)
-- Competitor monitoring and response
-- Dedicated account manager
-- Priority support (4-hour response)
-
-**Estimated GEO score improvement:** +40-60 points in 6 months
-**Contract:** Minimum 12 months
+**Mejora estimada de puntuación GEO:** +10-20 puntos en 6 meses
+**Contrato:** Mínimo 6 meses
 
 ---
 
-## ROI Projection for [COMPANY NAME]
+### ESTÁNDAR — €5,000/mes ⭐ Recomendado para [EMPRESA]
+*Ideal para: Sitios con puntuación 40-60 que necesitan trabajo mensual estructurado*
 
-Based on your current GEO score of [SCORE]/100 and industry benchmarks:
+**Todo en Básico, más:**
+- Auditoría GEO completa mensual + reporte de cambios (delta)
+- Llamada de estrategia mensual (60 minutos)
+- Optimización de citabilidad de contenido (hasta 10 páginas/mes)
+- Construcción de autoridad de marca (optimización en Wikipedia, Wikidata, LinkedIn)
+- Optimización específica de plataformas (Google AIO, ChatGPT, Perplexity)
+- Mejoras E-E-A-T (páginas de autor, credenciales, señales de frescura)
+- Canal de Slack para comunicación rápida (respuesta en 24 horas)
 
-| Scenario | 6-Month Score | AI Traffic Increase | Est. Additional Value/Month |
+**Mejora estimada de puntuación GEO:** +25-40 puntos en 6 meses
+**Contrato:** Mínimo 6 meses
+
+---
+
+### PREMIUM — €9,500/mes
+*Ideal para: Sitios con puntuación 0-40 con problemas críticos, o industrias competitivas*
+
+**Todo en Estándar, más:**
+- Llamadas de estrategia quincenales
+- Soporte de implementación técnica SEO (Core Web Vitals, SSR, velocidad)
+- Estrategia + producción de contenido completa (4 artículos optimizados/mes)
+- Construcción activa de marca (Reddit, YouTube, citas de industria)
+- Monitoreo de competidores y respuesta
+- Gerente de cuenta dedicado
+- Soporte prioritario (respuesta en 4 horas)
+
+**Mejora estimada de puntuación GEO:** +40-60 puntos en 6 meses
+**Contrato:** Mínimo 12 meses
+
+---
+
+## Proyección de ROI para [NOMBRE EMPRESA]
+
+Basado en su actual puntuación GEO de [PUNTUACIÓN]/100 y benchmarks de la industria:
+
+| Escenario | Puntuación en 6 Meses | Incremento Tráfico IA | Est. Valor Adicional/Mes |
 |----------|--------------|--------------------|-----------------------------|
-| No action | [SCORE + 2]/100 | +5% (organic growth) | €[LOW] |
-| Basic package | [SCORE + 15]/100 | +30-40% | €[MED] |
-| Standard package | [SCORE + 32]/100 | +60-90% | €[HIGH] |
-| Premium package | [SCORE + 50]/100 | +100-150% | €[VERY HIGH] |
+| Sin acción | [PUNTUACIÓN + 2]/100 | +5% (crecimiento orgánico) | €[BAJO] |
+| Paquete Básico | [PUNTUACIÓN + 15]/100 | +30-40% | €[MEDIO] |
+| Paquete Estándar | [PUNTUACIÓN + 32]/100 | +60-90% | €[ALTO] |
+| Paquete Premium | [PUNTUACIÓN + 50]/100 | +100-150% | €[MUY ALTO] |
 
-**Assumptions:**
-- Based on estimated [X] monthly organic visitors to [DOMAIN]
-- AI search is projected to drive 25-40% of organic discovery by end of 2026
-- AI-referred traffic converts at 4.4x the rate of regular organic traffic
-- Calculations use conservative estimates — actual results may vary
+**Supuestos:**
+- Basado en un estimado de [X] visitantes orgánicos mensuales a [DOMINIO]
+- Se proyecta que la búsqueda por IA impulse el 25-40% del descubrimiento orgánico para fines de 2026
+- El tráfico referido por IA convierte a 4.4x la tasa de tráfico orgánico regular
+- Los cálculos usan estimaciones conservadoras — los resultados reales pueden variar
 
-**Payback period (Standard package):** [X] months based on current traffic
-
----
-
-## Engagement Timeline
-
-### Month 1 — Foundation
-- Kick-off call and onboarding (Week 1)
-- Full technical audit + baseline metrics capture
-- Quick wins implementation: robots.txt, schema, llms.txt, meta descriptions
-- Expected score improvement: +5-10 points
-
-### Month 2-3 — Optimization
-- Content citability rewrites (top 10 pages)
-- E-E-A-T improvements: author pages, credentials, dates
-- Platform-specific optimization (Google AIO, ChatGPT, Perplexity)
-- Brand presence: LinkedIn, Wikipedia/Wikidata groundwork
-- Expected score improvement: +15-25 points cumulative
-
-### Month 4-6 — Authority Building
-- Brand mention campaigns (Reddit, industry sites, YouTube)
-- Topical authority content strategy
-- Monthly reports showing score improvements
-- Expected score improvement: +30-45 points cumulative
-
-### Month 6 — Review
-- Full re-audit with before/after comparison
-- ROI report
-- Renewal discussion
+**Período de recuperación de inversión (Paquete Estándar):** [X] meses basado en tráfico actual
 
 ---
 
-## Why Us
+## Línea de Tiempo del Compromiso
 
-- **GEO specialists**: We focus exclusively on AI search optimization, not traditional SEO agencies adapting to GEO
-- **Transparent reporting**: Monthly reports show exactly what changed and why
-- **No lock-in beyond minimum**: Month-to-month after initial commitment
-- **Proven methodology**: 11-dimension GEO audit covering all major AI platforms
-- **Fast results**: Quick wins visible within 30 days
+### Mes 1 — Fundación
+- Llamada de inicio (Kick-off) e incorporación (Semana 1)
+- Auditoría técnica completa + captura de métricas de base
+- Implementación de victorias rápidas: robots.txt, schema, llms.txt, meta descriptions
+- Mejora de puntuación esperada: +5-10 puntos
+
+### Mes 2-3 — Optimización
+- Reescrituras para citabilidad de contenido (top 10 páginas)
+- Mejoras E-E-A-T: páginas de autor, credenciales, fechas
+- Optimización específica de plataformas (Google AIO, ChatGPT, Perplexity)
+- Presencia de marca: LinkedIn, bases en Wikipedia/Wikidata
+- Mejora de puntuación esperada: +15-25 puntos acumulados
+
+### Mes 4-6 — Construcción de Autoridad
+- Campañas de menciones de marca (Reddit, sitios de la industria, YouTube)
+- Estrategia de contenido de autoridad tópica
+- Reportes mensuales mostrando mejoras de puntuación
+- Mejora de puntuación esperada: +30-45 puntos acumulados
+
+### Mes 6 — Revisión
+- Re-auditoría completa con comparación de antes/después
+- Reporte de ROI
+- Discusión de renovación
 
 ---
 
-## Investment Summary
+## Por Qué Nosotros
 
-| Package | Monthly | 6-Month | 12-Month |
+- **Especialistas en GEO**: Nos enfocamos exclusivamente en optimización de búsqueda por IA, no somos una agencia SEO tradicional adaptándose a GEO
+- **Reportes transparentes**: Los reportes mensuales muestran exactamente qué cambió y por qué
+- **Sin ataduras más allá del mínimo**: Mes a mes después del compromiso inicial
+- **Metodología probada**: Auditoría GEO de 11 dimensiones cubriendo todas las grandes plataformas de IA
+- **Resultados rápidos**: Victorias rápidas visibles dentro de los primeros 30 días
+
+---
+
+## Resumen de Inversión
+
+| Paquete | Mensual | 6-Meses | 12-Meses |
 |---------|---------|---------|----------|
-| Basic | €2,500 | €15,000 | €30,000 |
-| Standard | €5,000 | €30,000 | €60,000 |
+| Básico | €2,500 | €15,000 | €30,000 |
+| Estándar | €5,000 | €30,000 | €60,000 |
 | Premium | €9,500 | €57,000 | €114,000 |
 
-*All prices exclude VAT. Payment terms: monthly, due within 15 days of invoice.*
+*Todos los precios excluyen el IVA (VAT). Términos de pago: mensual, a pagar dentro de 15 días de la factura.*
 
 ---
 
-## Next Steps
+## Próximos Pasos
 
-To move forward:
+Para avanzar:
 
-1. **Review this proposal** and share any questions
-2. **Schedule a 30-minute call** to walk through findings together: [CALENDAR LINK]
-3. **Sign the service agreement** (sent separately upon acceptance)
-4. **Kick-off call** scheduled for your chosen start date
+1. **Revise esta propuesta** y comparta cualquier pregunta
+2. **Programe una llamada de 30 minutos** para repasar juntos los hallazgos: [ENLACE CALENDARIO]
+3. **Firme el acuerdo de servicios** (se envía por separado una vez aceptado)
+4. **Llamada de inicio (Kick-off)** programada para la fecha de inicio elegida
 
-This proposal is valid for **30 days** from the date above.
-
----
-
-## Terms & Conditions
-
-- **Minimum commitment:** As stated per package above
-- **Cancellation:** 30-day written notice after minimum term
-- **Confidentiality:** All audit findings and client data are strictly confidential
-- **Results:** We guarantee effort and methodology, not specific ranking outcomes
-- **Reporting:** Monthly reports delivered by the 5th of each month
-- **Access needed:** Read access to Google Analytics / Search Console (if available)
+Esta propuesta es válida por **30 días** desde la fecha indicada arriba.
 
 ---
 
-*This proposal was prepared using GEO-SEO analysis tools and reflects findings
-from the audit of [DOMAIN] conducted on [DATE]. All scores and recommendations
-are based on current industry best practices for Generative Engine Optimization.*
+## Términos y Condiciones
+
+- **Compromiso mínimo:** Como se indica por paquete arriba
+- **Cancelación:** Aviso por escrito de 30 días después del término mínimo
+- **Confidencialidad:** Todos los hallazgos de auditoría y datos del cliente son estrictamente confidenciales
+- **Resultados:** Garantizamos el esfuerzo y la metodología, no resultados de posicionamiento específicos
+- **Reportes:** Reportes mensuales entregados para el día 5 de cada mes
+- **Acceso requerido:** Acceso de lectura a Google Analytics / Search Console (si está disponible)
+
+---
+
+*Esta propuesta fue preparada usando herramientas de análisis GEO-SEO y refleja hallazgos
+de la auditoría de [DOMINIO] conducida el [FECHA]. Todas las puntuaciones y recomendaciones
+están basadas en las mejores prácticas actuales de la industria para Generative Engine Optimization.*
 ```
 
 ---
 
-## Output
+## Salida
 
-1. Save proposal to `~/.geo-prospects/proposals/<domain>-proposal-<date>.md`
-2. Update prospect record: set `status` to `proposal`, save `proposal_file` path
-3. Print confirmation:
+1. Guarda la propuesta en `~/.geo-prospects/proposals/<dominio>-proposal-<fecha>.md`
+2. Actualiza el registro de prospecto: establece `status` a `proposal`, guarda la ruta `proposal_file`
+3. Imprime confirmación:
    ```
-   ✓ Proposal generated: ~/.geo-prospects/proposals/electron-srl.com-proposal-2026-03-12.md
-   ✓ Prospect status updated: Qualified → Proposal
-   ✓ Recommended package: STANDARD (€5,000/month) — Score 32/100
+   ✓ Propuesta generada: ~/.geo-prospects/proposals/electron-srl.com-proposal-2026-03-12.md
+   ✓ Estado del prospecto actualizado: Calificado → Propuesta
+   ✓ Paquete recomendado: ESTÁNDAR (€5,000/mes) — Puntuación 32/100
 
-   Next: Share the proposal file or run `/geo report-pdf` for a visual version.
+   Siguiente: Comparte el archivo de propuesta o ejecuta `/geo report-pdf` para una versión visual.
    ```
 
-## Pricing Recommendation Logic
+## Lógica de Recomendación de Precios
 
-Base recommendation on GEO score:
-- Score 0-40 → Recommend **Premium** (critical issues require intensive work)
-- Score 41-60 → Recommend **Standard** (structured monthly optimization)
-- Score 61-75 → Recommend **Basic** (maintenance + targeted improvements)
-- Score 76+ → Offer **Basic** or quarterly retainer check-in
+Basar recomendación en la puntuación GEO:
+- Puntuación 0-40 → Recomendar **Premium** (problemas críticos requieren trabajo intensivo)
+- Puntuación 41-60 → Recomendar **Estándar** (optimización mensual estructurada)
+- Puntuación 61-75 → Recomendar **Básico** (mantenimiento + mejoras dirigidas)
+- Puntuación 76+ → Ofrecer **Básico** o revisión periódica trimestral

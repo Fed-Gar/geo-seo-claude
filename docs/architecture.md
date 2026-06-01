@@ -1,76 +1,76 @@
-# Architecture & Design
+# Arquitectura y Diseño
 
-The repository is structured to seamlessly provide GEO+SEO support by using Claude's tool capabilities alongside agents and python utility scripts.
+El repositorio está estructurado para proporcionar un soporte integral de GEO+SEO utilizando las capacidades de herramientas de Claude junto con agentes y scripts de utilidad en Python.
 
 ```
 geo-seo-claude/
-├── geo/                          # Main skill orchestrator
-│   └── SKILL.md                  # Primary skill file with commands & routing
-├── skills/                       # 13 specialized sub-skills
-│   ├── geo-audit/                # Full audit orchestration & scoring
-│   ├── geo-citability/           # AI citation readiness scoring
-│   ├── geo-crawlers/             # AI crawler access analysis
-│   ├── geo-llmstxt/              # llms.txt standard analysis & generation
-│   ├── geo-brand-mentions/       # Brand presence on AI-cited platforms
-│   ├── geo-platform-optimizer/   # Platform-specific AI search optimization
-│   ├── geo-schema/               # Structured data for AI discoverability
-│   ├── geo-technical/            # Technical SEO foundations
-│   ├── geo-content/              # Content quality & E-E-A-T
-│   ├── geo-report/               # Client-ready markdown report generation
-│   ├── geo-report-pdf/           # Professional PDF report with charts
-│   ├── geo-prospect/             # CRM-lite prospect pipeline management
-│   ├── geo-proposal/             # Auto-generate client proposals
-│   └── geo-compare/              # Monthly delta tracking & progress reports
-├── agents/                       # 5 parallel subagents
-│   ├── geo-ai-visibility.md      # GEO audit, citability, crawlers, brands
-│   ├── geo-platform-analysis.md  # Platform-specific optimization
-│   ├── geo-technical.md          # Technical SEO analysis
-│   ├── geo-content.md            # Content & E-E-A-T analysis
-│   └── geo-schema.md             # Schema markup analysis
-├── scripts/                      # Python utilities
-│   ├── fetch_page.py             # Page fetching & parsing
-│   ├── citability_scorer.py      # AI citability scoring engine
-│   ├── brand_scanner.py          # Brand mention detection
-│   ├── llmstxt_generator.py      # llms.txt validation & generation
-│   └── generate_pdf_report.py    # PDF report generator (ReportLab)
-├── schema/                       # JSON-LD templates
-│   ├── organization.json         # Organization schema (with sameAs)
-│   ├── local-business.json       # LocalBusiness schema
-│   ├── article-author.json       # Article + Person schema (E-E-A-T)
-│   ├── software-saas.json        # SoftwareApplication schema
-│   ├── product-ecommerce.json    # Product schema with offers
-│   └── website-searchaction.json # WebSite + SearchAction schema
-├── install.sh                    # One-command installer
-├── uninstall.sh                  # Uninstaller
-├── requirements.txt              # Python dependencies
-└── README.md                     # Main project view
+├── geo/                          # Orquestador principal de habilidades
+│   └── SKILL.md                  # Archivo principal de habilidades con comandos y enrutamiento
+├── skills/                       # 13 subhabilidades especializadas
+│   ├── geo-audit/                # Orquestación de auditoría completa y puntuación
+│   ├── geo-citability/           # Puntuación de preparación para citación por IA
+│   ├── geo-crawlers/             # Análisis de acceso de rastreadores de IA
+│   ├── geo-llmstxt/              # Análisis y generación del estándar llms.txt
+│   ├── geo-brand-mentions/       # Presencia de marca en plataformas citadas por IA
+│   ├── geo-platform-optimizer/   # Optimización de búsqueda por IA específica por plataforma
+│   ├── geo-schema/               # Datos estructurados para descubribilidad por IA
+│   ├── geo-technical/            # Bases de SEO técnico
+│   ├── geo-content/              # Calidad de contenido y E-E-A-T
+│   ├── geo-report/               # Generación de reportes en markdown listos para clientes
+│   ├── geo-report-pdf/           # Reporte profesional en PDF con gráficos
+│   ├── geo-prospect/             # Gestión de pipeline de prospectos estilo CRM
+│   ├── geo-proposal/             # Autogeneración de propuestas para clientes
+│   └── geo-compare/              # Seguimiento de diferencias mensuales y reportes de progreso
+├── agents/                       # 5 subagentes en paralelo
+│   ├── geo-ai-visibility.md      # Auditoría GEO, citabilidad, rastreadores, marcas
+│   ├── geo-platform-analysis.md  # Optimización específica por plataforma
+│   ├── geo-technical.md          # Análisis técnico de SEO
+│   ├── geo-content.md            # Análisis de contenido y E-E-A-T
+│   └── geo-schema.md             # Análisis de marcado de esquema (Schema markup)
+├── scripts/                      # Utilidades en Python
+│   ├── fetch_page.py             # Extracción y análisis de páginas
+│   ├── citability_scorer.py      # Motor de puntuación de citabilidad por IA
+│   ├── brand_scanner.py          # Detección de menciones de marca
+│   ├── llmstxt_generator.py      # Validación y generación de llms.txt
+│   └── generate_pdf_report.py    # Generador de reportes PDF (ReportLab)
+├── schema/                       # Plantillas JSON-LD
+│   ├── organization.json         # Esquema de Organización (con sameAs)
+│   ├── local-business.json       # Esquema de Negocio Local (LocalBusiness)
+│   ├── article-author.json       # Esquema de Artículo + Persona (E-E-A-T)
+│   ├── software-saas.json        # Esquema de Aplicación de Software
+│   ├── product-ecommerce.json    # Esquema de Producto con ofertas
+│   └── website-searchaction.json # Esquema de Sitio Web + Acción de Búsqueda
+├── install.sh                    # Instalador de un comando
+├── uninstall.sh                  # Desinstalador
+├── requirements.txt              # Dependencias de Python
+└── README.md                     # Vista principal del proyecto
 ```
 
-### Full Audit Flow
+### Flujo de Auditoría Completa
 
-When you run `/geo audit https://example.com`:
+Cuando ejecutas `/geo audit https://example.com`:
 
-1. **Discovery** — Fetches homepage, detects business type, crawls sitemap
-2. **Parallel Analysis** — Launches 5 subagents simultaneously:
-   - AI Visibility (citability, crawlers, llms.txt, brand mentions)
-   - Platform Analysis (ChatGPT, Perplexity, Google AIO readiness)
-   - Technical SEO (Core Web Vitals, SSR, security, mobile)
-   - Content Quality (E-E-A-T, readability, freshness)
-   - Schema Markup (detection, validation, generation)
-3. **Synthesis** — Aggregates scores, generates composite GEO Score (0-100)
-4. **Report** — Outputs prioritized action plan with quick wins
+1. **Descubrimiento** — Obtiene la página de inicio, detecta el tipo de negocio, rastrea el mapa del sitio (sitemap)
+2. **Análisis en Paralelo** — Lanza 5 subagentes simultáneamente:
+   - Visibilidad de IA (citabilidad, rastreadores, llms.txt, menciones de marca)
+   - Análisis de Plataforma (preparación para ChatGPT, Perplexity, Google AIO)
+   - SEO Técnico (Core Web Vitals, SSR, seguridad, móvil)
+   - Calidad de Contenido (E-E-A-T, legibilidad, frescura)
+   - Marcado de Esquema (detección, validación, generación)
+3. **Síntesis** — Agrega puntuaciones, genera Puntuación GEO compuesta (0-100)
+4. **Reporte** — Produce un plan de acción priorizado con victorias rápidas (quick wins)
 
-### Data Storage
+### Almacenamiento de Datos
 
-The CRM and reporting skills (`/geo prospect`, `/geo proposal`, `/geo compare`) store runtime data outside the Claude Code directory:
+Las habilidades de CRM y reportes (`/geo prospect`, `/geo proposal`, `/geo compare`) almacenan datos de tiempo de ejecución fuera del directorio de Claude Code:
 
 ```
 ~/.geo-prospects/
-├── prospects.json              # Client/prospect pipeline data
-├── proposals/                  # Generated proposal documents
+├── prospects.json              # Datos del pipeline de clientes/prospectos
+├── proposals/                  # Documentos de propuestas generadas
 │   └── <domain>-proposal-<date>.md
-└── reports/                    # Monthly delta reports
+└── reports/                    # Reportes de diferencias mensuales
     └── <domain>-monthly-<YYYY-MM>.md
 ```
 
-This directory is **not removed** by the uninstaller — delete it manually if you no longer need your prospect data.
+Este directorio **no se elimina** con el desinstalador — bórralo manualmente si ya no necesitas los datos de tus prospectos.

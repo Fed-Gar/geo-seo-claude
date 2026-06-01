@@ -1,399 +1,399 @@
 ---
 name: geo-report
-description: Generate a professional, client-facing GEO report combining all audit results into a single deliverable with scores, findings, and prioritized actions
+description: Genera un reporte GEO profesional y enfocado al cliente, combinando todos los resultados de auditorías en un único entregable con puntuaciones, hallazgos y acciones priorizadas
 version: 1.0.0
 author: geo-seo-claude
 tags: [geo, report, client-deliverable, executive-summary, action-plan]
 allowed-tools: Read, Grep, Glob, Bash, WebFetch, Write
 ---
 
-# GEO Client Report Generator
+# Generador de Reporte para Cliente GEO
 
-## Purpose
+## Propósito
 
-This skill aggregates outputs from all GEO audit skills into a single, professional report that can be delivered directly to a client or stakeholder. The report is written for **business owners and marketing leaders**, not developers — technical findings are translated into business impact and clear action items with priority levels.
+Esta habilidad agrega los resultados de todas las habilidades de auditoría GEO en un único reporte profesional que puede ser entregado directamente a un cliente o parte interesada (stakeholder). El reporte está escrito para **dueños de negocios y líderes de marketing**, no para desarrolladores — los hallazgos técnicos se traducen en impacto comercial y elementos de acción claros con niveles de prioridad.
 
-## How to Use This Skill
+## Cómo Usar Esta Habilidad
 
-1. Run the following audits first (or use existing report data):
+1. Ejecuta las siguientes auditorías primero (o usa datos de reportes existentes):
    - `geo-platform-optimizer` -> GEO-PLATFORM-OPTIMIZATION.md
    - `geo-schema` -> GEO-SCHEMA-REPORT.md
    - `geo-technical` -> GEO-TECHNICAL-AUDIT.md
    - `geo-content` -> GEO-CONTENT-ANALYSIS.md
-   - (Optional) `geo-llmstxt` -> llms.txt assessment
-   - (Optional) `geo-brand-mentions` -> brand authority data
-2. Collect all scores and findings
-3. Calculate the composite GEO Readiness Score
-4. Generate the client report using the template below
-5. Output: GEO-CLIENT-REPORT.md
+   - (Opcional) `geo-llmstxt` -> evaluación de llms.txt
+   - (Opcional) `geo-brand-mentions` -> datos de autoridad de marca
+2. Recopila todas las puntuaciones y hallazgos
+3. Calcula la Puntuación de Preparación GEO compuesta
+4. Genera el reporte del cliente usando la plantilla a continuación
+5. Salida: GEO-CLIENT-REPORT.md
 
 ---
 
-## GEO Readiness Score Calculation
+## Cálculo de Puntuación de Preparación GEO
 
-### Component Weights
+### Pesos de los Componentes
 
-| Component | Weight | Source Skill |
+| Componente | Peso | Habilidad de Origen |
 |---|---|---|
-| AI Platform Readiness | 25% | geo-platform-optimizer |
-| Content Quality & E-E-A-T | 25% | geo-content |
-| Technical Foundation | 20% | geo-technical |
-| Schema & Structured Data | 15% | geo-schema |
-| Brand Authority & Entity Presence | 15% | geo-platform-optimizer (entity signals) |
+| Preparación para Plataformas IA | 25% | geo-platform-optimizer |
+| Calidad de Contenido y E-E-A-T | 25% | geo-content |
+| Base Técnica | 20% | geo-technical |
+| Esquema y Datos Estructurados | 15% | geo-schema |
+| Autoridad de Marca y Presencia de Entidad | 15% | geo-platform-optimizer (señales de entidad) |
 
-### Score Formula
+### Fórmula de Puntuación
 ```
-GEO Score = (Platform Score * 0.25) + (Content Score * 0.25) + (Technical Score * 0.20) + (Schema Score * 0.15) + (Brand Score * 0.15)
+Puntuación GEO = (Punt. Plataforma * 0.25) + (Punt. Contenido * 0.25) + (Punt. Técnica * 0.20) + (Punt. Esquema * 0.15) + (Punt. Marca * 0.15)
 ```
 
-Round to the nearest integer. Cap at 100.
+Redondear al entero más cercano. Límite máximo en 100.
 
-### Score Interpretation for Clients
+### Interpretación de Puntuación para Clientes
 
-| Score Range | Label | Client-Facing Description |
+| Rango de Puntuación | Etiqueta | Descripción para el Cliente |
 |---|---|---|
-| 85-100 | Excellent | Your site is well-positioned for AI search. Focus on maintaining and expanding your advantage. |
-| 70-84 | Good | Solid foundation with clear opportunities to improve AI visibility. Targeted optimizations will yield significant results. |
-| 55-69 | Moderate | Your site has gaps in AI readiness that competitors may be exploiting. A structured optimization plan will close these gaps. |
-| 40-54 | Below Average | Significant barriers to AI search visibility exist. Without action, your brand risks being invisible in AI-generated answers. |
-| 0-39 | Needs Attention | Critical AI readiness issues require immediate action. Your competitors are likely capturing the AI search traffic your brand should own. |
+| 85-100 | Excelente | Su sitio está bien posicionado para la búsqueda por IA. Enfóquese en mantener y expandir su ventaja. |
+| 70-84 | Bueno | Base sólida con oportunidades claras para mejorar la visibilidad en IA. Optimizaciones dirigidas producirán resultados significativos. |
+| 55-69 | Moderado | Su sitio tiene brechas en preparación para IA que los competidores podrían estar explotando. Un plan de optimización estructurado cerrará estas brechas. |
+| 40-54 | Por debajo del promedio | Existen barreras significativas para la visibilidad en búsquedas por IA. Sin acción, su marca corre el riesgo de ser invisible en las respuestas generadas por IA. |
+| 0-39 | Necesita Atención | Problemas críticos de preparación para IA requieren acción inmediata. Sus competidores probablemente están capturando el tráfico de búsqueda por IA que su marca debería poseer. |
 
 ---
 
-## Report Template
+## Plantilla del Reporte
 
-The complete report follows this exact structure. Each section includes instructions on what to write and how.
+El reporte completo sigue esta estructura exacta. Cada sección incluye instrucciones sobre qué escribir y cómo.
 
 ---
 
-### Section 1: Executive Summary
+### Sección 1: Resumen Ejecutivo
 
-Write exactly ONE paragraph (4-6 sentences) covering:
-- What was analyzed (domain, number of pages, date of analysis)
-- The overall GEO Readiness Score with context ("XX/100, which places [brand] in the [label] tier")
-- The single most impactful finding (positive or negative)
-- Top 3 priority recommendations in one sentence
-- One sentence on the business impact ("Addressing these recommendations could increase AI-driven traffic by an estimated XX%, representing approximately $X,XXX/month based on current traffic patterns")
+Escribe exactamente UN párrafo (4-6 oraciones) cubriendo:
+- Qué se analizó (dominio, número de páginas, fecha del análisis)
+- La Puntuación de Preparación GEO general con contexto ("XX/100, lo que sitúa a [marca] en el nivel [etiqueta]")
+- El hallazgo individual más impactante (positivo o negativo)
+- Las top 3 recomendaciones de prioridad en una sola oración
+- Una oración sobre el impacto comercial ("Abordar estas recomendaciones podría aumentar el tráfico impulsado por IA en un estimado XX%, representando aproximadamente $X,XXX/mes basado en patrones de tráfico actuales")
 
-**Tone**: Confident, direct, professional. No jargon. No hedging. Write as a consultant delivering findings, not as a tool generating a report.
+**Tono**: Confiado, directo, profesional. Sin jerga. Sin rodeos. Escribe como un consultor entregando hallazgos, no como una herramienta generando un reporte.
 
-### Section 2: GEO Readiness Score
+### Sección 2: Puntuación de Preparación GEO
 
-Present the overall score prominently:
+Presenta la puntuación general de manera destacada:
 
 ```
-## GEO Readiness Score: XX/100 — [Label]
+## Puntuación de Preparación GEO: XX/100 — [Etiqueta]
 ```
 
-Then break down by component in a table:
+Luego desglosa por componente en una tabla:
 
 ```markdown
-| Component | Score | Weight | Weighted Score |
+| Componente | Puntuación | Peso | Puntuación Ponderada |
 |---|---|---|---|
-| AI Platform Readiness | XX/100 | 25% | XX |
-| Content Quality & E-E-A-T | XX/100 | 25% | XX |
-| Technical Foundation | XX/100 | 20% | XX |
-| Schema & Structured Data | XX/100 | 15% | XX |
-| Brand Authority | XX/100 | 15% | XX |
-| **Overall** | | | **XX/100** |
+| Preparación para Plataformas IA | XX/100 | 25% | XX |
+| Calidad de Contenido y E-E-A-T | XX/100 | 25% | XX |
+| Base Técnica | XX/100 | 20% | XX |
+| Esquema y Datos Estructurados | XX/100 | 15% | XX |
+| Autoridad de Marca | XX/100 | 15% | XX |
+| **General** | | | **XX/100** |
 ```
 
-### Section 3: AI Visibility Dashboard
+### Sección 3: Panel de Visibilidad en IA (Dashboard)
 
-Present per-platform readiness scores:
+Presenta las puntuaciones de preparación por plataforma:
 
 ```markdown
-## AI Visibility Dashboard
+## Panel de Visibilidad en IA
 
-| AI Platform | Readiness Score | Key Gap | Priority Action |
+| Plataforma IA | Puntuación de Preparación | Brecha Clave | Acción Prioritaria |
 |---|---|---|---|
-| Google AI Overviews | XX/100 | [One-line gap] | [One-line action] |
-| ChatGPT Web Search | XX/100 | [One-line gap] | [One-line action] |
-| Perplexity AI | XX/100 | [One-line gap] | [One-line action] |
-| Google Gemini | XX/100 | [One-line gap] | [One-line action] |
-| Bing Copilot | XX/100 | [One-line gap] | [One-line action] |
+| Google AI Overviews | XX/100 | [Brecha en una línea] | [Acción en una línea] |
+| ChatGPT Web Search | XX/100 | [Brecha en una línea] | [Acción en una línea] |
+| Perplexity AI | XX/100 | [Brecha en una línea] | [Acción en una línea] |
+| Google Gemini | XX/100 | [Brecha en una línea] | [Acción en una línea] |
+| Bing Copilot | XX/100 | [Brecha en una línea] | [Acción en una línea] |
 ```
 
-Add a brief paragraph explaining what these scores mean: "These scores reflect how likely your content is to be cited by each AI search platform. A score below 50 indicates significant barriers to citation on that platform."
+Añade un breve párrafo explicando qué significan estas puntuaciones: "Estas puntuaciones reflejan qué tan probable es que su contenido sea citado por cada plataforma de búsqueda de IA. Una puntuación por debajo de 50 indica barreras significativas para la citación en esa plataforma."
 
-### Section 4: AI Crawler Access Status
+### Sección 4: Estado de Acceso a Rastreadores de IA
 
-Present as a clear table:
+Preséntalo como una tabla clara:
 
 ```markdown
-## AI Crawler Access
+## Acceso a Rastreadores de IA
 
-| AI Crawler | Platform | Status | Impact | Recommendation |
+| Rastreador de IA | Plataforma | Estado | Impacto | Recomendación |
 |---|---|---|---|---|
-| Googlebot | Google Search + AIO | Allowed/Blocked | Critical | [Action] |
-| GPTBot | ChatGPT / OpenAI | Allowed/Blocked | High | [Action] |
-| Bingbot | Bing + Copilot + ChatGPT | Allowed/Blocked | High | [Action] |
-| PerplexityBot | Perplexity AI | Allowed/Blocked | Medium | [Action] |
-| Google-Extended | Gemini Training | Allowed/Blocked | Medium | [Action] |
-| ClaudeBot | Anthropic Claude | Allowed/Blocked | Medium | [Action] |
-| Applebot-Extended | Apple Intelligence | Allowed/Blocked | Medium | [Action] |
+| Googlebot | Google Search + AIO | Permitido/Bloqueado | Crítico | [Acción] |
+| GPTBot | ChatGPT / OpenAI | Permitido/Bloqueado | Alto | [Acción] |
+| Bingbot | Bing + Copilot + ChatGPT | Permitido/Bloqueado | Alto | [Acción] |
+| PerplexityBot | Perplexity AI | Permitido/Bloqueado | Medio | [Acción] |
+| Google-Extended | Entrenamiento de Gemini | Permitido/Bloqueado | Medio | [Acción] |
+| ClaudeBot | Anthropic Claude | Permitido/Bloqueado | Medio | [Acción] |
+| Applebot-Extended | Apple Intelligence | Permitido/Bloqueado | Medio | [Acción] |
 ```
 
-**Translate for the client**: "Blocking AI crawlers is like closing your store during business hours. If a crawler cannot access your site, the AI platform it powers cannot cite your content. We recommend allowing all major AI crawlers unless you have a specific data licensing concern."
+**Traduce para el cliente**: "Bloquear rastreadores de IA es como cerrar su tienda durante el horario comercial. Si un rastreador no puede acceder a su sitio, la plataforma de IA que alimenta no puede citar su contenido. Recomendamos permitir todos los rastreadores de IA importantes a menos que tenga una preocupación específica de licencia de datos."
 
-### Section 5: Brand Authority Analysis
+### Sección 5: Análisis de Autoridad de Marca
 
-Present entity presence across platforms:
+Presenta la presencia de la entidad en todas las plataformas:
 
 ```markdown
-## Brand Authority
+## Autoridad de Marca
 
-| Platform | Presence | Status | Impact on AI Visibility |
+| Plataforma | Presencia | Estado | Impacto en Visibilidad de IA |
 |---|---|---|---|
-| Wikipedia | Yes/No | [Detail] | Very High — 47.9% of ChatGPT citations are Wikipedia |
-| Wikidata | Yes/No | [Detail] | High — machine-readable entity data |
-| LinkedIn | Yes/No | [Detail] | High — Bing Copilot and ChatGPT signal |
-| YouTube | Yes/No | [Detail] | High — Gemini and Perplexity signal |
-| Reddit | Yes/No | [Detail] | Very High — 46.7% of Perplexity citations are Reddit |
-| Google Knowledge Panel | Yes/No | [Detail] | High — Gemini entity recognition |
-| Crunchbase | Yes/No | [Detail] | Medium — entity validation |
-| GitHub | Yes/No | [Detail] | Medium — tech brand signal |
+| Wikipedia | Sí/No | [Detalle] | Muy Alto — 47.9% de citas de ChatGPT son de Wikipedia |
+| Wikidata | Sí/No | [Detalle] | Alto — datos de entidad legibles por máquina |
+| LinkedIn | Sí/No | [Detalle] | Alto — señal para Bing Copilot y ChatGPT |
+| YouTube | Sí/No | [Detalle] | Alto — señal para Gemini y Perplexity |
+| Reddit | Sí/No | [Detalle] | Muy Alto — 46.7% de citas de Perplexity son de Reddit |
+| Panel de Conocimiento Google | Sí/No | [Detalle] | Alto — reconocimiento de entidad para Gemini |
+| Crunchbase | Sí/No | [Detalle] | Medio — validación de entidad |
+| GitHub | Sí/No | [Detalle] | Medio — señal para marcas tecnológicas |
 ```
 
-**Translate for the client**: "AI platforms build trust by cross-referencing your brand across multiple authoritative sources. Each platform where your brand has an accurate, consistent presence increases the likelihood of being cited in AI answers."
+**Traduce para el cliente**: "Las plataformas de IA construyen confianza al cruzar referencias de su marca en múltiples fuentes de autoridad. Cada plataforma donde su marca tiene una presencia precisa y consistente incrementa la probabilidad de ser citada en respuestas de IA."
 
-### Section 6: Citability Analysis
+### Sección 6: Análisis de Citabilidad
 
-#### Top 5 Most Citable Pages
-For each page:
+#### Top 5 Páginas Más Citables
+Para cada página:
 - URL
-- Why it is citable (structure, depth, E-E-A-T signals)
-- One specific improvement that would make it even more citable
+- Por qué es citable (estructura, profundidad, señales E-E-A-T)
+- Una mejora específica que la haría aún más citable
 
-#### Top 5 Least Citable Pages
-For each page:
+#### Top 5 Páginas Menos Citables
+Para cada página:
 - URL
-- Why it is unlikely to be cited (thin content, poor structure, missing signals)
-- Specific rewrite or restructure recommendation
+- Por qué es poco probable que sea citada (contenido delgado/pobre, mala estructura, señales faltantes)
+- Recomendación específica de reescritura o reestructuración
 
-**Business impact framing**: "Your most citable pages are your best candidates for appearing in AI-generated answers. Improving the 5 least citable pages represents the highest-ROI content investment you can make for AI visibility."
+**Encuadre de impacto comercial**: "Sus páginas más citables son sus mejores candidatas para aparecer en respuestas generadas por IA. Mejorar las 5 páginas menos citables representa la inversión en contenido de mayor ROI que puede hacer para la visibilidad en IA."
 
-### Section 7: Technical Health Summary
+### Sección 7: Resumen de Salud Técnica
 
-Present the key technical findings in business-friendly language:
+Presenta los hallazgos técnicos clave en lenguaje amigable para los negocios:
 
 ```markdown
-## Technical Health
+## Salud Técnica
 
-| Area | Status | Business Impact |
+| Área | Estado | Impacto de Negocio |
 |---|---|---|
-| Core Web Vitals | Good/Needs Work/Poor | [Impact on user experience and rankings] |
-| Server-Side Rendering | Yes/Partial/No | [Impact on AI crawler visibility] |
-| Mobile Optimization | Good/Needs Work/Poor | [Impact on Google's mobile-first indexing] |
-| Security (HTTPS + Headers) | Good/Needs Work/Poor | [Impact on trust signals] |
-| Page Speed | Fast/Average/Slow | [Impact on user experience and crawl budget] |
-| IndexNow Protocol | Implemented/Not | [Impact on Bing/ChatGPT indexing speed] |
+| Core Web Vitals | Bueno/Necesita Trabajo/Pobre | [Impacto en experiencia de usuario y rankings] |
+| Renderizado en Servidor (SSR) | Sí/Parcial/No | [Impacto en visibilidad para rastreadores de IA] |
+| Optimización Móvil | Bueno/Necesita Trabajo/Pobre | [Impacto en indexación mobile-first de Google] |
+| Seguridad (HTTPS + Cabeceras) | Bueno/Necesita Trabajo/Pobre | [Impacto en señales de confianza] |
+| Velocidad de Página | Rápida/Promedio/Lenta | [Impacto en experiencia de usuario y presupuesto de rastreo] |
+| Protocolo IndexNow | Implementado/No | [Impacto en velocidad de indexación de Bing/ChatGPT] |
 ```
 
-**Critical finding callout**: If SSR is missing or partial, highlight this prominently: "Your site uses client-side rendering, which means AI crawlers see an empty page when they visit. This is the single most impactful technical issue for AI search visibility. Until this is resolved, most AI platforms cannot cite your content."
+**Aviso de hallazgo crítico**: Si el SSR falta o es parcial, resalta esto prominentemente: "Su sitio utiliza renderizado en el lado del cliente, lo que significa que los rastreadores de IA ven una página vacía cuando la visitan. Este es el problema técnico más impactante para la visibilidad en búsquedas por IA. Hasta que esto se resuelva, la mayoría de plataformas de IA no pueden citar su contenido."
 
-### Section 8: Schema & Structured Data
+### Sección 8: Esquema y Datos Estructurados
 
 ```markdown
-## Schema & Structured Data
+## Esquema y Datos Estructurados
 
-### Current Implementation
-| Schema Type | Present | Status | AI Impact |
+### Implementación Actual
+| Tipo de Esquema | Presente | Estado | Impacto en IA |
 |---|---|---|---|
-| Organization | Yes/No | [Valid/Issues] | Critical — entity recognition |
-| Article + Author | Yes/No | [Valid/Issues] | High — E-E-A-T signal |
-| sameAs (entity links) | Yes/No | [Count] links | Critical — cross-platform entity graph |
-| [Business-specific] | Yes/No | [Valid/Issues] | [Impact] |
-| WebSite + SearchAction | Yes/No | [Valid/Issues] | Medium — sitelinks |
-| BreadcrumbList | Yes/No | [Valid/Issues] | Low-Medium — navigation context |
+| Organization | Sí/No | [Válido/Problemas] | Crítico — reconocimiento de entidad |
+| Article + Author | Sí/No | [Válido/Problemas] | Alto — señal E-E-A-T |
+| sameAs (enlaces de entidad) | Sí/No | [Cantidad] enlaces | Crítico — grafo de entidades cruzado entre plataformas |
+| [Específico del Negocio] | Sí/No | [Válido/Problemas] | [Impacto] |
+| WebSite + SearchAction | Sí/No | [Válido/Problemas] | Medio — sitelinks |
+| BreadcrumbList | Sí/No | [Válido/Problemas] | Medio-Bajo — contexto de navegación |
 ```
 
-If schemas are missing, note: "Ready-to-use structured data code has been prepared and is included in the technical appendix. Your development team can add this to your site with minimal effort."
+Si faltan esquemas, anota: "El código de datos estructurados listo para usarse ha sido preparado y está incluido en el apéndice técnico. Su equipo de desarrollo puede añadir esto a su sitio con un esfuerzo mínimo."
 
-### Section 9: llms.txt Status
+### Sección 9: Estado de llms.txt
 
 ```markdown
-## llms.txt — AI Content Guide
+## llms.txt — Guía de Contenido para IA
 
-| File | Status | Recommendation |
+| Archivo | Estado | Recomendación |
 |---|---|---|
-| /llms.txt | Present/Missing | [Action] |
-| /llms-full.txt | Present/Missing | [Action] |
+| /llms.txt | Presente/Ausente | [Acción] |
+| /llms-full.txt | Presente/Ausente | [Acción] |
 ```
 
-**Translate for the client**: "llms.txt is an emerging standard (similar to robots.txt) that tells AI systems what your site is about and which pages are most important. While not universally adopted yet, implementing it positions your brand ahead of competitors and provides direct guidance to AI platforms."
+**Traduce para el cliente**: "llms.txt es un estándar emergente (similar a robots.txt) que indica a los sistemas de IA de qué trata su sitio y cuáles páginas son más importantes. Aunque todavía no es adoptado universalmente, implementarlo posiciona a su marca por delante de los competidores y provee guía directa a las plataformas de IA."
 
-### Section 10: Prioritized Action Plan
+### Sección 10: Plan de Acción Priorizado
 
-This is the most important section of the report. Organize actions by timeline and impact.
+Esta es la sección más importante del reporte. Organiza las acciones por línea de tiempo e impacto.
 
 ```markdown
-## Prioritized Action Plan
+## Plan de Acción Priorizado
 
-### Quick Wins (This Week)
-*High impact, low effort — can be implemented immediately*
+### Victorias Rápidas (Esta Semana)
+*Alto impacto, bajo esfuerzo — puede implementarse de inmediato*
 
-| # | Action | Impact | Effort | Platforms Affected |
+| # | Acción | Impacto | Esfuerzo | Plataformas Afectadas |
 |---|---|---|---|---|
-| 1 | [Specific action] | [High/Med] | [Hours estimate] | [Which AI platforms] |
-| 2 | [Specific action] | [High/Med] | [Hours estimate] | [Which AI platforms] |
+| 1 | [Acción específica] | [Alto/Med] | [Horas est.] | [Cuáles plataformas IA] |
+| 2 | [Acción específica] | [Alto/Med] | [Horas est.] | [Cuáles plataformas IA] |
 ```
 
-**Quick Win criteria**: Can be done in < 4 hours by one person. Examples:
-- Unblock AI crawlers in robots.txt
-- Add publication dates to existing content
-- Add author bylines with credentials
-- Fix broken meta descriptions
-- Add sameAs properties to existing Organization schema
-- Create/claim llms.txt file
+**Criterios de Victoria Rápida**: Se puede hacer en < 4 horas por una persona. Ejemplos:
+- Desbloquear rastreadores IA en robots.txt
+- Añadir fechas de publicación al contenido existente
+- Añadir firmas de autor con credenciales
+- Arreglar meta descripciones rotas
+- Añadir propiedades sameAs a esquema Organization existente
+- Crear/reclamar archivo llms.txt
 
 ```markdown
-### Medium-Term Improvements (This Month)
-*Significant impact, moderate effort — requires content or technical changes*
+### Mejoras a Medio Plazo (Este Mes)
+*Impacto significativo, esfuerzo moderado — requiere cambios técnicos o de contenido*
 
-| # | Action | Impact | Effort | Platforms Affected |
+| # | Acción | Impacto | Esfuerzo | Plataformas Afectadas |
 |---|---|---|---|---|
-| 1 | [Specific action] | [High/Med] | [Days estimate] | [Which AI platforms] |
+| 1 | [Acción específica] | [Alto/Med] | [Días est.] | [Cuáles plataformas IA] |
 ```
 
-**Medium-Term criteria**: 1-5 days of work. Examples:
-- Restructure top 10 pages with question-based headings and direct answers
-- Implement comprehensive Schema.org markup
-- Create author pages with credentials and sameAs links
-- Optimize Core Web Vitals (image compression, code splitting)
-- Register and configure Bing Webmaster Tools
-- Implement IndexNow protocol
+**Criterios a Medio Plazo**: 1-5 días de trabajo. Ejemplos:
+- Reestructurar top 10 páginas con encabezados basados en preguntas y respuestas directas
+- Implementar marcado completo de Schema.org
+- Crear páginas de autor con credenciales y enlaces sameAs
+- Optimizar Core Web Vitals (compresión de imágenes, división de código)
+- Registrarse y configurar Bing Webmaster Tools
+- Implementar protocolo IndexNow
 
 ```markdown
-### Strategic Initiatives (This Quarter)
-*Long-term competitive advantage, requires ongoing investment*
+### Iniciativas Estratégicas (Este Trimestre)
+*Ventaja competitiva a largo plazo, requiere inversión continua*
 
-| # | Action | Impact | Effort | Platforms Affected |
+| # | Acción | Impacto | Esfuerzo | Plataformas Afectadas |
 |---|---|---|---|---|
-| 1 | [Specific action] | [High/Med] | [Weeks estimate] | [Which AI platforms] |
+| 1 | [Acción específica] | [Alto/Med] | [Semanas est.] | [Cuáles plataformas IA] |
 ```
 
-**Strategic criteria**: Ongoing effort over weeks/months. Examples:
-- Build Wikipedia/Wikidata entity presence
-- Develop active Reddit community engagement strategy
-- Create YouTube content strategy aligned with search queries
-- Implement server-side rendering (if currently client-rendered)
-- Build topical authority through comprehensive content strategy
-- Establish original research/data publication program
+**Criterios Estratégicos**: Esfuerzo continuo durante semanas/meses. Ejemplos:
+- Construir presencia de entidad en Wikipedia/Wikidata
+- Desarrollar estrategia activa de interacción en la comunidad de Reddit
+- Crear estrategia de contenido en YouTube alineada con consultas de búsqueda
+- Implementar renderizado en servidor (si actualmente se renderiza en el cliente)
+- Construir autoridad tópica a través de estrategia de contenido exhaustiva
+- Establecer programa de publicación de investigaciones/datos originales
 
-### Estimated Impact
-After the action plan, include an impact estimate:
+### Estimación de Impacto
+Después del plan de acción, incluye una estimación del impacto:
 
-"Based on industry benchmarks and the specific gaps identified in this audit:
-- **Quick Wins alone** could improve your GEO score by approximately [X-Y] points
-- **Full implementation** of this action plan could improve your GEO score to approximately [XX]/100
-- At current traffic levels and conversion rates, improved AI visibility represents an estimated **$X,XXX - $XX,XXX per month** in additional organic value"
+"Basado en puntos de referencia (benchmarks) de la industria y las brechas específicas identificadas en esta auditoría:
+- **Solo las Victorias Rápidas** podrían mejorar su puntuación GEO en aproximadamente [X-Y] puntos
+- La **implementación completa** de este plan de acción podría mejorar su puntuación GEO a aproximadamente [XX]/100
+- A los niveles de tráfico actuales y tasas de conversión, la visibilidad mejorada en IA representa un estimado de **$X,XXX - $XX,XXX por mes** en valor orgánico adicional"
 
-Use conservative estimates. Base the dollar figure on:
-- Current estimated organic traffic value (from analytics if available, or estimate from industry benchmarks)
-- AI search is projected to drive 25-40% of organic discovery by end of 2026
-- A 10-point GEO score improvement typically correlates with a 15-25% increase in AI citation frequency
+Usa estimaciones conservadoras. Basa la cifra en dólares en:
+- Valor estimado del tráfico orgánico actual (desde analíticas si están disponibles, o estima desde benchmarks de la industria)
+- Se proyecta que la búsqueda por IA impulse el 25-40% del descubrimiento orgánico para fines de 2026
+- Una mejora de 10 puntos en la puntuación GEO típicamente se correlaciona con un incremento del 15-25% en la frecuencia de citación en IA
 
-### Section 11: Competitor Comparison (if competitor URLs provided)
+### Sección 11: Comparación con Competidores (si se proveen URLs de competidores)
 
-If competitor URLs were analyzed alongside the primary domain:
+Si las URLs de los competidores fueron analizadas junto con el dominio principal:
 
 ```markdown
-## Competitor Comparison
+## Comparación con Competidores
 
-| Metric | [Your Brand] | [Competitor 1] | [Competitor 2] |
+| Métrica | [Su Marca] | [Competidor 1] | [Competidor 2] |
 |---|---|---|---|
-| Overall GEO Score | XX/100 | XX/100 | XX/100 |
-| Google AIO Readiness | XX/100 | XX/100 | XX/100 |
-| ChatGPT Readiness | XX/100 | XX/100 | XX/100 |
-| Perplexity Readiness | XX/100 | XX/100 | XX/100 |
-| Schema Coverage | [Detail] | [Detail] | [Detail] |
-| Wikipedia Presence | Yes/No | Yes/No | Yes/No |
-| Reddit Authority | [Detail] | [Detail] | [Detail] |
-| SSR Status | Yes/No | Yes/No | Yes/No |
+| Puntuación GEO General | XX/100 | XX/100 | XX/100 |
+| Preparación Google AIO | XX/100 | XX/100 | XX/100 |
+| Preparación ChatGPT | XX/100 | XX/100 | XX/100 |
+| Preparación Perplexity | XX/100 | XX/100 | XX/100 |
+| Cobertura de Esquema | [Detalle] | [Detalle] | [Detalle] |
+| Presencia en Wikipedia | Sí/No | Sí/No | Sí/No |
+| Autoridad en Reddit | [Detalle] | [Detalle] | [Detalle] |
+| Estado SSR | Sí/No | Sí/No | Sí/No |
 
-### Where You Lead
-[Specific areas where the brand outperforms competitors]
+### Donde Usted Lidera
+[Áreas específicas donde la marca supera a la competencia]
 
-### Where You Trail
-[Specific areas where competitors have an advantage, with actions to close the gap]
+### Donde Usted Está Rezagado
+[Áreas específicas donde los competidores tienen ventaja, con acciones para cerrar la brecha]
 ```
 
-### Section 12: Appendix
+### Sección 12: Apéndice
 
 ```markdown
-## Appendix
+## Apéndice
 
-### Methodology
-This GEO audit was conducted using the following methodology:
-- **Pages analyzed**: [List of specific URLs audited]
-- **Platforms assessed**: Google AI Overviews, ChatGPT, Perplexity AI, Google Gemini, Bing Copilot
-- **Technical checks**: HTTP headers, robots.txt, HTML source analysis, structured data validation
-- **Content assessment**: E-E-A-T framework (Experience, Expertise, Authoritativeness, Trustworthiness) per Google's December 2025 Quality Rater Guidelines
-- **Schema validation**: JSON-LD parsing and Schema.org specification compliance
-- **Date of analysis**: [Date]
+### Metodología
+Esta auditoría GEO se llevó a cabo utilizando la siguiente metodología:
+- **Páginas analizadas**: [Lista de URLs específicas auditadas]
+- **Plataformas evaluadas**: Google AI Overviews, ChatGPT, Perplexity AI, Google Gemini, Bing Copilot
+- **Comprobaciones técnicas**: Cabeceras HTTP, robots.txt, análisis de código fuente HTML, validación de datos estructurados
+- **Evaluación de contenido**: Marco E-E-A-T (Experiencia, Conocimiento, Autoridad, Confiabilidad) según Guías de Calidad de Google de Diciembre de 2025
+- **Validación de esquema**: Parseo JSON-LD y cumplimiento de la especificación de Schema.org
+- **Fecha de análisis**: [Fecha]
 
-### Data Sources
-- Google Search Quality Rater Guidelines (December 2025 update)
-- Schema.org full type hierarchy
-- Industry citation studies (Zyppy, Authoritas, Semrush AI search research, 2025-2026)
-- Core Web Vitals thresholds (web.dev, 2026 standards)
-- AI crawler user-agent documentation (per-platform official docs)
+### Fuentes de Datos
+- Guías de Calidad para Calificadores de Búsqueda de Google (actualización Dic 2025)
+- Jerarquía completa de tipos de Schema.org
+- Estudios de citación de la industria (Zyppy, Authoritas, investigación en búsqueda IA de Semrush, 2025-2026)
+- Umbrales de Core Web Vitals (web.dev, estándares de 2026)
+- Documentación de User-Agent de rastreadores de IA (docs oficiales de cada plataforma)
 
-### Glossary
+### Glosario
 
-| Term | Definition |
+| Término | Definición |
 |---|---|
-| GEO | Generative Engine Optimization — optimizing content to be cited by AI search platforms |
-| AIO | AI Overviews — Google's AI-generated answer boxes at the top of search results |
-| E-E-A-T | Experience, Expertise, Authoritativeness, Trustworthiness — Google's content quality framework |
-| SSR | Server-Side Rendering — generating HTML on the server so crawlers can read content without JavaScript |
-| CWV | Core Web Vitals — Google's page experience metrics (LCP, INP, CLS) |
-| LCP | Largest Contentful Paint — time to render the largest visible element |
-| INP | Interaction to Next Paint — responsiveness metric (replaced FID in March 2024) |
-| CLS | Cumulative Layout Shift — visual stability metric |
-| JSON-LD | JavaScript Object Notation for Linked Data — preferred structured data format |
-| sameAs | Schema.org property linking an entity to its profiles on other platforms |
-| IndexNow | Protocol for instantly notifying search engines of content changes |
-| llms.txt | Proposed standard file for guiding AI systems about a site's content |
-| YMYL | Your Money or Your Life — topics requiring highest E-E-A-T standards |
-| SERP | Search Engine Results Page |
-| Topical Authority | The depth and breadth of a site's coverage of its core topic area |
+| GEO | Optimización para Motores Generativos (Generative Engine Optimization) — optimizar contenido para ser citado por plataformas de búsqueda de IA |
+| AIO | AI Overviews — cajas de respuesta generadas por IA de Google en la parte superior de los resultados de búsqueda |
+| E-E-A-T | Experiencia, Conocimiento (Expertise), Autoridad, Confiabilidad (Trustworthiness) — marco de calidad de contenido de Google |
+| SSR | Renderizado en Lado del Servidor (Server-Side Rendering) — generar HTML en el servidor para que los rastreadores lean contenido sin JavaScript |
+| CWV | Core Web Vitals — métricas de experiencia de página de Google (LCP, INP, CLS) |
+| LCP | Largest Contentful Paint — tiempo para renderizar el elemento visible más grande |
+| INP | Interaction to Next Paint — métrica de responsividad (reemplazó FID en marzo de 2024) |
+| CLS | Cumulative Layout Shift — métrica de estabilidad visual |
+| JSON-LD | Notación de Objetos JavaScript para Datos Enlazados — formato de datos estructurados preferido |
+| sameAs | Propiedad de Schema.org que enlaza una entidad a sus perfiles en otras plataformas |
+| IndexNow | Protocolo para notificar instantáneamente a los motores de búsqueda sobre cambios de contenido |
+| llms.txt | Archivo de estándar propuesto para guiar a sistemas de IA sobre el contenido de un sitio |
+| YMYL | Your Money or Your Life — temas que requieren los estándares E-E-A-T más altos |
+| SERP | Página de Resultados del Motor de Búsqueda (Search Engine Results Page) |
+| Autoridad Tópica | La profundidad y amplitud de cobertura de un sitio en su área temática principal |
 ```
 
 ---
 
-## Formatting and Tone Guidelines
+## Directrices de Formato y Tono
 
-### Formatting
-- Use clean markdown throughout: tables, headers (H2/H3), bullet points, bold for emphasis
-- Tables for data, bullets for recommendations, bold for key terms
-- One blank line between sections for readability
-- Use horizontal rules (---) to separate major sections
-- All URLs should be absolute (not relative)
+### Formato
+- Usa markdown limpio en todo: tablas, encabezados (H2/H3), viñetas, negrita para énfasis
+- Tablas para datos, viñetas para recomendaciones, negrita para términos clave
+- Una línea en blanco entre secciones para legibilidad
+- Usa líneas horizontales (---) para separar secciones mayores
+- Todas las URLs deben ser absolutas (no relativas)
 
-### Tone
-- **Professional but accessible** — written for a business owner, not a developer
-- **Confident and direct** — state findings as conclusions, not possibilities
-- **Action-oriented** — every finding should connect to a specific action
-- **Business-impact focused** — translate technical issues into business outcomes
-- Avoid: jargon without explanation, hedging language, passive voice, excessive caveats
-- Use: "Your site [does/does not]...", "We recommend...", "This impacts..."
+### Tono
+- **Profesional pero accesible** — escrito para un dueño de negocio, no para un desarrollador
+- **Confiado y directo** — expresa hallazgos como conclusiones, no posibilidades
+- **Orientado a la acción** — cada hallazgo debe conectarse a una acción específica
+- **Enfocado en impacto comercial** — traduce problemas técnicos a resultados de negocio
+- Evita: jerga sin explicación, lenguaje dubitativo, voz pasiva, advertencias excesivas
+- Usa: "Su sitio [hace/no hace]...", "Recomendamos...", "Esto impacta..."
 
-### Dollar-Value Framing
-Where possible, connect recommendations to business value:
-- "Improving your Google AIO readiness from 35 to 70 could increase your presence in AI Overviews by an estimated 50%, which at current search volumes represents approximately 2,000 additional monthly visitors"
-- "Server-side rendering would make your content accessible to ChatGPT, Perplexity, and other AI platforms — collectively representing an audience your competitors are already reaching"
-- "The investment in Schema.org markup (estimated 8-16 hours of developer time) could increase your entity recognition score from 20 to 75, significantly improving citation probability"
+### Encuadre en Valor Monetario (Dólares)
+Donde sea posible, conecta las recomendaciones al valor comercial:
+- "Mejorar su preparación de Google AIO de 35 a 70 podría aumentar su presencia en AI Overviews en un estimado de 50%, lo que a los volúmenes de búsqueda actuales representa aproximadamente 2,000 visitantes mensuales adicionales"
+- "El renderizado en servidor haría que su contenido sea accesible a ChatGPT, Perplexity y otras plataformas IA — representando colectivamente una audiencia que sus competidores ya están alcanzando"
+- "La inversión en marcado Schema.org (estimado 8-16 horas de desarrollador) podría incrementar su puntuación de reconocimiento de entidad de 20 a 75, mejorando significativamente la probabilidad de citación"
 
-Be conservative with estimates. State assumptions clearly. Never guarantee specific results.
+Sé conservador con las estimaciones. Expresa los supuestos claramente. Nunca garantices resultados específicos.
 
 ---
 
-## Output
+## Salida
 
-Generate **GEO-CLIENT-REPORT.md** using the complete template above, filled with actual audit data. The report should be:
-- 40-80 pages equivalent in detail (3,000-6,000 words)
-- Ready to send to a client without editing
-- Self-contained (no references to other report files — all relevant data is included)
-- Printable and presentable (clean markdown formatting)
+Genera **GEO-CLIENT-REPORT.md** usando la plantilla completa anterior, rellenada con datos reales de la auditoría. El reporte debería ser:
+- 40-80 páginas de equivalencia en detalle (3,000-6,000 palabras)
+- Listo para enviar a un cliente sin editar
+- Autónomo (sin referencias a otros archivos de reporte — toda la información relevante está incluida)
+- Imprimible y presentable (formato markdown limpio)

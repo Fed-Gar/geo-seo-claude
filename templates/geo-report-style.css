@@ -1,6 +1,6 @@
 /* =====================================================
-   GEO Audit Report — Professional PDF Stylesheet
-   Rendered via pandoc → Chrome headless
+   Reporte de Auditoría GEO — Hoja de Estilos PDF Profesional
+   Renderizado vía pandoc → Chrome headless
    ===================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -53,7 +53,7 @@ body {
   padding: 0;
 }
 
-/* ---- Cover section (first H1) ---- */
+/* ---- Sección de Portada (primer H1) ---- */
 #cover-section {
   background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, #1e4d8c 100%);
   color: var(--white);
@@ -120,7 +120,7 @@ body {
   color: rgba(255,255,255,0.9);
 }
 
-/* Score badge on cover */
+/* Insignia de puntuación en la portada */
 .geo-score-badge {
   position: absolute;
   top: 44px;
@@ -158,12 +158,12 @@ body {
   color: rgba(255,255,255,0.75);
 }
 
-/* ---- Content area ---- */
+/* ---- Área de contenido ---- */
 #content {
   padding: 0;
 }
 
-/* ---- Headings ---- */
+/* ---- Encabezados ---- */
 h1 {
   font-size: 18pt;
   font-weight: 700;
@@ -207,7 +207,7 @@ h4 {
   page-break-after: avoid;
 }
 
-/* ---- Score overview block (after main h1) ---- */
+/* ---- Bloque de resumen de puntuación (después del h1 principal) ---- */
 blockquote {
   background: var(--light);
   border-left: 4px solid var(--teal);
@@ -222,7 +222,7 @@ blockquote p {
   margin: 0;
 }
 
-/* ---- Tables ---- */
+/* ---- Tablas ---- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -264,7 +264,7 @@ td {
   vertical-align: top;
 }
 
-/* Score color coding applied by JS */
+/* Codificación de color de puntuación aplicada por JS */
 td.score-excellent { color: var(--success); font-weight: 600; }
 td.score-good      { color: #0369a1;        font-weight: 600; }
 td.score-fair      { color: var(--warning); font-weight: 600; }
@@ -277,7 +277,7 @@ tr.score-fair      td:first-child { border-left: 3px solid var(--warning); }
 tr.score-poor      td:first-child { border-left: 3px solid #ea580c; }
 tr.score-critical  td:first-child { border-left: 3px solid var(--danger); }
 
-/* Last row (total) styling */
+/* Estilos de la última fila (total) */
 tbody tr:last-child td {
   font-weight: 700;
   background: #eff6ff;
@@ -285,14 +285,14 @@ tbody tr:last-child td {
   border-bottom: 2px solid var(--navy);
 }
 
-/* ---- Paragraphs ---- */
+/* ---- Párrafos ---- */
 p {
   margin: 0 0 10px;
   orphans: 3;
   widows: 3;
 }
 
-/* ---- Lists ---- */
+/* ---- Listas ---- */
 ul, ol {
   margin: 8px 0 12px;
   padding-left: 22px;
@@ -303,7 +303,7 @@ li {
   line-height: 1.5;
 }
 
-/* ---- Severity-tagged headings (### 1. Critical Issue...) ---- */
+/* ---- Encabezados etiquetados por severidad (### 1. Problema Crítico...) ---- */
 h3 .severity-critical {
   display: inline-block;
   background: var(--critical-border);
@@ -318,7 +318,7 @@ h3 .severity-critical {
   vertical-align: middle;
 }
 
-/* Finding blocks — styled paragraphs after h3s that contain severity keywords */
+/* Bloques de hallazgos — párrafos estilizados después de h3s que contienen palabras clave de severidad */
 .finding-critical {
   border-left: 4px solid var(--critical-border);
   background: var(--critical-bg);
@@ -351,7 +351,7 @@ h3 .severity-critical {
   border-radius: 0 4px 4px 0;
 }
 
-/* ---- Code blocks ---- */
+/* ---- Bloques de código ---- */
 pre {
   background: #0f172a;
   color: #e2e8f0;
@@ -381,37 +381,37 @@ pre code {
   font-size: inherit;
 }
 
-/* ---- Horizontal rule ---- */
+/* ---- Regla horizontal ---- */
 hr {
   border: none;
   border-top: 1.5px solid var(--border);
   margin: 24px 0;
 }
 
-/* ---- Strong / Em ---- */
+/* ---- Negrita / Cursiva (Strong / Em) ---- */
 strong { font-weight: 600; color: var(--text); }
 em     { color: var(--muted); }
 
-/* ---- Page breaks ---- */
+/* ---- Saltos de página ---- */
 h2 { page-break-before: auto; }
 h2.section-break { page-break-before: always; }
 
-/* ---- Quick wins section special styling ---- */
+/* ---- Estilos especiales de sección de victorias rápidas ---- */
 .quick-wins-table td:first-child {
   font-weight: 500;
   max-width: 340px;
 }
 
-/* ---- Footer ---- */
+/* ---- Pie de página ---- */
 @page {
   @bottom-center {
-    content: "Alexa Media Solutions · GEO Audit · May 2026";
+    content: "Alexa Media Solutions · Auditoría GEO · Mayo 2026";
     font-family: 'Inter', sans-serif;
     font-size: 7.5pt;
     color: #94a3b8;
   }
   @bottom-right {
-    content: "Page " counter(page) " of " counter(pages);
+    content: "Página " counter(page) " de " counter(pages);
     font-family: 'Inter', sans-serif;
     font-size: 7.5pt;
     color: #94a3b8;

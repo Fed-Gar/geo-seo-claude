@@ -1,55 +1,55 @@
 ---
 name: geo-report-pdf
-description: Generate a professional PDF report from a GEO audit using pandoc + Chrome headless. Converts GEO-AUDIT-REPORT.md into a styled, client-ready PDF with a cover page, color-coded score tables, severity-tagged findings, and a 90-day roadmap.
+description: Genera un reporte profesional en PDF de una auditoría GEO utilizando pandoc + Chrome headless. Convierte GEO-AUDIT-REPORT.md en un PDF estilizado, listo para el cliente, con página de portada, tablas de puntuación codificadas por color, hallazgos etiquetados por severidad y una hoja de ruta de 90 días.
 version: 2.0.0
 author: geo-seo-claude
 tags: [geo, pdf, report, client-deliverable, professional]
 allowed-tools: Read, Grep, Glob, Bash, Write
 ---
 
-# GEO PDF Report Generator (pandoc pipeline)
+# Generador de Reporte PDF GEO (tubería pandoc)
 
-## Prerequisites
+## Requisitos previos
 
 - **pandoc** — `brew install pandoc`
-- **Google Chrome** — must be installed at `/Applications/Google Chrome.app/`
+- **Google Chrome** — debe estar instalado en `/Applications/Google Chrome.app/`
 
-No Python dependencies. No ReportLab. No JSON data wrangling.
+Sin dependencias de Python. Sin ReportLab. Sin manipulación de datos JSON.
 
-## How It Works
+## Cómo Funciona
 
-1. Read `GEO-AUDIT-REPORT.md` in the current directory (created by `/geo audit`)
-2. Extract cover metadata from the report (brand name, domain, GEO score, date, locations)
-3. Run `pandoc` with the bundled CSS + HTML template to produce a self-contained `GEO-REPORT.html`
-4. Run Chrome headless to print the HTML to `GEO-REPORT.pdf`
+1. Lee `GEO-AUDIT-REPORT.md` en el directorio actual (creado por `/geo audit`)
+2. Extrae los metadatos de la portada del reporte (nombre de la marca, dominio, puntuación GEO, fecha, ubicaciones)
+3. Ejecuta `pandoc` con la plantilla HTML + CSS integrada para producir un `GEO-REPORT.html` autónomo
+4. Ejecuta Chrome en modo headless (sin interfaz) para imprimir el HTML a `GEO-REPORT.pdf`
 
-The pandoc template (`~/.claude/skills/geo/templates/geo-report-template.html`) injects:
-- A full-bleed dark navy cover section with the GEO score badge
-- Per-section cover metadata (date, business type, locations, platform)
-- JavaScript that runs inside Chrome before printing to color-code score cells and severity-tag finding sections
+La plantilla de pandoc (`~/.claude/skills/geo/templates/geo-report-template.html`) inyecta:
+- Una sección de portada completa azul marino oscuro con la insignia de la puntuación GEO
+- Metadatos de la portada por sección (fecha, tipo de negocio, ubicaciones, plataforma)
+- JavaScript que se ejecuta dentro de Chrome antes de imprimir para codificar por colores las celdas de puntuación y etiquetar por severidad las secciones de hallazgos
 
-## Workflow
+## Flujo de Trabajo
 
-### Step 1: Check for audit report
+### Paso 1: Comprobar el reporte de auditoría
 
-Look for `GEO-AUDIT-REPORT.md` in the current directory. If absent, tell the user to run `/geo audit <url>` first.
+Busca `GEO-AUDIT-REPORT.md` en el directorio actual. Si no está presente, dile al usuario que ejecute `/geo audit <url>` primero.
 
-### Step 2: Extract cover metadata from the report
+### Paso 2: Extraer metadatos de portada del reporte
 
-Read the top of `GEO-AUDIT-REPORT.md` and extract:
+Lee la parte superior de `GEO-AUDIT-REPORT.md` y extrae:
 
-| Field | Where to find it |
+| Campo | Dónde encontrarlo |
 |---|---|
-| `brand_name` | First H1 title (after "GEO Audit Report:") |
-| `domain` | Second bold line (e.g. `**Domain:** alexamediasolutions.com`) |
-| `geo_score` | Line matching `## Overall GEO Score: XX / 100` |
-| `score_label` | Word after the score on that same line (e.g. "Poor", "Fair", "Good") |
-| `date` | `**Audit Date:**` line |
-| `business_type` | `**Business Type:**` line |
-| `locations` | `**Locations:**` line |
-| `platform` | `**CMS:**` line |
+| `brand_name` | Primer título H1 (después de "GEO Audit Report:") |
+| `domain` | Segunda línea en negrita (ej. `**Domain:** alexamediasolutions.com`) |
+| `geo_score` | Línea que coincide con `## Overall GEO Score: XX / 100` |
+| `score_label` | Palabra después de la puntuación en esa misma línea (ej. "Poor" (Pobre), "Fair" (Aceptable), "Good" (Bueno)) |
+| `date` | Línea de `**Audit Date:**` |
+| `business_type` | Línea de `**Business Type:**` |
+| `locations` | Línea de `**Locations:**` |
+| `platform` | Línea de `**CMS:**` |
 
-### Step 3: Run pandoc
+### Paso 3: Ejecutar pandoc
 
 ```bash
 pandoc GEO-AUDIT-REPORT.md \
@@ -58,7 +58,7 @@ pandoc GEO-AUDIT-REPORT.md \
   --embed-resources \
   --template ~/.claude/skills/geo/templates/geo-report-template.html \
   --css ~/.claude/skills/geo/templates/geo-report-style.css \
-  --metadata title="GEO Audit Report — <brand_name>" \
+  --metadata title="Reporte de Auditoría GEO — <brand_name>" \
   --metadata brand_name="<brand_name>" \
   --metadata domain="<domain>" \
   --metadata geo_score="<geo_score>" \
@@ -70,9 +70,9 @@ pandoc GEO-AUDIT-REPORT.md \
   -o GEO-REPORT.html
 ```
 
-Replace `<field>` placeholders with values extracted in Step 2. If a field is not found in the report, omit that `--metadata` flag — the template has sensible defaults.
+Reemplaza los marcadores `<field>` con los valores extraídos en el Paso 2. Si no se encuentra un campo en el reporte, omite esa bandera `--metadata` — la plantilla tiene valores predeterminados sensatos.
 
-### Step 4: Run Chrome headless
+### Paso 4: Ejecutar Chrome headless
 
 ```bash
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
@@ -86,35 +86,35 @@ Replace `<field>` placeholders with values extracted in Step 2. If a field is no
   "file://$(pwd)/GEO-REPORT.html"
 ```
 
-### Step 5: Report completion
+### Paso 5: Reportar finalización
 
-Tell the user:
-- `GEO-REPORT.pdf` was generated in the current directory
-- File size
-- Optionally: `open GEO-REPORT.pdf` to preview it
+Dile al usuario:
+- Se generó `GEO-REPORT.pdf` en el directorio actual
+- Tamaño del archivo
+- Opcionalmente: `open GEO-REPORT.pdf` para previsualizarlo
 
-## What the PDF Contains
+## Qué Contiene el PDF
 
-- **Cover page** — Dark navy gradient, brand name, domain, GEO score badge (colored by score), audit date, business type, locations, CMS platform
-- **Score tables** — Cells containing `XX/100` are color-coded: ≥80 green, ≥65 blue, ≥50 amber, ≥35 orange, <35 red
-- **Finding sections** — `h3` headings containing "Critical / High / Medium / Low" get severity-colored left-border callout blocks (red / orange / yellow / green)
-- **Section page breaks** — Major sections (High Priority, 90-Day Roadmap, Component Score Summary, Generated Schema) break to new pages automatically
-- **Code blocks** — JSON schema templates render with dark theme monospace styling
-- **Page footer** — Brand name · GEO Audit · date + page numbers (via CSS `@page`)
+- **Página de portada** — Degradado azul marino oscuro, nombre de la marca, dominio, insignia de puntuación GEO (coloreada por puntuación), fecha de auditoría, tipo de negocio, ubicaciones, plataforma CMS
+- **Tablas de puntuación** — Las celdas que contienen `XX/100` están codificadas por colores: ≥80 verde, ≥65 azul, ≥50 ámbar, ≥35 naranja, <35 rojo
+- **Secciones de hallazgos** — Los encabezados `h3` que contienen "Critical / High / Medium / Low" (Crítico/Alto/Medio/Bajo) obtienen bloques de llamada con borde izquierdo coloreados por severidad (rojo / naranja / amarillo / verde)
+- **Saltos de página de sección** — Las secciones principales (Prioridad Alta, Hoja de Ruta de 90 Días, Resumen de Puntuación de Componentes, Esquema Generado) saltan a nuevas páginas automáticamente
+- **Bloques de código** — Las plantillas de esquema JSON se renderizan con estilo monoespaciado de tema oscuro
+- **Pie de página** — Nombre de la marca · Auditoría GEO · fecha + números de página (vía `@page` de CSS)
 
-## Customizing the Report
+## Personalización del Reporte
 
-- **Colors / typography** — Edit `~/.claude/skills/geo/templates/geo-report-style.css`
-- **Cover layout** — Edit `~/.claude/skills/geo/templates/geo-report-template.html`
-- **Score thresholds for color-coding** — Edit the `scoreColor()` function in the template's `<script>` block
-- **Which sections get page breaks** — Edit the `breakBefore` array in the template's `<script>` block
+- **Colores / tipografía** — Edita `~/.claude/skills/geo/templates/geo-report-style.css`
+- **Diseño de portada** — Edita `~/.claude/skills/geo/templates/geo-report-template.html`
+- **Umbrales de puntuación para codificación de colores** — Edita la función `scoreColor()` en el bloque `<script>` de la plantilla
+- **Qué secciones obtienen saltos de página** — Edita el array `breakBefore` en el bloque `<script>` de la plantilla
 
-## Troubleshooting
+## Solución de Problemas
 
-| Problem | Fix |
+| Problema | Solución |
 |---|---|
 | `pandoc: command not found` | `brew install pandoc` |
-| Chrome not found | Check path: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` |
-| PDF is blank / empty | Increase `--virtual-time-budget` to 8000 |
-| Cover metadata missing | Check GEO-AUDIT-REPORT.md has the standard header format |
-| Fonts not loading | PDF is rendered offline; system fonts are used as fallback — this is expected |
+| No se encuentra Chrome | Verifica ruta: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` |
+| PDF está en blanco / vacío | Aumenta `--virtual-time-budget` a 8000 |
+| Metadatos de portada faltan | Comprueba que GEO-AUDIT-REPORT.md tenga el formato de cabecera estándar |
+| Las fuentes no cargan | El PDF se renderiza fuera de línea; se usan fuentes del sistema como alternativa — esto es esperado |

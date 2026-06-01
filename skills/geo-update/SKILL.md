@@ -1,76 +1,76 @@
 ---
 name: geo-update
-description: Pull the latest GEO-SEO skill updates from the upstream repository. Compares installed files against the latest release, shows what changed, and updates all skills, agents, scripts, and schema templates in place.
+description: Obtiene las últimas actualizaciones de la habilidad GEO-SEO desde el repositorio principal (upstream). Compara los archivos instalados con la última versión, muestra qué cambió, y actualiza todas las habilidades, agentes, scripts y plantillas de esquema en el lugar.
 allowed-tools:
   - Bash
   - Read
   - Write
 ---
 
-# GEO-SEO Update Skill
+# Habilidad de Actualización GEO-SEO
 
-## Purpose
+## Propósito
 
-Updates the locally installed GEO-SEO skills, agents, scripts, and schema templates to the latest version from the upstream repository. Shows a summary of what changed before and after the update.
+Actualiza las habilidades, agentes, scripts y plantillas de esquema GEO-SEO instalados localmente a la última versión del repositorio original (upstream). Muestra un resumen de qué cambió antes y después de la actualización.
 
 ---
 
-## Update Workflow
+## Flujo de Trabajo de Actualización
 
-### Step 1: Determine Installed Location
+### Paso 1: Determinar Ubicación de Instalación
 
-The GEO-SEO toolkit installs to these locations under `~/.claude/`:
+El conjunto de herramientas GEO-SEO se instala en estas ubicaciones bajo `~/.claude/`:
 
-| Component | Install Path |
+| Componente | Ruta de Instalación |
 |-----------|-------------|
-| Main skill | `~/.claude/skills/geo/` |
-| Sub-skills | `~/.claude/skills/geo-*/` |
-| Agents | `~/.claude/agents/geo-*.md` |
+| Habilidad principal | `~/.claude/skills/geo/` |
+| Sub-habilidades | `~/.claude/skills/geo-*/` |
+| Agentes | `~/.claude/agents/geo-*.md` |
 | Scripts | `~/.claude/skills/geo/scripts/` |
-| Schema templates | `~/.claude/skills/geo/schema/` |
-| Hooks | `~/.claude/skills/geo/hooks/` |
+| Plantillas de esquema | `~/.claude/skills/geo/schema/` |
+| Hooks (Ganchos) | `~/.claude/skills/geo/hooks/` |
 
-Verify the installation exists by checking for `~/.claude/skills/geo/SKILL.md`. If it does not exist, inform the user that GEO-SEO is not installed and suggest running the installer instead.
+Verifica que la instalación existe buscando `~/.claude/skills/geo/SKILL.md`. Si no existe, informa al usuario que GEO-SEO no está instalado y sugiere ejecutar el instalador en su lugar.
 
-### Step 2: Clone Latest from Upstream
+### Paso 2: Clonar Última Versión desde Upstream
 
 ```bash
 TEMP_DIR=$(mktemp -d)
-git clone --depth 1 https://github.com/zubair-trabzada/geo-seo-claude.git "$TEMP_DIR/repo"
+git clone --depth 1 https://github.com/joanby/geo-seo-claude.git "$TEMP_DIR/repo"
 ```
 
-If the clone fails, report the error and stop. Do not modify any installed files.
+Si la clonación falla, reporta el error y detente. No modifiques ningún archivo instalado.
 
-### Step 3: Compare Installed vs Latest
+### Paso 3: Comparar Instalación Local vs Última Versión
 
-Before copying files, generate a diff summary so the user knows what will change:
+Antes de copiar archivos, genera un resumen de diferencias (diff) para que el usuario sepa qué cambiará:
 
-1. For each component directory, compare the installed files against the cloned files using `diff --recursive --brief`.
-2. Categorise changes as:
-   - **New files** — exist in upstream but not locally
-   - **Modified files** — exist in both but differ
-   - **Removed files** — exist locally but not in upstream (these are NOT deleted automatically)
-3. Present the summary to the user.
+1. Para cada directorio de componente, compara los archivos instalados contra los archivos clonados usando `diff --recursive --brief`.
+2. Categoriza los cambios como:
+   - **Archivos nuevos** — existen en upstream pero no localmente
+   - **Archivos modificados** — existen en ambos pero difieren
+   - **Archivos eliminados** — existen localmente pero no en upstream (estos NO se eliminan automáticamente)
+3. Presenta el resumen al usuario.
 
-### Step 4: Apply Updates
+### Paso 4: Aplicar Actualizaciones
 
-Copy files from the cloned repo over the installed locations:
+Copia archivos desde el repositorio clonado sobre las ubicaciones de instalación:
 
 ```bash
 CLAUDE_DIR="${HOME}/.claude"
 SOURCE_DIR="$TEMP_DIR/repo"
 
-# Main skill
+# Habilidad principal
 cp -r "$SOURCE_DIR/geo/"* "$CLAUDE_DIR/skills/geo/"
 
-# Sub-skills
+# Sub-habilidades
 for skill_dir in "$SOURCE_DIR/skills"/*/; do
     skill_name=$(basename "$skill_dir")
     mkdir -p "$CLAUDE_DIR/skills/${skill_name}"
     cp -r "$skill_dir"* "$CLAUDE_DIR/skills/${skill_name}/"
 done
 
-# Agents
+# Agentes
 for agent_file in "$SOURCE_DIR/agents/"*.md; do
     cp "$agent_file" "$CLAUDE_DIR/agents/"
 done
@@ -81,7 +81,7 @@ if [ -d "$SOURCE_DIR/scripts" ]; then
     chmod +x "$CLAUDE_DIR/skills/geo/scripts/"*.py 2>/dev/null || true
 fi
 
-# Schema templates
+# Plantillas de esquema
 if [ -d "$SOURCE_DIR/schema" ]; then
     cp -r "$SOURCE_DIR/schema/"* "$CLAUDE_DIR/skills/geo/schema/"
 fi
@@ -94,44 +94,44 @@ if [ -d "$SOURCE_DIR/hooks" ] && [ "$(ls -A "$SOURCE_DIR/hooks" 2>/dev/null)" ];
 fi
 ```
 
-### Step 5: Update Python Dependencies
+### Paso 5: Actualizar Dependencias Python
 
-If `requirements.txt` exists in the upstream repo and differs from the installed version:
+Si `requirements.txt` existe en el repo upstream y difiere de la versión instalada:
 
 ```bash
 python3 -m pip install -r "$SOURCE_DIR/requirements.txt" --quiet
 ```
 
-Report any failures but do not treat them as fatal.
+Reporta cualquier falla pero no la trates como fatal.
 
-### Step 6: Clean Up
+### Paso 6: Limpieza
 
 ```bash
 rm -rf "$TEMP_DIR"
 ```
 
-### Step 7: Report Results
+### Paso 7: Reportar Resultados
 
-Present a summary:
+Presenta un resumen:
 
 ```
-GEO-SEO Update Complete
+Actualización de GEO-SEO Completada
 =======================
-New files:      [count]
-Modified files: [count]
-Unchanged:      [count]
-Removed upstream (kept locally): [count]
+Archivos nuevos:      [cantidad]
+Archivos modificados: [cantidad]
+Sin cambios:          [cantidad]
+Eliminados en upstream (mantenidos localmente): [cantidad]
 
-Dependencies: [updated / unchanged / failed]
+Dependencias: [actualizadas / sin cambios / fallidas]
 ```
 
-If there were removed files upstream, list them and suggest the user review whether to delete them manually.
+Si hubo archivos eliminados en upstream, enúmeralos y sugiere que el usuario revise si debe eliminarlos manualmente.
 
 ---
 
-## Important Notes
+## Notas Importantes
 
-- **Never delete locally installed files** that no longer exist upstream. The user may have customised them. List them and let the user decide.
-- **Never modify `~/.claude/settings.json` or `~/.claude/settings.local.json`** — these are user configuration files, not part of the GEO-SEO toolkit.
-- **If already up to date** (no diff), report that and skip the copy step.
-- **Restart notice:** Remind the user that skill changes take effect in new Claude Code sessions. They should restart their session to use the updated skills.
+- **Nunca elimines archivos instalados localmente** que ya no existan en el upstream. El usuario puede haberlos personalizado. Enúmeralos y deja que el usuario decida.
+- **Nunca modifiques `~/.claude/settings.json` ni `~/.claude/settings.local.json`** — estos son archivos de configuración del usuario, no parte del conjunto de herramientas GEO-SEO.
+- **Si ya está actualizado** (sin diferencias), repórtalo y omite el paso de copiado.
+- **Aviso de reinicio:** Recuerda al usuario que los cambios de habilidades surten efecto en nuevas sesiones de Claude Code. Deberían reiniciar su sesión para usar las habilidades actualizadas.

@@ -1,45 +1,45 @@
 ---
 name: geo-prospect
 description: >
-  CRM-lite for managing GEO agency prospects and clients. Track leads through
-  the full sales pipeline: Lead → Qualified → Proposal Sent → Won → Lost.
-  Store audit history, notes, deal values, and generate pipeline summaries.
-  Use when user says "prospect", "lead", "client", "pipeline", "crm", "nuovo prospect",
-  "aggiungi cliente", or when managing the business side of GEO services.
+  CRM ligero para gestionar prospectos y clientes de agencia GEO. Rastrea leads a través
+  del flujo completo de ventas: Lead → Calificado → Propuesta Enviada → Ganado → Perdido.
+  Almacena historial de auditorías, notas, valores de los tratos y genera resúmenes del embudo de ventas.
+  Usar cuando el usuario diga "prospect", "lead", "client", "pipeline", "crm", "nuovo prospect",
+  "aggiungi cliente", o cuando administre el lado comercial de los servicios GEO.
 version: 1.0.0
 tags: [geo, business, crm, prospect, pipeline, sales]
 allowed-tools: Read, Write, Bash, Glob
 ---
 
-# GEO Prospect Manager
+# Gestor de Prospectos GEO
 
-## Purpose
+## Propósito
 
-Manage GEO agency prospects and clients through the full sales lifecycle.
-All data is stored in `~/.geo-prospects/prospects.json` (persistent across sessions).
+Gestionar los prospectos y clientes de una agencia GEO a través del ciclo completo de ventas.
+Todos los datos se almacenan en `~/.geo-prospects/prospects.json` (persiste entre sesiones).
 
 ---
 
-## Commands
+## Comandos
 
-| Command | What It Does |
+| Comando | Qué Hace |
 |---------|-------------|
-| `/geo prospect new <domain>` | Create new prospect (interactive prompts) |
-| `/geo prospect list` | Show all prospects with pipeline status |
-| `/geo prospect list <status>` | Filter: lead, qualified, proposal, won, lost |
-| `/geo prospect show <id-or-domain>` | Full prospect detail with history |
-| `/geo prospect audit <id-or-domain>` | Run quick GEO audit and save to prospect record |
-| `/geo prospect note <id-or-domain> "<text>"` | Add interaction note with timestamp |
-| `/geo prospect status <id-or-domain> <new-status>` | Move through pipeline |
-| `/geo prospect won <id-or-domain> <monthly-value>` | Mark as won, set contract value |
-| `/geo prospect lost <id-or-domain> "<reason>"` | Mark as lost with reason |
-| `/geo prospect pipeline` | Visual pipeline summary with revenue forecast |
+| `/geo prospect new <domain>` | Crear nuevo prospecto (indicaciones interactivas) |
+| `/geo prospect list` | Mostrar todos los prospectos con estado en el pipeline |
+| `/geo prospect list <status>` | Filtrar: lead, qualified, proposal, won, lost |
+| `/geo prospect show <id-or-domain>` | Detalle completo del prospecto con historial |
+| `/geo prospect audit <id-or-domain>` | Ejecutar auditoría GEO rápida y guardar en registro del prospecto |
+| `/geo prospect note <id-or-domain> "<text>"` | Añadir nota de interacción con marca de tiempo |
+| `/geo prospect status <id-or-domain> <new-status>` | Mover a través del pipeline |
+| `/geo prospect won <id-or-domain> <monthly-value>` | Marcar como ganado, establecer valor de contrato |
+| `/geo prospect lost <id-or-domain> "<reason>"` | Marcar como perdido con motivo |
+| `/geo prospect pipeline` | Resumen visual del pipeline con previsión de ingresos |
 
 ---
 
-## Data Structure
+## Estructura de Datos
 
-Each prospect is stored as a JSON record:
+Cada prospecto se almacena como un registro JSON:
 
 ```json
 {
@@ -61,7 +61,7 @@ Each prospect is stored as a JSON record:
   "notes": [
     {
       "date": "2026-03-12",
-      "text": "Initial GEO quick scan. Score 32/100 - Critical tier. Strong candidate for GEO services."
+      "text": "Escaneo rápido inicial GEO. Puntuación 32/100 - Nivel crítico. Fuerte candidato para servicios GEO."
     }
   ],
   "created_at": "2026-03-12",
@@ -71,123 +71,123 @@ Each prospect is stored as a JSON record:
 
 ---
 
-## Orchestration Instructions
+## Instrucciones de Orquestación
 
 ### `/geo prospect new <domain>`
 
-1. Check if `~/.geo-prospects/prospects.json` exists, create if not (empty array)
-2. Auto-detect company name from domain (e.g., `electron-srl.com` → `Electron Srl`)
-3. Assign next sequential ID: `PRO-001`, `PRO-002`, etc.
-4. Ask user for:
-   - Contact name (optional)
-   - Contact email
-   - Monthly contract value estimate (optional)
-5. Set status to `lead`
-6. Save to JSON file
-7. Suggest next step: "Run `/geo prospect audit electron-srl.com` to score this prospect"
+1. Verifica si `~/.geo-prospects/prospects.json` existe, crea uno si no (array vacío)
+2. Autodetecta el nombre de la empresa a partir del dominio (ej., `electron-srl.com` → `Electron Srl`)
+3. Asigna siguiente ID secuencial: `PRO-001`, `PRO-002`, etc.
+4. Pide al usuario:
+   - Nombre del contacto (opcional)
+   - Correo electrónico del contacto
+   - Estimación de valor mensual del contrato (opcional)
+5. Establece estado (status) en `lead`
+6. Guarda en archivo JSON
+7. Sugiere siguiente paso: "Ejecuta `/geo prospect audit electron-srl.com` para puntuar a este prospecto"
 
 ### `/geo prospect list`
 
-Read `~/.geo-prospects/prospects.json` and render a summary table:
+Lee `~/.geo-prospects/prospects.json` y renderiza una tabla resumen:
 
 ```
-GEO Prospect Pipeline — March 2026
+Pipeline de Prospectos GEO — Marzo 2026
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-ID       Domain                  Company           Status      Score  Value
+ID       Dominio                 Empresa           Estado      Puntaje  Valor
 ───────  ──────────────────────  ────────────────  ──────────  ─────  ──────
 PRO-001  electron-srl.com        Electron Srl      Qualified   32/100  €4.5K
 PRO-002  acme.com                ACME Corp         Lead        —       —
 PRO-003  bigshop.it              BigShop           Won         41/100  €6.0K
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Pipeline: 1 lead | 1 qualified | 0 proposals | 1 won | 0 lost
-Committed MRR: €6,000 | Pipeline Value: €4,500
+Pipeline: 1 lead | 1 calificado | 0 propuestas | 1 ganado | 0 perdidos
+MRR (Ingresos Recurrentes) Comprometidos: €6,000 | Valor en Pipeline: €4,500
 ```
 
 ### `/geo prospect audit <id-or-domain>`
 
-1. Run `/geo quick <domain>` to get GEO snapshot score
-2. Save score to prospect record: `geo_score`, `audit_date`
-3. Save audit output to `~/.geo-prospects/audits/<domain>-<date>.md`
-4. Update `audit_file` path in prospect record
-5. Add auto-note: "Quick audit run. GEO Score: XX/100."
-6. If score < 55: suggest "Score indicates strong sales opportunity. Run `/geo proposal <domain>` to generate proposal."
+1. Ejecuta `/geo quick <domain>` para obtener instantánea de la puntuación GEO
+2. Guarda la puntuación en el registro del prospecto: `geo_score`, `audit_date`
+3. Guarda la salida de la auditoría en `~/.geo-prospects/audits/<domain>-<date>.md`
+4. Actualiza la ruta `audit_file` en el registro del prospecto
+5. Añade nota automática: "Auditoría rápida ejecutada. Puntuación GEO: XX/100."
+6. Si la puntuación es < 55: sugiere "La puntuación indica fuerte oportunidad de venta. Ejecuta `/geo proposal <domain>` para generar propuesta."
 
 ### `/geo prospect note <id-or-domain> "<text>"`
 
-1. Find prospect by ID or domain
-2. Append note with current ISO date
-3. Save back to JSON
-4. Confirm: "Note added to Electron Srl (PRO-001)"
+1. Encuentra prospecto por ID o dominio
+2. Añade nota con la fecha ISO actual
+3. Guarda de vuelta en JSON
+4. Confirma: "Nota añadida a Electron Srl (PRO-001)"
 
 ### `/geo prospect status <id-or-domain> <status>`
 
-Valid statuses: `lead`, `qualified`, `proposal`, `won`, `lost`
+Estados válidos: `lead`, `qualified`, `proposal`, `won`, `lost`
 
-1. Update status field
-2. Add auto-note: "Status changed to <status>"
-3. Save and confirm
+1. Actualiza el campo status
+2. Añade nota automática: "Estado cambiado a <status>"
+3. Guarda y confirma
 
 ### `/geo prospect pipeline`
 
-Visual revenue-focused pipeline summary:
+Resumen visual del pipeline enfocado en ingresos:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-GEO AGENCY PIPELINE SUMMARY — March 2026
+RESUMEN DEL PIPELINE AGENCIA GEO — Marzo 2026
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-STAGE          COUNT   POTENTIAL VALUE   NOTES
+ETAPA          CANT.   VALOR POTENCIAL   NOTAS
 ─────────────  ─────   ───────────────   ─────────────────────
-Lead             2      €8,000/mo        New discoveries
-Qualified        1      €4,500/mo        Ready for proposal
-Proposal Sent    1      €6,000/mo        Awaiting signature
-Won              3      €18,500/mo       Active clients (MRR)
-Lost             1      —                Budget freeze
+Lead             2      €8,000/mes       Nuevos descubrimientos
+Calificado       1      €4,500/mes       Listo para propuesta
+Prop. Enviada    1      €6,000/mes       A la espera de firma
+Ganado           3      €18,500/mes      Clientes activos (MRR)
+Perdido          1      —                Congelación presupuesto
 
-COMMITTED MRR:        €18,500
-PIPELINE (qualified+): €10,500
-TOTAL POTENTIAL:      €29,000/mo → €348,000/yr
+MRR COMPROMETIDO:        €18,500
+PIPELINE (calificado+):  €10,500
+POTENCIAL TOTAL:         €29,000/mes → €348,000/año
 
-Next actions:
-→ PRO-003 (acme.com): Send proposal — score 38/100 (strong case)
-→ PRO-007 (shop.it): Follow up — proposal sent 8 days ago
+Próximas acciones:
+→ PRO-003 (acme.com): Enviar propuesta — puntuación 38/100 (caso fuerte)
+→ PRO-007 (shop.it): Seguimiento — propuesta enviada hace 8 días
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ---
 
-## Storage Location
+## Ubicación de Almacenamiento
 
-All data stored in `~/.geo-prospects/`:
+Todos los datos se guardan en `~/.geo-prospects/`:
 ```
 ~/.geo-prospects/
-├── prospects.json          # Main CRM database
-├── audits/                 # Quick audit snapshots
+├── prospects.json          # Base de datos CRM principal
+├── audits/                 # Instantáneas de auditorías rápidas
 │   └── electron-srl.com-2026-03-12.md
-└── proposals/              # Generated proposals
+└── proposals/              # Propuestas generadas
     └── electron-srl.com-proposal.md
 ```
 
-Create directory if it does not exist: `mkdir -p ~/.geo-prospects/audits ~/.geo-prospects/proposals`
+Crea el directorio si no existe: `mkdir -p ~/.geo-prospects/audits ~/.geo-prospects/proposals`
 
 ---
 
-## Pipeline Stage Definitions
+## Definiciones de Etapas del Pipeline
 
-| Status | Meaning | Typical Next Action |
+| Estado | Significado | Acción Siguiente Típica |
 |--------|---------|---------------------|
-| `lead` | Discovered, not yet contacted | Run quick audit, assess opportunity |
-| `qualified` | Audit done, confirmed pain points | Generate proposal |
-| `proposal` | Proposal sent, awaiting decision | Follow up, answer questions |
-| `won` | Contract signed, active client | Run full audit, start onboarding |
-| `lost` | Deal closed lost | Log reason for future reference |
+| `lead` | Descubierto, aún no contactado | Ejecutar auditoría rápida, evaluar oportunidad |
+| `qualified` | Auditoría hecha, confirmación de puntos de dolor | Generar propuesta |
+| `proposal` | Propuesta enviada, a la espera de decisión | Hacer seguimiento, responder dudas |
+| `won` | Contrato firmado, cliente activo | Ejecutar auditoría completa, inicio onboarding |
+| `lost` | Trato cerrado perdido | Registrar motivo para futura referencia |
 
 ---
 
-## Output
+## Salida
 
-- All commands print confirmation + current prospect status to terminal
-- No external files unless explicitly saving audits/proposals
-- JSON database is the single source of truth
+- Todos los comandos imprimen confirmación + estado actual del prospecto en la terminal
+- No generar archivos externos a menos que se guarden explícitamente auditorías/propuestas
+- La base de datos JSON es la única fuente de verdad

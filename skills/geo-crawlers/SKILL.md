@@ -1,6 +1,6 @@
 ---
 name: geo-crawlers
-description: AI crawler access analysis. Checks robots.txt, meta tags, and HTTP headers to determine which AI crawlers can access the site. Provides a complete access map and recommendations for maximizing AI visibility while maintaining appropriate control.
+description: Análisis de acceso de rastreadores de IA. Revisa robots.txt, meta etiquetas y cabeceras HTTP para determinar qué rastreadores de IA pueden acceder al sitio. Proporciona un mapa de acceso completo y recomendaciones para maximizar la visibilidad de IA mientras se mantiene el control adecuado.
 allowed-tools:
   - Read
   - Grep
@@ -10,168 +10,168 @@ allowed-tools:
   - Write
 ---
 
-# AI Crawler Access Analysis Skill
+# Habilidad de Análisis de Acceso de Rastreadores de IA
 
-## Purpose
+## Propósito
 
-This skill analyzes a website's accessibility to AI crawlers -- the bots that AI companies use to discover, index, and train on web content. If AI crawlers are blocked, the site's content cannot appear in AI-generated responses regardless of its quality. Crawler access is the foundational technical requirement for GEO.
+Esta habilidad analiza la accesibilidad de un sitio web para los rastreadores de IA (los bots que las empresas de IA utilizan para descubrir, indexar y entrenarse con contenido web). Si los rastreadores de IA están bloqueados, el contenido del sitio no puede aparecer en las respuestas generadas por IA, independientemente de su calidad. El acceso de los rastreadores es el requisito técnico fundamental para GEO.
 
-## Key Insight
+## Idea Clave
 
-As of early 2026, many websites inadvertently block AI crawlers through overly aggressive robots.txt rules, inherited from legacy SEO configurations. An Originality.ai 2025 study found that over 35% of the top 1,000 websites block at least one major AI crawler, and 5-10% block all AI crawlers. Blocking AI crawlers is the single fastest way to become invisible in AI-generated search results.
+A principios de 2026, muchos sitios web bloquean inadvertidamente los rastreadores de IA a través de reglas de robots.txt demasiado agresivas, heredadas de configuraciones SEO antiguas. Un estudio de Originality.ai de 2025 descubrió que más del 35% de los 1.000 sitios web principales bloquean al menos a un rastreador de IA importante, y el 5-10% bloquea todos los rastreadores de IA. Bloquear los rastreadores de IA es la forma más rápida de volverse invisible en los resultados de búsqueda generados por IA.
 
 ---
 
-## Complete AI Crawler Reference
+## Referencia Completa de Rastreadores de IA
 
-### Tier 1: Critical for AI Search Visibility (RECOMMEND: ALLOW)
+### Nivel 1: Críticos para Visibilidad en Búsqueda por IA (RECOMENDACIÓN: PERMITIR)
 
-These crawlers power the AI search products where users actively look for answers. Blocking them directly reduces your visibility in AI-generated responses.
+Estos rastreadores impulsan los productos de búsqueda de IA donde los usuarios buscan respuestas activamente. Bloquearlos reduce directamente tu visibilidad en las respuestas generadas por IA.
 
 #### GPTBot
-- **Operator:** OpenAI
+- **Operador:** OpenAI
 - **User-Agent:** `GPTBot`
-- **Full User-Agent String:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.2; +https://openai.com/gptbot)`
-- **Purpose:** Fetches content for ChatGPT's web browsing, plugins, and search features. Content accessed by GPTBot may be used to improve OpenAI models.
-- **Impact of Blocking:** Content will NOT appear in ChatGPT Search results or be accessible when users ask ChatGPT to browse the web. This is the highest-impact AI crawler to allow.
-- **Recommendation:** **ALLOW** -- ChatGPT has 300M+ weekly active users as of 2025. Blocking GPTBot removes your content from one of the largest AI search surfaces.
+- **Cadena Completa User-Agent:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.2; +https://openai.com/gptbot)`
+- **Propósito:** Obtiene contenido para la navegación web, plugins y funciones de búsqueda de ChatGPT. El contenido accedido por GPTBot puede usarse para mejorar los modelos de OpenAI.
+- **Impacto de Bloquear:** El contenido NO aparecerá en los resultados de Búsqueda de ChatGPT ni será accesible cuando los usuarios pidan a ChatGPT que navegue por la web. Este es el rastreador de IA de mayor impacto a permitir.
+- **Recomendación:** **PERMITIR** -- ChatGPT tiene más de 300M de usuarios activos semanales en 2025. Bloquear GPTBot elimina tu contenido de una de las superficies de búsqueda de IA más grandes.
 
 #### OAI-SearchBot
-- **Operator:** OpenAI
+- **Operador:** OpenAI
 - **User-Agent:** `OAI-SearchBot`
-- **Full User-Agent String:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; OAI-SearchBot/1.0; +https://docs.openai.com/bots/overview)`
-- **Purpose:** Specifically powers ChatGPT's search feature. Unlike GPTBot, content accessed by OAI-SearchBot is NOT used for model training -- only for live search results.
-- **Impact of Blocking:** Content will not appear in ChatGPT's search results even if GPTBot is allowed.
-- **Recommendation:** **ALLOW** -- This is a search-only crawler with no training implications. There is no strategic reason to block it.
+- **Cadena Completa User-Agent:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; OAI-SearchBot/1.0; +https://docs.openai.com/bots/overview)`
+- **Propósito:** Específicamente impulsa la función de búsqueda de ChatGPT. A diferencia de GPTBot, el contenido accedido por OAI-SearchBot NO se usa para entrenamiento del modelo -- solo para resultados de búsqueda en vivo.
+- **Impacto de Bloquear:** El contenido no aparecerá en los resultados de búsqueda de ChatGPT, incluso si se permite GPTBot.
+- **Recomendación:** **PERMITIR** -- Este es un rastreador exclusivo para búsqueda sin implicaciones de entrenamiento. No hay razón estratégica para bloquearlo.
 
 #### ChatGPT-User
-- **Operator:** OpenAI
+- **Operador:** OpenAI
 - **User-Agent:** `ChatGPT-User`
-- **Full User-Agent String:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ChatGPT-User/1.0; +https://openai.com/bot)`
-- **Purpose:** Used when a ChatGPT user explicitly asks the model to visit a specific URL. Acts like a browser agent on behalf of the user.
-- **Impact of Blocking:** ChatGPT cannot visit your pages when users ask it to read or summarize them. This prevents direct user-initiated traffic.
-- **Recommendation:** **ALLOW** -- Blocking this bot prevents users who are actively trying to engage with your content from accessing it through ChatGPT.
+- **Cadena Completa User-Agent:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ChatGPT-User/1.0; +https://openai.com/bot)`
+- **Propósito:** Se usa cuando un usuario de ChatGPT pide explícitamente al modelo visitar una URL específica. Actúa como un agente de navegador en nombre del usuario.
+- **Impacto de Bloquear:** ChatGPT no puede visitar tus páginas cuando los usuarios piden leerlas o resumirlas. Esto previene el tráfico directo iniciado por el usuario.
+- **Recomendación:** **PERMITIR** -- Bloquear este bot impide que los usuarios que intentan interactuar activamente con tu contenido accedan a él a través de ChatGPT.
 
 #### ClaudeBot
-- **Operator:** Anthropic
+- **Operador:** Anthropic
 - **User-Agent:** `ClaudeBot`
-- **Full User-Agent String:** `ClaudeBot/1.0; +https://www.anthropic.com/claude-bot`
-- **Purpose:** Fetches web content for Claude's features including web search, citations, and analysis tools.
-- **Impact of Blocking:** Content will not be accessible to Claude for web search or when users ask Claude to analyze specific URLs.
-- **Recommendation:** **ALLOW** -- Claude is a major AI assistant with growing market share. Blocking ClaudeBot reduces your AI search footprint.
+- **Cadena Completa User-Agent:** `ClaudeBot/1.0; +https://www.anthropic.com/claude-bot`
+- **Propósito:** Obtiene contenido web para las características de Claude, incluyendo búsqueda web, citas y herramientas de análisis.
+- **Impacto de Bloquear:** El contenido no será accesible para Claude en búsquedas web o cuando los usuarios pidan a Claude analizar URLs específicas.
+- **Recomendación:** **PERMITIR** -- Claude es un asistente de IA principal con una cuota de mercado en crecimiento. Bloquear ClaudeBot reduce tu huella en búsquedas de IA.
 
 #### PerplexityBot
-- **Operator:** Perplexity AI
+- **Operador:** Perplexity AI
 - **User-Agent:** `PerplexityBot`
-- **Full User-Agent String:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; PerplexityBot/1.0; +https://perplexity.ai/perplexitybot)`
-- **Purpose:** Powers Perplexity's AI search engine, which provides sourced answers with direct citations and links back to source pages.
-- **Impact of Blocking:** Content will not appear in Perplexity search results. Perplexity is one of the best referral traffic sources among AI search products because it always displays source links.
-- **Recommendation:** **ALLOW** -- Perplexity drives actual referral traffic and always attributes sources. High-value AI crawler for publishers and businesses.
+- **Cadena Completa User-Agent:** `Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; PerplexityBot/1.0; +https://perplexity.ai/perplexitybot)`
+- **Propósito:** Impulsa el motor de búsqueda de IA de Perplexity, el cual proporciona respuestas documentadas con citas directas y enlaces a las páginas de origen.
+- **Impacto de Bloquear:** El contenido no aparecerá en los resultados de búsqueda de Perplexity. Perplexity es una de las mejores fuentes de tráfico referido entre los productos de búsqueda de IA porque siempre muestra los enlaces a las fuentes.
+- **Recomendación:** **PERMITIR** -- Perplexity impulsa tráfico referido real y siempre atribuye las fuentes. Es un rastreador de IA de alto valor para publicadores y negocios.
 
 ---
 
-### Tier 2: Important for Broader AI Ecosystem (RECOMMEND: ALLOW)
+### Nivel 2: Importantes para Ecosistema IA Más Amplio (RECOMENDACIÓN: PERMITIR)
 
-These crawlers serve large AI platforms or search ecosystems. Allowing them increases your content's reach.
+Estos rastreadores sirven a grandes plataformas de IA o ecosistemas de búsqueda. Permitirlos aumenta el alcance de tu contenido.
 
 #### Google-Extended
-- **Operator:** Google
+- **Operador:** Google
 - **User-Agent:** `Google-Extended`
-- **Purpose:** Controls whether Google uses your content for Gemini model training and AI Overviews improvement. **CRITICAL NOTE:** Blocking Google-Extended does NOT affect your Google Search rankings or your appearance in Google Search results. That is controlled by the standard Googlebot.
-- **Impact of Blocking:** Content may not be used for Gemini training or to improve AI Overviews. However, your content can still appear in AI Overviews based on standard search indexing.
-- **Recommendation:** **ALLOW** -- Blocking provides minimal content protection upside while reducing your presence in Google's AI features. Since it does not affect standard search ranking, the only reason to block is philosophical objection to training data usage.
+- **Propósito:** Controla si Google usa tu contenido para entrenamiento de modelos Gemini y para mejorar los Resúmenes de IA (AI Overviews). **NOTA CRÍTICA:** Bloquear Google-Extended NO afecta tus clasificaciones en Google Search ni tu aparición en los resultados de Búsqueda de Google. Eso está controlado por el Googlebot estándar.
+- **Impacto de Bloquear:** El contenido no podrá usarse para entrenamiento de Gemini o para mejorar AI Overviews. Sin embargo, tu contenido todavía puede aparecer en AI Overviews basándose en la indexación de búsqueda estándar.
+- **Recomendación:** **PERMITIR** -- Bloquear ofrece un beneficio mínimo de protección de contenido mientras que reduce tu presencia en funciones de IA de Google. Como no afecta el ranking estándar, la única razón para bloquear es una objeción filosófica al uso de datos de entrenamiento.
 
 #### GoogleOther
-- **Operator:** Google
+- **Operador:** Google
 - **User-Agent:** `GoogleOther`
-- **Purpose:** Used by Google for various non-search-ranking purposes including research, one-off crawls, and AI-related data collection.
-- **Impact of Blocking:** Minimal impact on search rankings. May reduce presence in Google's AI research and experimental features.
-- **Recommendation:** **ALLOW** -- Low risk, moderate potential benefit for AI feature inclusion.
+- **Propósito:** Usado por Google para varios propósitos ajenos a la clasificación en búsqueda, incluyendo investigación, rastreos únicos y recolección de datos relacionados con la IA.
+- **Impacto de Bloquear:** Impacto mínimo en clasificaciones de búsqueda. Puede reducir la presencia en funciones de investigación y experimentales de IA de Google.
+- **Recomendación:** **PERMITIR** -- Bajo riesgo, beneficio potencial moderado para inclusión en funciones de IA.
 
 #### Applebot-Extended
-- **Operator:** Apple
+- **Operador:** Apple
 - **User-Agent:** `Applebot-Extended`
-- **Purpose:** Used by Apple to train and improve Apple Intelligence features, Siri, and Apple's AI products. Separate from standard Applebot (which powers Siri search and Spotlight Suggestions).
-- **Impact of Blocking:** Content may not be used in Apple Intelligence features. Standard Siri and Spotlight functionality is unaffected (controlled by Applebot).
-- **Recommendation:** **ALLOW** -- Apple Intelligence is integrated into all Apple devices (2B+ active devices). Presence in Apple's AI features has growing strategic value.
+- **Propósito:** Usado por Apple para entrenar y mejorar características de Apple Intelligence, Siri y los productos de IA de Apple. Separado del Applebot estándar (que impulsa búsqueda de Siri y Spotlight).
+- **Impacto de Bloquear:** El contenido no podrá usarse en funciones de Apple Intelligence. Las funciones estándar de Siri y Spotlight no se ven afectadas (controladas por Applebot).
+- **Recomendación:** **PERMITIR** -- Apple Intelligence está integrada en todos los dispositivos Apple (2B+ dispositivos activos). La presencia en las funciones de IA de Apple tiene valor estratégico creciente.
 
 #### Amazonbot
-- **Operator:** Amazon
+- **Operador:** Amazon
 - **User-Agent:** `Amazonbot`
-- **Full User-Agent String:** `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/600.2.5 (KHTML, like Gecko) Version/8.0.2 Safari/600.2.5 (compatible; Amazonbot/0.1; +https://developer.amazon.com/support/amazonbot)`
-- **Purpose:** Indexes content for Alexa answers and Amazon's AI features.
-- **Impact of Blocking:** Content will not appear in Alexa voice responses or Amazon's AI-powered search features.
-- **Recommendation:** **ALLOW** -- Relevant for voice search optimization. Lower priority than Tier 1 crawlers but no downside to allowing.
+- **Cadena Completa User-Agent:** `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/600.2.5 (KHTML, like Gecko) Version/8.0.2 Safari/600.2.5 (compatible; Amazonbot/0.1; +https://developer.amazon.com/support/amazonbot)`
+- **Propósito:** Indexa contenido para respuestas de Alexa y funciones de IA de Amazon.
+- **Impacto de Bloquear:** El contenido no aparecerá en las respuestas de voz de Alexa o en funciones de búsqueda impulsadas por IA de Amazon.
+- **Recomendación:** **PERMITIR** -- Relevante para optimización de búsqueda por voz. Prioridad más baja que los rastreadores de Nivel 1, pero no hay desventaja en permitirlo.
 
 #### FacebookBot
-- **Operator:** Meta
+- **Operador:** Meta
 - **User-Agent:** `FacebookBot`
-- **Purpose:** Used by Meta for AI features across Facebook, Instagram, WhatsApp, and Meta AI assistant.
-- **Impact of Blocking:** Content may not be accessible to Meta AI. Link previews on Facebook/Instagram are handled by a different crawler and are unaffected.
-- **Recommendation:** **ALLOW** -- Meta AI is embedded in apps with 3B+ combined users. Growing importance for AI visibility.
+- **Propósito:** Usado por Meta para funciones de IA en Facebook, Instagram, WhatsApp y el asistente Meta AI.
+- **Impacto de Bloquear:** El contenido puede no ser accesible para Meta AI. Las vistas previas de enlaces en Facebook/Instagram son manejadas por un rastreador diferente y no se ven afectadas.
+- **Recomendación:** **PERMITIR** -- Meta AI está integrado en aplicaciones con 3B+ de usuarios combinados. Importancia creciente para visibilidad de IA.
 
 ---
 
-### Tier 3: Training-Only Crawlers (ALLOW or BLOCK Based on Strategy)
+### Nivel 3: Rastreadores Solo para Entrenamiento (PERMITIR o BLOQUEAR según Estrategia)
 
-These crawlers are primarily used for AI model training rather than live search features. Blocking them does not affect AI search visibility.
+Estos rastreadores se usan principalmente para entrenamiento de modelos de IA en lugar de funciones de búsqueda en vivo. Bloquearlos no afecta la visibilidad en búsqueda de IA.
 
 #### CCBot
-- **Operator:** Common Crawl (nonprofit)
+- **Operador:** Common Crawl (organización sin fines de lucro)
 - **User-Agent:** `CCBot`
-- **Full User-Agent String:** `CCBot/2.0 (https://commoncrawl.org/faq/)`
-- **Purpose:** Builds the Common Crawl dataset, which is used as training data by many AI companies (Google, Meta, Stability AI, and others).
-- **Impact of Blocking:** Content will not appear in future Common Crawl datasets. Does NOT affect any live AI search product.
-- **Recommendation:** **CONTEXT-DEPENDENT** -- Allow if you want maximum long-term AI training presence. Block if you want to control training data usage. No impact on search visibility.
+- **Cadena Completa User-Agent:** `CCBot/2.0 (https://commoncrawl.org/faq/)`
+- **Propósito:** Construye el conjunto de datos de Common Crawl, el cual es usado como dato de entrenamiento por muchas empresas de IA (Google, Meta, Stability AI, y otras).
+- **Impacto de Bloquear:** El contenido no aparecerá en futuros conjuntos de datos de Common Crawl. NO afecta ningún producto de búsqueda IA en vivo.
+- **Recomendación:** **DEPENDE DEL CONTEXTO** -- Permitir si deseas la máxima presencia de entrenamiento IA a largo plazo. Bloquear si deseas controlar el uso de datos de entrenamiento. Sin impacto en visibilidad de búsqueda.
 
 #### anthropic-ai
-- **Operator:** Anthropic
+- **Operador:** Anthropic
 - **User-Agent:** `anthropic-ai`
-- **Purpose:** Used by Anthropic for AI safety research and Claude model training. Separate from ClaudeBot (which powers live features).
-- **Impact of Blocking:** Content will not be used for Claude training. Does NOT affect Claude's live search or web browsing features (controlled by ClaudeBot).
-- **Recommendation:** **CONTEXT-DEPENDENT** -- Similar to CCBot. Allow for training presence, block for training data control. No impact on live AI search.
+- **Propósito:** Usado por Anthropic para investigación en seguridad de IA y entrenamiento de modelo Claude. Separado de ClaudeBot (que impulsa características en vivo).
+- **Impacto de Bloquear:** El contenido no será usado para entrenamiento de Claude. NO afecta a las funciones de búsqueda en vivo o navegación web de Claude (controlado por ClaudeBot).
+- **Recomendación:** **DEPENDE DEL CONTEXTO** -- Similar a CCBot. Permitir para presencia en entrenamiento, bloquear para controlar datos de entrenamiento. Sin impacto en búsqueda de IA en vivo.
 
 #### Bytespider
-- **Operator:** ByteDance
+- **Operador:** ByteDance
 - **User-Agent:** `Bytespider`
-- **Purpose:** Used by ByteDance for various AI products including TikTok's AI features and Doubao (their ChatGPT competitor in China).
-- **Impact of Blocking:** Content will not be used for ByteDance AI products. Minimal impact for Western-market businesses.
-- **Recommendation:** **BLOCK** for most Western businesses (aggressive crawling behavior reported, minimal search visibility benefit). **ALLOW** if targeting Chinese/Asian markets.
+- **Propósito:** Usado por ByteDance para varios productos de IA incluyendo las funciones de IA de TikTok y Doubao (su competidor de ChatGPT en China).
+- **Impacto de Bloquear:** El contenido no se usará para productos de IA de ByteDance. Impacto mínimo para negocios en el mercado occidental.
+- **Recomendación:** **BLOQUEAR** para la mayoría de negocios occidentales (comportamiento de rastreo agresivo reportado, mínimo beneficio de visibilidad de búsqueda). **PERMITIR** si se dirige al mercado asiático/chino.
 
 #### cohere-ai
-- **Operator:** Cohere
+- **Operador:** Cohere
 - **User-Agent:** `cohere-ai`
-- **Purpose:** Used by Cohere for model training. Cohere powers enterprise AI solutions and the Coral chat product.
-- **Impact of Blocking:** Content will not be used for Cohere model training. Minimal direct consumer-facing impact.
-- **Recommendation:** **CONTEXT-DEPENDENT** -- Low priority. Allow or block based on general training data stance.
+- **Propósito:** Usado por Cohere para entrenamiento de modelos. Cohere provee soluciones de IA empresarial y el producto de chat Coral.
+- **Impacto de Bloquear:** El contenido no será usado para el entrenamiento de modelos Cohere. Mínimo impacto directo de cara al consumidor.
+- **Recomendación:** **DEPENDE DEL CONTEXTO** -- Baja prioridad. Permitir o bloquear basado en postura general sobre datos de entrenamiento.
 
 ---
 
-## Recommendation Matrix Summary
+## Resumen de Matriz de Recomendación
 
-| Crawler | Tier | Recommendation | Reason |
+| Rastreador | Nivel | Recomendación | Razón |
 |---|---|---|---|
-| GPTBot | 1 | **ALLOW** | Powers ChatGPT Search (300M+ users) |
-| OAI-SearchBot | 1 | **ALLOW** | Search-only, no training use |
-| ChatGPT-User | 1 | **ALLOW** | User-initiated browsing |
-| ClaudeBot | 1 | **ALLOW** | Claude web search and analysis |
-| PerplexityBot | 1 | **ALLOW** | Best referral traffic AI search |
-| Google-Extended | 2 | **ALLOW** | Gemini features; no search rank impact |
-| GoogleOther | 2 | **ALLOW** | Google AI research |
-| Applebot-Extended | 2 | **ALLOW** | Apple Intelligence (2B+ devices) |
-| Amazonbot | 2 | **ALLOW** | Alexa and Amazon AI |
-| FacebookBot | 2 | **ALLOW** | Meta AI (3B+ app users) |
-| CCBot | 3 | Context | Training data only |
-| anthropic-ai | 3 | Context | Training data only |
-| Bytespider | 3 | **BLOCK** | Aggressive crawler, low benefit |
-| cohere-ai | 3 | Context | Training data only |
+| GPTBot | 1 | **PERMITIR** | Impulsa ChatGPT Search (300M+ usuarios) |
+| OAI-SearchBot | 1 | **PERMITIR** | Solo búsqueda, no usa para entrenamiento |
+| ChatGPT-User | 1 | **PERMITIR** | Navegación iniciada por el usuario |
+| ClaudeBot | 1 | **PERMITIR** | Búsqueda web de Claude y análisis |
+| PerplexityBot | 1 | **PERMITIR** | El mejor tráfico referido en búsqueda de IA |
+| Google-Extended | 2 | **PERMITIR** | Funciones Gemini; sin impacto en rank de búsqueda |
+| GoogleOther | 2 | **PERMITIR** | Investigación IA de Google |
+| Applebot-Extended | 2 | **PERMITIR** | Apple Intelligence (2B+ dispositivos) |
+| Amazonbot | 2 | **PERMITIR** | Alexa e IA de Amazon |
+| FacebookBot | 2 | **PERMITIR** | Meta AI (3B+ usuarios de app) |
+| CCBot | 3 | Contexto | Solo para datos de entrenamiento |
+| anthropic-ai | 3 | Contexto | Solo para datos de entrenamiento |
+| Bytespider | 3 | **BLOQUEAR** | Rastreador agresivo, bajo beneficio |
+| cohere-ai | 3 | Contexto | Solo para datos de entrenamiento |
 
-### Maximum AI Visibility Configuration (robots.txt)
+### Configuración Máxima de Visibilidad de IA (robots.txt)
 
-For sites wanting maximum AI search visibility:
+Para sitios que quieren máxima visibilidad en búsquedas por IA:
 
 ```
-# AI Crawlers - ALLOWED for AI search visibility
+# Rastreadores IA - PERMITIDOS para visibilidad en búsqueda IA
 User-agent: GPTBot
 Allow: /
 
@@ -205,7 +205,7 @@ Allow: /
 User-agent: FacebookBot
 Allow: /
 
-# AI Crawlers - BLOCKED (aggressive/low value)
+# Rastreadores IA - BLOQUEADOS (agresivos/bajo valor)
 User-agent: Bytespider
 Disallow: /
 
@@ -215,163 +215,163 @@ Disallow: /
 
 ---
 
-## Analysis Procedure
+## Procedimiento de Análisis
 
-### Step 1: Fetch and Parse robots.txt
+### Paso 1: Obtener y Analizar robots.txt
 
-1. Use WebFetch to retrieve `[domain]/robots.txt`.
-2. Parse all User-agent directives and their associated Allow/Disallow rules.
-3. For each AI crawler in the reference list above:
-   - Check if there is a specific User-agent block for that crawler
-   - Check if there is a wildcard (`User-agent: *`) block that would apply
-   - Determine effective access: **Allowed**, **Blocked**, or **Not Mentioned** (inherits wildcard rules)
-4. Note any `Crawl-delay` directives that may slow AI crawler access.
-5. Check for `Sitemap` directives (AI crawlers use these for discovery).
+1. Usa WebFetch para recuperar `[dominio]/robots.txt`.
+2. Analiza todas las directivas de User-agent y sus reglas Allow/Disallow asociadas.
+3. Para cada rastreador de IA en la lista de referencia anterior:
+   - Revisa si hay un bloque User-agent específico para ese rastreador
+   - Revisa si hay un bloque comodín (`User-agent: *`) que aplicaría
+   - Determina el acceso efectivo: **Permitido**, **Bloqueado** o **No Mencionado** (hereda reglas del comodín)
+4. Toma nota de cualquier directiva `Crawl-delay` que pueda ralentizar el acceso de rastreadores IA.
+5. Revisa directivas `Sitemap` (los rastreadores IA las usan para descubrimiento).
 
-### Step 2: Check Meta Robots Tags
+### Paso 2: Revisar Etiquetas Meta Robots
 
-1. For a sample of 5-10 key pages, fetch the HTML and check for:
-   - `<meta name="robots" content="noindex">` -- blocks all bots
-   - `<meta name="robots" content="nofollow">` -- prevents link following
-   - `<meta name="robots" content="noai">` -- emerging tag to block AI use
-   - `<meta name="robots" content="noimageai">` -- blocks AI image training
-   - Bot-specific meta tags: `<meta name="GPTBot" content="noindex">`
-2. Record any page-level overrides of the robots.txt directives.
+1. Para una muestra de 5-10 páginas clave, obtiene el HTML y busca:
+   - `<meta name="robots" content="noindex">` -- bloquea a todos los bots
+   - `<meta name="robots" content="nofollow">` -- impide seguir enlaces
+   - `<meta name="robots" content="noai">` -- etiqueta emergente para bloquear uso por IA
+   - `<meta name="robots" content="noimageai">` -- bloquea entrenamiento con imágenes para IA
+   - Meta etiquetas específicas de bots: `<meta name="GPTBot" content="noindex">`
+2. Registra cualquier invalidación (override) a nivel de página de las directivas del robots.txt.
 
-### Step 3: Check HTTP Headers
+### Paso 3: Revisar Cabeceras HTTP
 
-1. For the same sample pages, check response headers for:
-   - `X-Robots-Tag: noindex` -- HTTP header equivalent of meta noindex
-   - `X-Robots-Tag: noai` -- HTTP header to block AI use
-   - `X-Robots-Tag: noimageai` -- blocks AI image training
-   - Bot-specific headers: `X-Robots-Tag: GPTBot: noindex`
-2. Note that HTTP headers override meta tags and apply to non-HTML resources too.
+1. Para las mismas páginas de muestra, revisa las cabeceras de respuesta en busca de:
+   - `X-Robots-Tag: noindex` -- Equivalente en cabecera HTTP de meta noindex
+   - `X-Robots-Tag: noai` -- Cabecera HTTP para bloquear uso de IA
+   - `X-Robots-Tag: noimageai` -- Bloquea entrenamiento IA de imágenes
+   - Cabeceras específicas de bots: `X-Robots-Tag: GPTBot: noindex`
+2. Toma en cuenta que las cabeceras HTTP anulan las meta etiquetas y también aplican a recursos no-HTML.
 
-### Step 4: Check for AI-Specific Files
+### Paso 4: Revisar Archivos Específicos de IA
 
-1. Check for `/llms.txt` (emerging standard for AI crawler guidance).
-2. Check for `/.well-known/ai-plugin.json` (OpenAI plugin manifest).
-3. Check for `/ai.txt` (proposed standard, similar to ads.txt for AI).
-4. Record presence/absence and quality of each file.
+1. Busca `/llms.txt` (estándar emergente para orientación a rastreadores de IA).
+2. Busca `/.well-known/ai-plugin.json` (manifiesto de plugin de OpenAI).
+3. Busca `/ai.txt` (estándar propuesto, similar a ads.txt para IA).
+4. Registra la presencia/ausencia y calidad de cada archivo.
 
-### Step 5: Assess JavaScript Rendering Requirements
+### Paso 5: Evaluar Requisitos de Renderizado JavaScript
 
-1. Check if the site is a Single Page Application (SPA) or heavily JavaScript-rendered.
-2. AI crawlers vary in their JavaScript rendering capabilities:
-   - GPTBot: Limited JS rendering
-   - ClaudeBot: Limited JS rendering
-   - PerplexityBot: Limited JS rendering
-   - Googlebot: Full JS rendering (but Google-Extended inherits this)
-3. If critical content requires JS rendering, flag this as a potential issue.
-4. Check for Server-Side Rendering (SSR) or Static Site Generation (SSG) as mitigations.
+1. Verifica si el sitio es una Aplicación de una Sola Página (SPA) o altamente dependiente de renderizado JavaScript.
+2. Los rastreadores de IA varían en sus capacidades de renderizar JavaScript:
+   - GPTBot: Renderizado JS limitado
+   - ClaudeBot: Renderizado JS limitado
+   - PerplexityBot: Renderizado JS limitado
+   - Googlebot: Renderizado JS completo (pero Google-Extended lo hereda)
+3. Si el contenido crítico requiere renderizado JS, marca esto como un problema potencial.
+4. Verifica si hay renderizado en el servidor (SSR) o Generación de Sitios Estáticos (SSG) como mitigación.
 
-### Step 6: Parse Content Signals
+### Paso 6: Analizar Señales de Contenido (Content Signals)
 
-Using the already-fetched robots.txt from Step 1, scan for `Content-Signal:` directives (IETF draft `draft-romm-aipref-contentsignals`).
+Usando el robots.txt que ya se obtuvo en el Paso 1, escanea por directivas `Content-Signal:` (borrador IETF `draft-romm-aipref-contentsignals`).
 
-1. Scan every line for a line starting with `Content-Signal:` (case-insensitive).
-2. If found:
-   - Parse all key=value pairs (split on `,` then on `=`).
-   - Validate keys against the known set: `ai-train`, `search`, `ai-personalization`, `ai-retrieval`.
-   - Validate values: only `yes` and `no` are valid.
-   - Flag any unknown keys or invalid values as a warning — the spec is still an IETF draft.
-   - Record the result as **Pass** and surface parsed values with plain-English meaning.
-3. If absent: record as **Recommendation** — the site has not declared AI usage preferences.
+1. Escanea cada línea buscando aquellas que comiencen por `Content-Signal:` (insensible a mayúsculas/minúsculas).
+2. Si se encuentra:
+   - Parsea todos los pares clave=valor (divide por `,` y luego por `=`).
+   - Valida claves contra el conjunto conocido: `ai-train`, `search`, `ai-personalization`, `ai-retrieval`.
+   - Valida valores: solo `yes` y `no` son válidos.
+   - Señala cualquier clave desconocida o valor inválido como una advertencia — la especificación aún es un borrador IETF.
+   - Registra el resultado como **Aprobado** (Pass) y expone los valores parseados con un significado en lenguaje simple.
+3. Si no se encuentra: registra como **Recomendación** — el sitio no ha declarado preferencias de uso para la IA.
 
-No additional HTTP request is needed. robots.txt is already fetched in Step 1.
+No se necesita solicitud HTTP adicional. robots.txt ya se obtiene en el Paso 1.
 
 ---
 
-## Output Format
+## Formato de Salida
 
-Generate a file called `GEO-CRAWLER-ACCESS.md`:
+Genera un archivo llamado `GEO-CRAWLER-ACCESS.md`:
 
 ```markdown
-# AI Crawler Access Report: [Domain]
+# Reporte de Acceso a Rastreadores de IA: [Dominio]
 
-**Analysis Date:** [Date]
-**Domain:** [Domain]
-**robots.txt Status:** [Found/Not Found/Error]
+**Fecha de Análisis:** [Fecha]
+**Dominio:** [Dominio]
+**Estado de robots.txt:** [Encontrado/No Encontrado/Error]
 
 ---
 
-## Crawler Access Summary
+## Resumen de Acceso de Rastreadores
 
-| Crawler | Operator | Tier | Status | Impact |
+| Rastreador | Operador | Nivel | Estado | Impacto |
 |---|---|---|---|---|
-| GPTBot | OpenAI | 1 | [Allowed/Blocked/Not Mentioned] | [Impact description] |
-| OAI-SearchBot | OpenAI | 1 | [Status] | [Impact] |
-| ChatGPT-User | OpenAI | 1 | [Status] | [Impact] |
-| ClaudeBot | Anthropic | 1 | [Status] | [Impact] |
-| PerplexityBot | Perplexity | 1 | [Status] | [Impact] |
-| Google-Extended | Google | 2 | [Status] | [Impact] |
-| GoogleOther | Google | 2 | [Status] | [Impact] |
-| Applebot-Extended | Apple | 2 | [Status] | [Impact] |
-| Amazonbot | Amazon | 2 | [Status] | [Impact] |
-| FacebookBot | Meta | 2 | [Status] | [Impact] |
-| CCBot | Common Crawl | 3 | [Status] | [Impact] |
-| anthropic-ai | Anthropic | 3 | [Status] | [Impact] |
-| Bytespider | ByteDance | 3 | [Status] | [Impact] |
-| cohere-ai | Cohere | 3 | [Status] | [Impact] |
+| GPTBot | OpenAI | 1 | [Permitido/Bloqueado/No Mencionado] | [Descripción impacto] |
+| OAI-SearchBot | OpenAI | 1 | [Estado] | [Impacto] |
+| ChatGPT-User | OpenAI | 1 | [Estado] | [Impacto] |
+| ClaudeBot | Anthropic | 1 | [Estado] | [Impacto] |
+| PerplexityBot | Perplexity | 1 | [Estado] | [Impacto] |
+| Google-Extended | Google | 2 | [Estado] | [Impacto] |
+| GoogleOther | Google | 2 | [Estado] | [Impacto] |
+| Applebot-Extended | Apple | 2 | [Estado] | [Impacto] |
+| Amazonbot | Amazon | 2 | [Estado] | [Impacto] |
+| FacebookBot | Meta | 2 | [Estado] | [Impacto] |
+| CCBot | Common Crawl | 3 | [Estado] | [Impacto] |
+| anthropic-ai | Anthropic | 3 | [Estado] | [Impacto] |
+| Bytespider | ByteDance | 3 | [Estado] | [Impacto] |
+| cohere-ai | Cohere | 3 | [Estado] | [Impacto] |
 
-## AI Visibility Score: [X]/100
+## Puntuación de Visibilidad IA: [X]/100
 
-**Tier 1 Access:** [X/5 crawlers allowed]
-**Tier 2 Access:** [X/5 crawlers allowed]
-**Tier 3 Access:** [X/4 crawlers allowed]
+**Acceso Nivel 1:** [X/5 rastreadores permitidos]
+**Acceso Nivel 2:** [X/5 rastreadores permitidos]
+**Acceso Nivel 3:** [X/4 rastreadores permitidos]
 
 ---
 
-## Critical Issues
+## Problemas Críticos
 
-[List any Tier 1 crawlers that are blocked]
+[Enumerar cualquier rastreador Nivel 1 que esté bloqueado]
 
-## Recommendations
+## Recomendaciones
 
-### Immediate Actions
-[Specific robots.txt changes needed]
+### Acciones Inmediatas
+[Cambios específicos requeridos en robots.txt]
 
-### robots.txt Recommendation
+### Recomendación de robots.txt
 ```
-[Complete recommended robots.txt content for AI crawlers]
+[Contenido recomendado completo de robots.txt para rastreadores de IA]
 ```
 
-### Additional Technical Findings
-- **Meta Robots Tags:** [Findings]
-- **X-Robots-Tag Headers:** [Findings]
-- **JavaScript Rendering:** [Assessment]
-- **llms.txt:** [Present/Absent]
-- **Sitemap Accessibility:** [Assessment]
+### Hallazgos Técnicos Adicionales
+- **Etiquetas Meta Robots:** [Hallazgos]
+- **Cabeceras X-Robots-Tag:** [Hallazgos]
+- **Renderizado JavaScript:** [Evaluación]
+- **llms.txt:** [Presente/Ausente]
+- **Accesibilidad de Sitemap:** [Evaluación]
 
-### Content Signals (IETF Draft)
+### Señales de Contenido (Borrador IETF)
 
-**Status:** Present / Absent
+**Estado:** Presente / Ausente
 
-<!-- If present: -->
-| Signal Key | Value | Meaning |
+<!-- Si está presente: -->
+| Clave de Señal | Valor | Significado |
 |---|---|---|
-| ai-train | no | Opted out of AI model training |
-| search | yes | Permits use in AI-powered search results |
+| ai-train | no | Excluido (opt-out) del entrenamiento de modelo IA |
+| search | yes | Permite uso en resultados de búsqueda impulsados por IA |
 
-<!-- If absent: -->
-**Recommendation:** Add a `Content-Signal:` directive to robots.txt to declare AI usage preferences explicitly. Example:
+<!-- Si está ausente: -->
+**Recomendación:** Añade una directiva `Content-Signal:` a robots.txt para declarar explícitamente las preferencias de uso por IA. Ejemplo:
 
 `Content-Signal: ai-train=no, search=yes, ai-retrieval=yes`
 
-See https://contentsignals.org/ for the full specification.
+Ve https://contentsignals.org/ para la especificación completa.
 ```
 
 ---
 
-## Scoring for Crawler Access
+## Puntuación para Acceso de Rastreadores
 
-The AI Crawler Access Score is calculated as:
+La Puntuación de Acceso de Rastreadores de IA se calcula como:
 
-| Component | Weight | Scoring |
+| Componente | Peso | Puntuación |
 |---|---|---|
-| Tier 1 Crawlers Allowed | 50% | 20 points per Tier 1 crawler allowed (5 crawlers = 100 points max, scaled to 50) |
-| Tier 2 Crawlers Allowed | 25% | 20 points per Tier 2 crawler allowed (5 crawlers = 100 points max, scaled to 25) |
-| No Blanket AI Blocks | 15% | Full points if no `User-agent: *` Disallow: / and no noai meta tags |
-| AI-Specific Files Present | 10% | 5 points for llms.txt, 5 points for sitemap accessible to AI crawlers |
+| Rastreadores de Nivel 1 Permitidos | 50% | 20 puntos por rastreador de Nivel 1 permitido (5 rastreadores = 100 puntos máx, escalado a 50) |
+| Rastreadores de Nivel 2 Permitidos | 25% | 20 puntos por rastreador de Nivel 2 permitido (5 rastreadores = 100 puntos máx, escalado a 25) |
+| Sin Bloqueos Generales a IA | 15% | Puntos completos si no hay `User-agent: *` Disallow: / y sin meta etiquetas noai |
+| Archivos Específicos-IA Presentes | 10% | 5 puntos por llms.txt, 5 puntos por sitemap accesible a rastreadores de IA |
 
-Final score = sum of all weighted components, capped at 100.
+Puntuación final = suma de todos los componentes ponderados, con límite de 100.

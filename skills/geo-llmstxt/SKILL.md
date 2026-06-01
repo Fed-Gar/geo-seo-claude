@@ -1,6 +1,6 @@
 ---
 name: geo-llmstxt
-description: Analyzes and generates llms.txt files -- the emerging standard for helping AI systems understand website structure and content. Can validate existing llms.txt files or generate new ones from scratch by crawling the site.
+description: Analiza y genera archivos llms.txt -- el estándar emergente para ayudar a los sistemas de IA a entender la estructura y contenido de un sitio web. Puede validar archivos llms.txt existentes o generar nuevos desde cero rastreando el sitio.
 allowed-tools:
   - Read
   - Grep
@@ -10,423 +10,423 @@ allowed-tools:
   - Write
 ---
 
-# llms.txt Standard Analysis and Generation Skill
+# Habilidad de Análisis y Generación del Estándar llms.txt
 
-## Purpose
+## Propósito
 
-This skill handles everything related to the `llms.txt` standard -- an emerging convention (proposed by Jeremy Howard in September 2024, gaining adoption through 2025-2026) that allows websites to provide structured guidance to AI systems about their content, structure, and key information. It is analogous to `robots.txt` (which tells crawlers what NOT to access) but instead tells AI systems what IS most useful to understand about the site.
+Esta habilidad maneja todo lo relacionado con el estándar `llms.txt` -- una convención emergente (propuesta por Jeremy Howard en septiembre de 2024, ganando adopción durante 2025-2026) que permite a los sitios web proporcionar orientación estructurada a los sistemas de IA sobre su contenido, estructura e información clave. Es análogo a `robots.txt` (que le dice a los rastreadores a qué NO acceder) pero en su lugar le dice a los sistemas de IA qué ES más útil entender sobre el sitio.
 
-## Why llms.txt Matters
+## Por Qué Importa llms.txt
 
-AI language models face a fundamental challenge when processing websites: they must determine which pages are most important, what the site is about, and how content is organized -- typically by crawling many pages and inferring structure. `llms.txt` solves this by providing an explicit, machine-readable (and human-readable) summary.
+Los modelos de lenguaje de IA enfrentan un desafío fundamental al procesar sitios web: deben determinar qué páginas son más importantes, de qué trata el sitio y cómo está organizado el contenido -- típicamente rastreando muchas páginas e infiriendo la estructura. `llms.txt` resuelve esto proporcionando un resumen explícito legible por máquinas (y por humanos).
 
-**Benefits of having a well-crafted llms.txt:**
+**Beneficios de tener un llms.txt bien elaborado:**
 
-1. **Faster AI comprehension:** AI systems can understand your site's purpose and structure from a single file rather than crawling dozens of pages.
-2. **Controlled narrative:** You choose which pages and facts AI systems see first, shaping how they represent your brand.
-3. **Higher citation accuracy:** AI systems that consult llms.txt can cite the correct, authoritative page for each topic.
-4. **Reduced misrepresentation:** Key facts (pricing, features, locations) are stated explicitly, reducing AI hallucination about your business.
-5. **Early adopter advantage:** As of early 2026, fewer than 5% of websites have an llms.txt file, making it a differentiator.
+1. **Comprensión más rápida por la IA:** Los sistemas de IA pueden entender el propósito y la estructura de tu sitio desde un solo archivo en lugar de rastrear docenas de páginas.
+2. **Narrativa controlada:** Tú eliges qué páginas y hechos ven primero los sistemas de IA, moldeando cómo representan tu marca.
+3. **Mayor precisión de citación:** Los sistemas de IA que consultan llms.txt pueden citar la página correcta y con autoridad para cada tema.
+4. **Menos tergiversación:** Los datos clave (precios, características, ubicaciones) se declaran explícitamente, reduciendo las alucinaciones de la IA sobre tu negocio.
+5. **Ventaja de adoptante temprano:** A principios de 2026, menos del 5% de los sitios web tienen un archivo llms.txt, lo que lo convierte en un diferenciador.
 
 ---
 
-## The llms.txt Specification
+## La Especificación de llms.txt
 
-### File Location
+### Ubicación del Archivo
 
-The file MUST be located at the root of the domain:
+El archivo DEBE ubicarse en la raíz del dominio:
 ```
 https://example.com/llms.txt
 ```
 
-### Format Specification
+### Especificación del Formato
 
-The file uses Markdown formatting with specific conventions:
+El archivo usa formato Markdown con convenciones específicas:
 
 ```markdown
-# [Site Name]
+# [Nombre del Sitio]
 
-> [One-sentence description of what the site/business does. Keep under 200 characters.]
+> [Descripción de una oración sobre lo que hace el sitio/negocio. Mantener bajo 200 caracteres.]
 
 ## Docs
 
-- [Page Title](https://example.com/page-url): Concise description of what this page covers and why it matters.
-- [Another Page](https://example.com/another-page): Description of content.
+- [Título de la Página](https://example.com/url-pagina): Descripción concisa de lo que cubre esta página y por qué importa.
+- [Otra Página](https://example.com/otra-pagina): Descripción del contenido.
 
 ## Optional
 
-- [Less Critical Page](https://example.com/optional-page): Description.
+- [Página Menos Crítica](https://example.com/pagina-opcional): Descripción.
 ```
 
-### Detailed Format Rules
+### Reglas Detalladas de Formato
 
-**1. Title (Required)**
+**1. Título (Requerido)**
 ```markdown
-# Site Name
+# Nombre del Sitio
 ```
-- Must be the first line of the file.
-- Should be the official business/site name.
-- Use the H1 heading format (single `#`).
+- Debe ser la primera línea del archivo.
+- Debe ser el nombre oficial del negocio/sitio.
+- Usa el formato de encabezado H1 (un solo `#`).
 
-**2. Description (Required)**
+**2. Descripción (Requerido)**
 ```markdown
-> Brief description of the site/business
+> Breve descripción del sitio/negocio
 ```
-- Must appear immediately after the title.
-- Use Markdown blockquote format (`>`).
-- Keep under 200 characters.
-- Should clearly state what the business does and who it serves.
-- Avoid marketing fluff -- be factual and specific.
+- Debe aparecer inmediatamente después del título.
+- Usa formato de cita en bloque Markdown (`>`).
+- Mantenla bajo 200 caracteres.
+- Debe establecer claramente lo que hace el negocio y a quién sirve.
+- Evita lenguaje puramente de marketing (fluff) -- sé factual y específico.
 
-**3. Main Sections (Required -- at least one)**
+**3. Secciones Principales (Requerido -- al menos una)**
 
-Use H2 headings (`##`) to organize pages by category. Common section names:
+Usa encabezados H2 (`##`) para organizar las páginas por categoría. Nombres comunes de secciones:
 
-| Section Name | Purpose | Example Content |
+| Nombre de Sección | Propósito | Ejemplo de Contenido |
 |---|---|---|
-| `## Docs` | Primary documentation or key pages | Product pages, service descriptions, core content |
-| `## Optional` | Secondary pages worth knowing about | Blog posts, supplementary resources |
-| `## API` | API documentation | API reference, authentication guides |
-| `## Blog` | Blog or news content | Recent/popular articles |
-| `## Products` | Product catalog | Product pages, pricing |
-| `## Services` | Service offerings | Service descriptions, process pages |
-| `## About` | Company information | About page, team, mission |
-| `## Resources` | Educational/reference content | Guides, tutorials, whitepapers |
-| `## Legal` | Legal documents | Terms of service, privacy policy |
-| `## Contact` | Contact information | Contact page, support channels |
+| `## Docs` | Documentación principal o páginas clave | Páginas de productos, descripciones de servicios, contenido central |
+| `## Optional` | Páginas secundarias que vale la pena conocer | Publicaciones de blog, recursos suplementarios |
+| `## API` | Documentación de la API | Referencia de la API, guías de autenticación |
+| `## Blog` | Contenido de blog o noticias | Artículos recientes/populares |
+| `## Products` | Catálogo de productos | Páginas de productos, precios |
+| `## Services` | Ofertas de servicios | Descripciones de servicios, páginas de procesos |
+| `## About` | Información de la empresa | Página Acerca de, equipo, misión |
+| `## Resources` | Contenido educativo/de referencia | Guías, tutoriales, libros blancos |
+| `## Legal` | Documentos legales | Términos de servicio, política de privacidad |
+| `## Contact` | Información de contacto | Página de contacto, canales de soporte |
 
-**4. Page Entries (Required)**
+**4. Entradas de Página (Requerido)**
 
-Each entry follows the format:
+Cada entrada sigue el formato:
 ```markdown
-- [Page Title](URL): Description of page content
+- [Título de la Página](URL): Descripción del contenido de la página
 ```
 
-Rules for page entries:
-- **Title:** Use the actual page title or a clear descriptive title.
-- **URL:** Must be a full, absolute URL (not relative paths).
-- **Description:** 10-30 words describing what the page covers. Be specific about the information available.
-- **Order:** List pages in order of importance within each section.
-- **Limit:** Include 10-30 page entries total. Prioritize your most authoritative and useful pages.
+Reglas para las entradas de página:
+- **Título:** Usa el título real de la página o un título descriptivo claro.
+- **URL:** Debe ser una URL absoluta completa (no rutas relativas).
+- **Descripción:** 10-30 palabras describiendo lo que cubre la página. Sé específico sobre la información disponible.
+- **Orden:** Enumera las páginas en orden de importancia dentro de cada sección.
+- **Límite:** Incluye de 10-30 entradas de página en total. Prioriza tus páginas más autorizadas y útiles.
 
-**5. Key Facts Section (Recommended)**
+**5. Sección de Datos Clave (Recomendado)**
 
 ```markdown
 ## Key Facts
-- Founded in [year] by [founder(s)]
-- Headquarters: [City, Country]
+- Founded in [año] by [fundador(es)]
+- Headquarters: [Ciudad, País]
 - [X] customers/users in [Y] countries
-- Key products: [Product A], [Product B], [Product C]
-- Industry: [Industry classification]
+- Key products: [Producto A], [Producto B], [Producto C]
+- Industry: [Clasificación de la industria]
 ```
 
-This section provides quick reference data that AI systems frequently need to answer user queries about your business.
+Esta sección proporciona datos de referencia rápida que los sistemas de IA frecuentemente necesitan para responder consultas de usuarios sobre tu negocio.
 
-**6. Contact Section (Recommended)**
+**6. Sección de Contacto (Recomendado)**
 
 ```markdown
 ## Contact
 - Website: https://example.com
-- Email: hello@example.com
-- Support: support@example.com
+- Email: hola@example.com
+- Support: soporte@example.com
 - Phone: +1-555-123-4567
-- Address: 123 Main St, City, State, ZIP, Country
+- Address: 123 Calle Principal, Ciudad, Estado, Código Postal, País
 ```
 
 ---
 
-## llms-full.txt (Extended Version)
+## llms-full.txt (Versión Extendida)
 
-In addition to `llms.txt`, sites can provide `/llms-full.txt` -- an extended version with more detail.
+Además de `llms.txt`, los sitios pueden proporcionar `/llms-full.txt` -- una versión extendida con más detalles.
 
-**Differences from llms.txt:**
+**Diferencias con llms.txt:**
 
-| Feature | llms.txt | llms-full.txt |
+| Característica | llms.txt | llms-full.txt |
 |---|---|---|
-| **Length** | Concise (50-150 lines) | Comprehensive (150-500+ lines) |
-| **Page entries** | 10-30 key pages | 30-100+ pages |
-| **Descriptions** | 10-30 words per entry | 30-100 words per entry, may include key facts from each page |
-| **Audience** | Quick AI comprehension | Deep AI analysis |
-| **Sections** | 3-6 sections | 8-15 sections |
-| **Key facts** | Business-level facts | Page-level facts and data points |
+| **Longitud** | Conciso (50-150 líneas) | Exhaustivo (150-500+ líneas) |
+| **Entradas de página** | 10-30 páginas clave | 30-100+ páginas |
+| **Descripciones** | 10-30 palabras por entrada | 30-100 palabras por entrada, puede incluir datos clave de cada página |
+| **Audiencia** | Comprensión rápida de la IA | Análisis profundo de la IA |
+| **Secciones** | 3-6 secciones | 8-15 secciones |
+| **Datos clave** | Datos a nivel negocio | Datos a nivel de página y puntos de información |
 
-Both files can coexist. AI systems check for `llms.txt` first, then may optionally load `llms-full.txt` for deeper understanding.
+Ambos archivos pueden coexistir. Los sistemas de IA buscan `llms.txt` primero, y luego pueden opcionalmente cargar `llms-full.txt` para un entendimiento más profundo.
 
 ---
 
-## Analysis Mode
+## Modo de Análisis
 
-When checking an existing llms.txt file:
+Al revisar un archivo llms.txt existente:
 
-### Step 1: Fetch the File
+### Paso 1: Obtener el Archivo
 
-1. Use WebFetch to retrieve `[domain]/llms.txt`.
-2. Also check for `[domain]/llms-full.txt`.
-3. Record HTTP status code:
-   - **200:** File exists -- proceed to validation.
-   - **404:** File does not exist -- recommend generation.
-   - **403:** File exists but is blocked -- flag as misconfiguration.
-   - **301/302:** Redirect -- follow and note the redirect.
+1. Usa WebFetch para recuperar `[dominio]/llms.txt`.
+2. También revisa `[dominio]/llms-full.txt`.
+3. Registra el código de estado HTTP:
+   - **200:** El archivo existe -- procede a la validación.
+   - **404:** El archivo no existe -- recomienda generación.
+   - **403:** El archivo existe pero está bloqueado -- márcalo como mala configuración.
+   - **301/302:** Redirección -- síguela y anota la redirección.
 
-### Step 2: Validate Format
+### Paso 2: Validar Formato
 
-Check each structural element:
+Revisa cada elemento estructural:
 
-| Element | Check | Severity if Missing |
+| Elemento | Comprobación | Severidad si falta |
 |---|---|---|
-| H1 Title | Present, matches business name | Critical |
-| Blockquote description | Present, under 200 chars, factual | High |
-| At least one H2 section | Present | Critical |
-| Page entries with URLs | At least 5 entries present | High |
-| URLs are absolute | All URLs use full https:// paths | High |
-| URLs are valid | All URLs return 200 status | Medium |
-| Descriptions present | Every entry has a description after the colon | Medium |
-| Key Facts section | Present with business information | Medium |
-| Contact section | Present with at least email | Low |
-| Reasonable length | 30-200 lines | Low |
-| No broken Markdown | Proper formatting throughout | Medium |
+| Título H1 | Presente, coincide con nombre del negocio | Crítica |
+| Descripción en Blockquote | Presente, < 200 caracteres, factual | Alta |
+| Al menos una sección H2 | Presente | Crítica |
+| Entradas de página con URLs | Al menos 5 entradas presentes | Alta |
+| Las URLs son absolutas | Todas las URLs usan rutas https:// completas | Alta |
+| Las URLs son válidas | Todas las URLs devuelven estado 200 | Media |
+| Descripciones presentes | Toda entrada tiene descripción después de los dos puntos | Media |
+| Sección de Datos Clave (Key Facts) | Presente con información del negocio | Media |
+| Sección de Contacto | Presente con al menos un correo | Baja |
+| Longitud razonable | 30-200 líneas | Baja |
+| Markdown sin errores | Formato adecuado en todo el archivo | Media |
 
-### Step 3: Assess Content Quality
+### Paso 3: Evaluar la Calidad del Contenido
 
-Rate the llms.txt on these dimensions:
+Califica el llms.txt en estas dimensiones:
 
-**Completeness (0-100):**
-- Does it cover all major site sections visible in the navigation?
-- Are the most important/highest-traffic pages included?
-- Is the Key Facts section present with accurate business data?
-- Does it include recent/updated content?
+**Exhaustividad (0-100):**
+- ¿Cubre todas las secciones principales del sitio visibles en la navegación?
+- ¿Están incluidas las páginas más importantes/de mayor tráfico?
+- ¿Está presente la sección de Datos Clave con datos de negocio precisos?
+- ¿Incluye contenido reciente/actualizado?
 
-**Accuracy (0-100):**
-- Do descriptions accurately reflect page content?
-- Are URLs valid and pointing to the correct pages?
-- Are Key Facts verifiable and current?
-- Is the business description accurate?
+**Precisión (0-100):**
+- ¿Las descripciones reflejan con precisión el contenido de la página?
+- ¿Las URLs son válidas y apuntan a las páginas correctas?
+- ¿Los Datos Clave son verificables y actuales?
+- ¿La descripción del negocio es precisa?
 
-**Usefulness (0-100):**
-- Would an AI system understand the site's purpose from this file alone?
-- Are descriptions specific enough to differentiate pages?
-- Are the most citation-worthy pages highlighted?
-- Is the organization logical and intuitive?
+**Utilidad (0-100):**
+- ¿Un sistema de IA entendería el propósito del sitio solo a partir de este archivo?
+- ¿Son las descripciones lo suficientemente específicas para diferenciar las páginas?
+- ¿Están destacadas las páginas más dignas de citación?
+- ¿Es la organización lógica e intuitiva?
 
-**Overall llms.txt Score** = (Completeness * 0.40) + (Accuracy * 0.35) + (Usefulness * 0.25)
+**Puntuación General llms.txt** = (Exhaustividad * 0.40) + (Precisión * 0.35) + (Utilidad * 0.25)
 
-### Step 4: Compare Against Site Content
+### Paso 4: Comparar con el Contenido del Sitio
 
-1. Crawl the site's main navigation and sitemap.
-2. Identify important pages NOT listed in llms.txt.
-3. Check if any listed URLs are broken or redirected.
-4. Verify that the business description matches current homepage messaging.
-5. Flag stale entries (pages that have been significantly updated since the llms.txt was written).
+1. Rastrea la navegación principal y el sitemap del sitio.
+2. Identifica páginas importantes NO listadas en llms.txt.
+3. Comprueba si alguna URL listada está rota o redirigida.
+4. Verifica que la descripción del negocio coincida con el mensaje actual de la página de inicio.
+5. Señala entradas obsoletas (páginas que han sido actualizadas significativamente desde que se escribió el llms.txt).
 
 ---
 
-## Generation Mode
+## Modo de Generación
 
-When creating a new llms.txt file from scratch:
+Al crear un nuevo archivo llms.txt desde cero:
 
-### Step 1: Site Discovery
+### Paso 1: Descubrimiento del Sitio
 
-1. Fetch the homepage and extract:
-   - Site name (from `<title>`, `<meta property="og:site_name">`, or H1)
-   - Business description (from meta description or hero section)
-   - Main navigation links
-   - Footer links
-2. Fetch `/sitemap.xml` to discover all public pages.
-3. Identify the site's primary business type (SaaS, E-commerce, Local, Publisher, Agency).
+1. Obtén la página de inicio y extrae:
+   - Nombre del sitio (desde `<title>`, `<meta property="og:site_name">`, o H1)
+   - Descripción del negocio (desde la meta description o sección hero)
+   - Enlaces principales de navegación
+   - Enlaces del pie de página
+2. Obtén `/sitemap.xml` para descubrir todas las páginas públicas.
+3. Identifica el tipo de negocio principal del sitio (SaaS, E-commerce, Local, Publicador, Agencia).
 
-### Step 2: Page Prioritization
+### Paso 2: Priorización de Páginas
 
-Categorize all discovered pages and select the most important ones:
+Categoriza todas las páginas descubiertas y selecciona las más importantes:
 
-**Always Include:**
-- Homepage
-- About / Company page
-- Pricing page (if exists)
-- Primary product/service pages (top 3-5)
-- Contact page
-- Documentation landing page (if exists)
+**Incluir Siempre:**
+- Página de Inicio (Homepage)
+- Página Acerca de / Compañía
+- Página de Precios (si existe)
+- Páginas de productos/servicios principales (top 3-5)
+- Página de Contacto
+- Página de inicio de documentación (si existe)
 
-**Include if High Quality:**
-- Top blog posts (by apparent importance, recency, or comprehensiveness)
-- Case studies or customer stories
-- Key resource/guide pages
-- FAQ page
-- Careers page (for large companies)
+**Incluir si es de Alta Calidad:**
+- Top publicaciones de blog (por importancia aparente, recencia o exhaustividad)
+- Casos de estudio o historias de clientes
+- Páginas clave de recursos/guías
+- Página de Preguntas Frecuentes (FAQ)
+- Página de Carreras (para empresas grandes)
 
-**Skip:**
-- Thin category/tag pages
-- Pagination pages
-- Login/signup pages
-- Legal boilerplate (unless specifically relevant)
-- Duplicate or near-duplicate content
-- Pages with minimal unique content
+**Omitir:**
+- Páginas delgadas de categorías/etiquetas
+- Páginas de paginación
+- Páginas de inicio de sesión/registro
+- Texto legal estándar (a menos que sea específicamente relevante)
+- Contenido duplicado o casi duplicado
+- Páginas con contenido único mínimo
 
-### Step 3: Write Descriptions
+### Paso 3: Escribir Descripciones
 
-For each selected page:
+Para cada página seleccionada:
 
-1. Fetch the page content using WebFetch.
-2. Read the H1, meta description, and first 2-3 paragraphs.
-3. Write a description that:
-   - Is 10-30 words long
-   - States what information is on the page
-   - Mentions specific topics, data, or features covered
-   - Avoids marketing language ("best," "leading," "revolutionary")
-   - Uses factual, informative language
+1. Obtén el contenido de la página usando WebFetch.
+2. Lee el H1, meta description y los primeros 2-3 párrafos.
+3. Escribe una descripción que:
+   - Tenga entre 10-30 palabras
+   - Declare qué información hay en la página
+   - Mencione temas específicos, datos o características cubiertas
+   - Evite el lenguaje de marketing ("mejor", "líder", "revolucionario")
+   - Use lenguaje factual e informativo
 
-**Good description examples:**
-- `Explains the three pricing tiers (Free, Pro, Enterprise) with feature comparison and annual/monthly costs.`
-- `Details the company's founding in 2018, team of 45 employees, and office locations in Austin and London.`
-- `Covers integration setup for Slack, Salesforce, and HubSpot with step-by-step guides and API endpoints.`
+**Ejemplos de descripciones buenas:**
+- `Explica los tres niveles de precios (Free, Pro, Enterprise) con comparación de características y costos anuales/mensuales.`
+- `Detalla la fundación de la empresa en 2018, equipo de 45 empleados y ubicaciones de oficinas en Austin y Londres.`
+- `Cubre la configuración de integración para Slack, Salesforce y HubSpot con guías paso a paso y endpoints de API.`
 
-**Bad description examples:**
-- `Our amazing pricing page!` (marketing language, no specifics)
-- `Learn more about our company.` (too vague)
-- `Click here for details.` (not descriptive)
+**Ejemplos de descripciones malas:**
+- `¡Nuestra increíble página de precios!` (lenguaje de marketing, sin detalles)
+- `Conozca más sobre nuestra empresa.` (demasiado vago)
+- `Haga clic aquí para más detalles.` (no descriptivo)
 
-### Step 4: Compile Key Facts
+### Paso 4: Recopilar Datos Clave
 
-Gather key business facts from the site:
+Reúne hechos comerciales clave del sitio:
 
-- Year founded
-- Founder name(s)
-- Headquarters location
-- Number of employees (if public)
-- Number of customers/users (if public)
-- Key products or services (list top 3-5)
-- Industry classification
-- Notable clients or partnerships (if public)
-- Key differentiators (what makes this business unique)
-- Recent milestones or achievements (last 12 months)
+- Año de fundación
+- Nombre(s) del/los fundador(es)
+- Ubicación de la sede
+- Número de empleados (si es público)
+- Número de clientes/usuarios (si es público)
+- Productos o servicios clave (enumera el top 3-5)
+- Clasificación de la industria
+- Clientes notables o asociaciones (si son públicos)
+- Diferenciadores clave (qué hace a este negocio único)
+- Hitos o logros recientes (últimos 12 meses)
 
-### Step 5: Assemble the File
+### Paso 5: Ensamblar el Archivo
 
-Construct the llms.txt following this template:
+Construye el llms.txt siguiendo esta plantilla:
 
 ```markdown
-# [Site Name]
+# [Nombre del Sitio]
 
-> [One clear sentence: what the business does, who it serves, and its primary value proposition. Under 200 characters.]
+> [Una oración clara: qué hace el negocio, a quién sirve y su propuesta de valor principal. Menos de 200 caracteres.]
 
 ## Docs
 
-- [Most Important Page](https://example.com/page): Description covering the key content on this page.
-- [Second Page](https://example.com/page-2): Description of this page's content and value.
-- [Third Page](https://example.com/page-3): What users and AI systems will find here.
+- [Página Más Importante](https://example.com/pagina): Descripción cubriendo el contenido clave en esta página.
+- [Segunda Página](https://example.com/pagina-2): Descripción del contenido de esta página y su valor.
+- [Tercera Página](https://example.com/pagina-3): Lo que los usuarios y los sistemas de IA encontrarán aquí.
 
 ## Products
 
-- [Product A](https://example.com/product-a): Core features, target users, and pricing model for Product A.
-- [Product B](https://example.com/product-b): What Product B does and how it differs from Product A.
+- [Producto A](https://example.com/producto-a): Características principales, usuarios objetivo y modelo de precios para Producto A.
+- [Producto B](https://example.com/producto-b): Lo que hace Producto B y cómo se diferencia de Producto A.
 
 ## Resources
 
-- [Guide Title](https://example.com/guide): Comprehensive guide covering [topic] with [X] sections and practical examples.
-- [Blog Post](https://example.com/blog/post): Analysis of [topic] with original data from [source].
+- [Título de la Guía](https://example.com/guia): Guía exhaustiva cubriendo [tema] con [X] secciones y ejemplos prácticos.
+- [Publicación de Blog](https://example.com/blog/post): Análisis de [tema] con datos originales de [fuente].
 
 ## Key Facts
 
-- Founded in [year] by [name(s)]
-- Headquartered in [City, Country]
-- [Specific metric: e.g., "Serves 10,000+ businesses in 40 countries"]
-- [Key differentiator: e.g., "Only platform offering real-time X and Y integration"]
-- Industry: [Classification]
+- Founded in [año] by [nombre(s)]
+- Headquartered in [Ciudad, País]
+- [Métrica específica: ej., "Serves 10,000+ businesses in 40 countries"]
+- [Diferenciador clave: ej., "Only platform offering real-time X and Y integration"]
+- Industry: [Clasificación]
 
 ## Contact
 
 - Website: https://example.com
-- Email: [primary contact email]
-- Support: [support URL or email]
+- Email: [correo de contacto principal]
+- Support: [URL de soporte o correo]
 ```
 
-### Step 6: Validate the Generated File
+### Paso 6: Validar el Archivo Generado
 
-Before outputting:
-1. Verify all URLs are reachable (200 status).
-2. Confirm total entry count is between 10-30.
-3. Check that no description exceeds 50 words.
-4. Verify the overall file length is 50-150 lines.
-5. Ensure Markdown formatting is clean and consistent.
+Antes de enviar a la salida:
+1. Verifica que todas las URLs sean alcanzables (estado 200).
+2. Confirma que la cantidad total de entradas esté entre 10-30.
+3. Revisa que ninguna descripción exceda las 50 palabras.
+4. Verifica que la longitud total del archivo sea de 50-150 líneas.
+5. Asegúrate de que el formato Markdown sea limpio y consistente.
 
 ---
 
-## Output Format
+## Formato de Salida
 
-### For Analysis Mode
+### Para el Modo de Análisis
 
-Generate `GEO-LLMSTXT-ANALYSIS.md`:
+Genera `GEO-LLMSTXT-ANALYSIS.md`:
 
 ```markdown
-# llms.txt Analysis: [Domain]
+# Análisis de llms.txt: [Dominio]
 
-**Analysis Date:** [Date]
-**llms.txt Status:** [Found at URL / Not Found / Error]
-**llms-full.txt Status:** [Found / Not Found]
+**Fecha de Análisis:** [Fecha]
+**Estado llms.txt:** [Encontrado en URL / No Encontrado / Error]
+**Estado llms-full.txt:** [Encontrado / No Encontrado]
 
 ---
 
-## Overall llms.txt Score: [X]/100
+## Puntuación General llms.txt: [X]/100
 
-| Dimension | Score |
+| Dimensión | Puntuación |
 |---|---|
-| Completeness | [X]/100 |
-| Accuracy | [X]/100 |
-| Usefulness | [X]/100 |
+| Exhaustividad | [X]/100 |
+| Precisión | [X]/100 |
+| Utilidad | [X]/100 |
 
 ---
 
-## Format Validation
+## Validación de Formato
 
-| Element | Status | Notes |
+| Elemento | Estado | Notas |
 |---|---|---|
-| H1 Title | [Pass/Fail] | [Notes] |
-| Description blockquote | [Pass/Fail] | [Notes] |
-| H2 Sections | [Pass/Fail] | [X sections found] |
-| Page entries | [Pass/Fail] | [X entries found] |
-| URL validity | [Pass/Fail] | [X broken URLs] |
-| Entry descriptions | [Pass/Fail] | [X missing descriptions] |
-| Key Facts | [Pass/Fail] | [Notes] |
-| Contact section | [Pass/Fail] | [Notes] |
+| Título H1 | [Pasa/Falla] | [Notas] |
+| Descripción blockquote | [Pasa/Falla] | [Notas] |
+| Secciones H2 | [Pasa/Falla] | [X secciones encontradas] |
+| Entradas de página | [Pasa/Falla] | [X entradas encontradas] |
+| Validez de URLs | [Pasa/Falla] | [X URLs rotas] |
+| Descripciones de entradas | [Pasa/Falla] | [X descripciones faltantes] |
+| Datos Clave (Key Facts) | [Pasa/Falla] | [Notas] |
+| Sección de Contacto | [Pasa/Falla] | [Notas] |
 
 ---
 
-## Missing Pages
+## Páginas Faltantes
 
-These important pages were found on the site but not in llms.txt:
+Estas páginas importantes fueron encontradas en el sitio pero no en llms.txt:
 
-1. [Page Title](URL) -- [Why it should be included]
-2. [Page Title](URL) -- [Why it should be included]
+1. [Título de Página](URL) -- [Por qué debería estar incluida]
+2. [Título de Página](URL) -- [Por qué debería estar incluida]
 
-## Improvement Recommendations
+## Recomendaciones de Mejora
 
-1. [Specific recommendation]
-2. [Specific recommendation]
-3. [Specific recommendation]
+1. [Recomendación específica]
+2. [Recomendación específica]
+3. [Recomendación específica]
 
-## Suggested Updated llms.txt
+## Sugerencia de llms.txt Actualizado
 
-[Complete rewritten llms.txt file if significant improvements are needed]
+[Archivo llms.txt completo reescrito si se necesitan mejoras significativas]
 ```
 
-### For Generation Mode
+### Para el Modo de Generación
 
-Output the complete `llms.txt` file content, ready to be saved to the site's root directory. Also output a brief `GEO-LLMSTXT-GENERATION.md` report explaining:
-- How many pages were discovered and how many were selected
-- The prioritization rationale
-- Any pages that were borderline (might add later)
-- Recommended update frequency (e.g., monthly for active blogs, quarterly for stable sites)
+Imprime el contenido completo del archivo `llms.txt`, listo para ser guardado en el directorio raíz del sitio. También genera un breve informe `GEO-LLMSTXT-GENERATION.md` explicando:
+- Cuántas páginas fueron descubiertas y cuántas fueron seleccionadas
+- El fundamento de priorización
+- Cualquier página que estuvo en el límite (que podría añadirse después)
+- Frecuencia de actualización recomendada (ej., mensual para blogs activos, trimestral para sitios estables)
 
 ---
 
-## Best Practices Reference
+## Referencia de Mejores Prácticas
 
-1. **Update regularly.** If your site publishes weekly blog posts, update llms.txt monthly. If your product changes quarterly, update after each release.
-2. **Lead with your strongest content.** The first entries in each section should be your most authoritative, comprehensive pages.
-3. **Be specific in descriptions.** "Comprehensive 3,000-word guide to React Server Components with code examples" is far more useful than "React guide."
-4. **Include your differentiators.** If your site has unique data, original research, or exclusive features, highlight these in descriptions and Key Facts.
-5. **Keep it concise.** The llms.txt should be scannable in under 60 seconds. Save detail for llms-full.txt.
-6. **Use absolute URLs.** Always include the full `https://` URL, never relative paths.
-7. **Test after deployment.** After uploading, verify the file is accessible at `https://yourdomain.com/llms.txt` with no redirects.
-8. **Coordinate with robots.txt.** Ensure pages listed in llms.txt are not blocked in robots.txt for AI crawlers.
-9. **Mirror your site structure.** Section names in llms.txt should roughly correspond to your main navigation categories.
-10. **Avoid sensitive pages.** Do not include internal tools, admin panels, or pages with sensitive information.
+1. **Actualiza regularmente.** Si tu sitio publica artículos de blog semanalmente, actualiza llms.txt mensualmente. Si tu producto cambia trimestralmente, actualiza después de cada lanzamiento.
+2. **Lidera con tu contenido más fuerte.** Las primeras entradas de cada sección deberían ser tus páginas más autorizadas y exhaustivas.
+3. **Sé específico en las descripciones.** "Guía exhaustiva de 3.000 palabras sobre React Server Components con ejemplos de código" es mucho más útil que "Guía de React".
+4. **Incluye tus diferenciadores.** Si tu sitio tiene datos únicos, investigación original o características exclusivas, resáltalos en las descripciones y en Key Facts.
+5. **Mantenlo conciso.** El llms.txt debería poder escanearse en menos de 60 segundos. Guarda el detalle para llms-full.txt.
+6. **Usa URLs absolutas.** Siempre incluye la URL completa con `https://`, nunca rutas relativas.
+7. **Prueba después de implementar.** Después de subirlo, verifica que el archivo sea accesible en `https://tudominio.com/llms.txt` sin redirecciones.
+8. **Coordina con robots.txt.** Asegúrate de que las páginas listadas en llms.txt no estén bloqueadas en robots.txt para rastreadores de IA.
+9. **Refleja la estructura de tu sitio.** Los nombres de las secciones en llms.txt deberían corresponder aproximadamente a tus categorías principales de navegación.
+10. **Evita páginas sensibles.** No incluyas herramientas internas, paneles de administración o páginas con información confidencial.

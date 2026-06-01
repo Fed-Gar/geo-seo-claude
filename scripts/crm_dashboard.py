@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-GEO-SEO CRM Dashboard — CLI
-Visualizza il CRM dei prospect con rich.
+Panel CRM GEO-SEO — CLI
+Muestra el CRM de prospectos con rich.
 
-Usage:
-    python crm_dashboard.py                  # Vista principale
-    python crm_dashboard.py --prospect PRO-001   # Dettaglio singolo prospect
-    python crm_dashboard.py --refresh           # Aggiorna + mostra
+Uso:
+    python crm_dashboard.py                  # Vista principal
+    python crm_dashboard.py --prospect PRO-001   # Detalle de un solo prospecto
+    python crm_dashboard.py --refresh           # Actualiza + muestra
 """
 
 import json
@@ -31,17 +31,17 @@ try:
     from rich.style import Style
     from rich.markup import escape
 except ImportError:
-    print("ERROR: rich is required. Run: pip install rich")
+    print("ERROR: se requiere rich. Ejecuta: pip install rich")
     sys.exit(1)
 
-# ── Paths ─────────────────────────────────────────────────────────────
+# ── Rutas ─────────────────────────────────────────────────────────────
 CRM_PATH = Path.home() / ".geo-prospects" / "prospects.json"
 AUDITS_DIR = Path.home() / ".geo-prospects" / "audits"
 PROPOSALS_DIR = Path.home() / ".geo-prospects" / "proposals"
 
 console = Console()
 
-# ── Color helpers ──────────────────────────────────────────────────────
+# ── Utilidades de color ──────────────────────────────────────────────────────
 STATUS_STYLE = {
     "lead":     ("⬜", "dim white",       "grey50"),
     "audit":    ("🔍", "bold yellow",     "yellow"),
@@ -52,7 +52,7 @@ STATUS_STYLE = {
 }
 
 def score_style(score: int) -> tuple[str, str]:
-    """Returns (color, label) based on GEO score."""
+    """Devuelve (color, etiqueta) basado en la puntuación GEO."""
     if score >= 80:
         return "bold green",  "GOOD"
     elif score >= 60:
@@ -63,7 +63,7 @@ def score_style(score: int) -> tuple[str, str]:
         return "bold red",    "CRITICAL"
 
 def score_bar(score: int, width: int = 20) -> Text:
-    """Renders a colored progress bar for a score."""
+    """Renderiza una barra de progreso coloreada para una puntuación."""
     filled = round((score / 100) * width)
     empty = width - filled
     color, _ = score_style(score)
@@ -79,18 +79,18 @@ def format_eur(value: int | None) -> str:
     return f"€{value:,.0f}".replace(",", ".")
 
 
-# ── Load CRM ───────────────────────────────────────────────────────────
+# ── Cargar CRM ───────────────────────────────────────────────────────────
 def load_prospects() -> list[dict]:
     if not CRM_PATH.exists():
-        console.print(f"[red]CRM file not found:[/red] {CRM_PATH}")
+        console.print(f"[red]Archivo CRM no encontrado:[/red] {CRM_PATH}")
         return []
     with open(CRM_PATH) as f:
         return json.load(f)
 
 
-# ── Views ──────────────────────────────────────────────────────────────
+# ── Vistas ──────────────────────────────────────────────────────────────
 def view_summary(prospects: list[dict]):
-    """KPI summary cards at top."""
+    """Tarjetas de resumen KPI en la parte superior."""
     total = len(prospects)
     active = sum(1 for p in prospects if p.get("status") == "active")
     pipeline = sum(p.get("monthly_value", 0) for p in prospects if p.get("status") == "proposal")
@@ -101,7 +101,7 @@ def view_summary(prospects: list[dict]):
         Panel(
             Align.center(
                 Text.from_markup(
-                    f"[bold white]{total}[/bold white]\n[dim]Total Prospects[/dim]"
+                    f"[bold white]{total}[/bold white]\n[dim]Total de Prospectos[/dim]"
                 )
             ),
             border_style="bright_blue",
@@ -110,7 +110,7 @@ def view_summary(prospects: list[dict]):
         Panel(
             Align.center(
                 Text.from_markup(
-                    f"[bold green]{active}[/bold green]\n[dim]Active Clients[/dim]"
+                    f"[bold green]{active}[/bold green]\n[dim]Clientes Activos[/dim]"
                 )
             ),
             border_style="green",
@@ -128,7 +128,7 @@ def view_summary(prospects: list[dict]):
         Panel(
             Align.center(
                 Text.from_markup(
-                    f"[bold yellow]{format_eur(pipeline)}[/bold yellow]\n[dim]Pipeline (proposals)[/dim]"
+                    f"[bold yellow]{format_eur(pipeline)}[/bold yellow]\n[dim]Embudo (propuestas)[/dim]"
                 )
             ),
             border_style="yellow",
@@ -137,7 +137,7 @@ def view_summary(prospects: list[dict]):
         Panel(
             Align.center(
                 Text.from_markup(
-                    f"[bold]{avg_score}[/bold][dim]/100[/dim]\n[dim]Avg GEO Score[/dim]"
+                    f"[bold]{avg_score}[/bold][dim]/100[/dim]\n[dim]Puntaje GEO Promedio[/dim]"
                 )
             ),
             border_style="magenta",
@@ -148,7 +148,7 @@ def view_summary(prospects: list[dict]):
 
 
 def view_prospect_table(prospects: list[dict]):
-    """Main prospects table."""
+    """Tabla principal de prospectos."""
     table = Table(
         title=None,
         box=box.ROUNDED,
@@ -160,13 +160,13 @@ def view_prospect_table(prospects: list[dict]):
     )
 
     table.add_column("ID",         style="dim", width=9)
-    table.add_column("Company",    style="bold white", min_width=16)
-    table.add_column("Domain",     style="cyan", min_width=18)
-    table.add_column("Status",     justify="center", min_width=12)
-    table.add_column("GEO Score",  justify="left", min_width=26)
-    table.add_column("Audit",      justify="center", min_width=12)
+    table.add_column("Empresa",    style="bold white", min_width=16)
+    table.add_column("Dominio",     style="cyan", min_width=18)
+    table.add_column("Estado",     justify="center", min_width=12)
+    table.add_column("Puntuación GEO",  justify="left", min_width=26)
+    table.add_column("Auditoría",      justify="center", min_width=12)
     table.add_column("MRR",        justify="right", min_width=10)
-    table.add_column("Proposal",   justify="center", min_width=10)
+    table.add_column("Propuesta",   justify="center", min_width=10)
 
     for p in sorted(prospects, key=lambda x: x.get("geo_score", 0)):
         pid     = p.get("id", "—")
@@ -196,10 +196,10 @@ def view_prospect_table(prospects: list[dict]):
 
 
 def view_prospect_detail(prospects: list[dict], prospect_id: str):
-    """Detailed view of a single prospect."""
+    """Vista detallada de un solo prospecto."""
     p = next((x for x in prospects if x.get("id") == prospect_id), None)
     if not p:
-        console.print(f"[red]Prospect not found:[/red] {prospect_id}")
+        console.print(f"[red]Prospecto no encontrado:[/red] {prospect_id}")
         return
 
     score = p.get("geo_score", 0)
@@ -216,49 +216,49 @@ def view_prospect_detail(prospects: list[dict], prospect_id: str):
                 f"\n[{color}]{score}[/{color}]\n[dim]/100[/dim]\n\n[{color}]{label}[/{color}]\n"
             )
         ),
-        title="GEO Score",
+        title="Puntuación GEO",
         border_style=color.replace("bold ", ""),
         width=20,
     )
 
     info_lines = [
         f"[dim]ID:[/dim]          {p.get('id', '—')}",
-        f"[dim]Status:[/dim]      {p.get('status', '—').upper()}",
-        f"[dim]Industry:[/dim]    {p.get('industry', '—')}",
-        f"[dim]Country:[/dim]     {p.get('country', '—')}",
-        f"[dim]Audit Date:[/dim]  {p.get('audit_date', '—')}",
+        f"[dim]Estado:[/dim]      {p.get('status', '—').upper()}",
+        f"[dim]Industria:[/dim]    {p.get('industry', '—')}",
+        f"[dim]País:[/dim]        {p.get('country', '—')}",
+        f"[dim]Fecha Aud.:[/dim]  {p.get('audit_date', '—')}",
         f"[dim]MRR:[/dim]         {format_eur(p.get('monthly_value'))}",
-        f"[dim]Contract:[/dim]    {p.get('contract_months', '—')} months",
+        f"[dim]Contrato:[/dim]    {p.get('contract_months', '—')} meses",
     ]
     if p.get("contact_name"):
-        info_lines.append(f"[dim]Contact:[/dim]     {p['contact_name']}")
+        info_lines.append(f"[dim]Contacto:[/dim]     {p['contact_name']}")
     if p.get("contact_email"):
-        info_lines.append(f"[dim]Email:[/dim]       {p['contact_email']}")
+        info_lines.append(f"[dim]Correo:[/dim]       {p['contact_email']}")
 
     info_panel = Panel(
         "\n".join(info_lines),
-        title="Details",
+        title="Detalles",
         border_style="bright_blue",
     )
 
     console.print(Columns([score_panel, info_panel], expand=False))
     console.print()
 
-    # Files
+    # Archivos
     files = []
     if p.get("audit_file"):
         audit_path = Path(p["audit_file"].replace("~", str(Path.home())))
         exists = "✓" if audit_path.exists() else "✗"
-        files.append(f"  {exists} [cyan]Audit:[/cyan]    {p['audit_file']}")
+        files.append(f"  {exists} [cyan]Auditoría:[/cyan]    {p['audit_file']}")
     if p.get("proposal_file"):
         prop_path = Path(p["proposal_file"].replace("~", str(Path.home())))
         exists = "✓" if prop_path.exists() else "✗"
-        files.append(f"  {exists} [yellow]Proposal:[/yellow] {p['proposal_file']}")
+        files.append(f"  {exists} [yellow]Propuesta:[/yellow] {p['proposal_file']}")
     if files:
-        console.print(Panel("\n".join(files), title="Files", border_style="dim"))
+        console.print(Panel("\n".join(files), title="Archivos", border_style="dim"))
         console.print()
 
-    # Notes
+    # Notas
     notes = p.get("notes", [])
     if notes:
         note_text = ""
@@ -266,14 +266,14 @@ def view_prospect_detail(prospects: list[dict], prospect_id: str):
             date = note.get("date", "")[:10]
             text = escape(note.get("text", ""))
             note_text += f"[dim]{date}[/dim]  {text}\n\n"
-        console.print(Panel(note_text.rstrip(), title="Notes", border_style="dim"))
+        console.print(Panel(note_text.rstrip(), title="Notas", border_style="dim"))
 
 
 def view_pipeline(prospects: list[dict]):
-    """Show pipeline by status."""
+    """Muestra el embudo por estado."""
     statuses = ["lead", "audit", "proposal", "active", "churned", "lost"]
     console.print()
-    console.print(Rule("[bold]Pipeline by Status[/bold]", style="bright_blue"))
+    console.print(Rule("[bold]Embudo por Estado[/bold]", style="bright_blue"))
     console.print()
 
     for status in statuses:
@@ -293,11 +293,11 @@ def view_pipeline(prospects: list[dict]):
         console.print()
 
 
-# ── Main ───────────────────────────────────────────────────────────────
+# ── Principal ───────────────────────────────────────────────────────────────
 def main():
-    parser = argparse.ArgumentParser(description="GEO-SEO CRM Dashboard")
-    parser.add_argument("--prospect", "-p", help="Show detail for a prospect ID")
-    parser.add_argument("--pipeline", action="store_true", help="Show pipeline view")
+    parser = argparse.ArgumentParser(description="Panel CRM GEO-SEO")
+    parser.add_argument("--prospect", "-p", help="Muestra detalles para un ID de prospecto")
+    parser.add_argument("--pipeline", action="store_true", help="Muestra vista del embudo")
     args = parser.parse_args()
 
     prospects = load_prospects()
@@ -328,7 +328,7 @@ def main():
         view_pipeline(prospects)
 
     console.print(
-        f"[dim]CRM: {CRM_PATH}   |   /geo audit <domain> to add prospects[/dim]\n"
+        f"[dim]CRM: {CRM_PATH}   |   /geo audit <dominio> para agregar prospectos[/dim]\n"
     )
 
 

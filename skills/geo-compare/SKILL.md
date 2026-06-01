@@ -1,35 +1,33 @@
 ---
 name: geo-compare
 description: >
-  Monthly delta tracking and progress reporting for GEO clients. Compares two
-  GEO audits (baseline vs. current), calculates score improvements across all
-  categories, tracks action item completion, and generates a "here's your progress"
-  client report. Use when user says "compare", "delta", "monthly report", "progress",
-  "confronta", "progressi", "report mensile", or when running a monthly client check-in.
+  Seguimiento mensual del cambio (delta) y reportes de progreso para clientes de GEO. Compara dos
+  auditorías GEO (base vs. actual), calcula mejoras de puntuación en todas
+  las categorías, realiza el seguimiento del completado de elementos de acción, y genera un
+  reporte para el cliente del tipo "aquí está tu progreso". Úsalo cuando el usuario diga "comparar", "delta", "reporte mensual", "progreso",
+  "confronta", "progressi", "report mensile", o cuando se ejecute una revisión mensual con el cliente.
 version: 1.0.0
 tags: [geo, business, delta, monthly, reporting, client, progress]
 allowed-tools: Read, Write, Bash, Glob
 ---
 
-# GEO Monthly Delta Report Generator
+# Generador de Reporte Mensual Delta GEO
 
-## Purpose
+## Propósito
 
-The single most powerful retention tool for a GEO agency: show clients **exactly**
-what improved since they started working with you. Every point gained on the GEO
-score is proof of value. This skill generates the "here's your progress" report.
+La herramienta de retención más poderosa para una agencia de GEO: mostrar a los clientes **exactamente** qué mejoró desde que empezaron a trabajar contigo. Cada punto ganado en la puntuación GEO es prueba de valor. Esta habilidad genera el reporte de "aquí está tu progreso".
 
 ---
 
-## Commands
+## Comandos
 
 ```
-/geo compare <domain>
-/geo compare <baseline-file> <current-file>
+/geo compare <dominio>
+/geo compare <archivo-base> <archivo-actual>
 /geo compare electron-srl.com --month march-2026
 ```
 
-**Examples:**
+**Ejemplos:**
 ```
 /geo compare electron-srl.com
 /geo compare ~/.geo-prospects/audits/electron-srl.com-2026-01-15.md ~/.geo-prospects/audits/electron-srl.com-2026-03-12.md
@@ -37,97 +35,93 @@ score is proof of value. This skill generates the "here's your progress" report.
 
 ---
 
-## Workflow
+## Flujo de Trabajo
 
-### Step 1: Find Audit Files
+### Paso 1: Encontrar Archivos de Auditoría
 
-If only domain is provided:
-1. Look in `~/.geo-prospects/audits/` for files matching `<domain>-*.md`
-2. Sort by date
-3. Use oldest as baseline, newest as current
-4. If only one file exists: use it as baseline, run a fresh quick audit as current
-5. If no files exist: suggest running `/geo prospect audit <domain>` first
+Si solo se provee el dominio:
+1. Busca en `~/.geo-prospects/audits/` por archivos que coincidan con `<dominio>-*.md`
+2. Ordena por fecha
+3. Usa el más antiguo como línea base (baseline), el más nuevo como actual
+4. Si solo existe un archivo: úsalo como línea base, ejecuta una nueva auditoría rápida como actual
+5. Si no existen archivos: sugiere ejecutar `/geo prospect audit <dominio>` primero
 
-### Step 2: Parse Both Audits
+### Paso 2: Analizar Ambas Auditorías
 
-Extract from each audit file:
-- Overall GEO Score
-- Per-category scores (6 categories)
-- Per-platform scores (5 platforms)
-- AI crawler status (14 crawlers)
-- Critical issues list
-- Action items list with status
+Extrae de cada archivo de auditoría:
+- Puntuación GEO General
+- Puntuaciones por categoría (6 categorías)
+- Puntuaciones por plataforma (5 plataformas)
+- Estado de rastreadores IA (14 rastreadores)
+- Lista de problemas críticos
+- Lista de elementos de acción con estado
 
-### Step 3: Calculate Deltas
+### Paso 3: Calcular Deltas
 
-For each metric:
-- Delta = Current - Baseline
-- Trend = ▲ (improved), ▼ (declined), ── (unchanged)
-- Color coding in report: green (+), red (-), gray (=)
+Para cada métrica:
+- Delta = Actual - Línea base (Baseline)
+- Tendencia = ▲ (mejorado), ▼ (disminuido), ── (sin cambios)
+- Código de colores en el reporte: verde (+), rojo (-), gris (=)
 
-### Step 4: Generate Monthly Report
+### Paso 4: Generar Reporte Mensual
 
-Output to `~/.geo-prospects/reports/<domain>-monthly-<date>.md`
+Salida a `~/.geo-prospects/reports/<dominio>-monthly-<fecha>.md`
 
 ---
 
-## Report Template
+## Plantilla de Reporte
 
-Generate the following document:
+Genera el siguiente documento:
 
 ```markdown
-# GEO Monthly Progress Report
-## [COMPANY NAME] — [MONTH YEAR]
+# Reporte de Progreso Mensual GEO
+## [NOMBRE EMPRESA] — [MES AÑO]
 
-**Reporting period:** [BASELINE DATE] → [CURRENT DATE]
-**Prepared by:** [AGENCY NAME]
-**Report reference:** GEO-MONTHLY-[DOMAIN]-[YYMMDD]
-
----
-
-## Executive Summary
-
-[2-3 sentences: What improved, what's the trend, what to focus on next month.]
-
-Example: "Electron Srl's GEO Score improved from 32 to 44 this month (+12 points),
-placing the site firmly in the 'Below Average' tier and on track to reach 'Moderate'
-by May. The biggest wins were AI crawler access (+3 crawlers now allowed) and schema
-implementation (+Organization and LocalBusiness schemas live). Next month's focus is
-content citability — the highest-weighted remaining gap."
+**Período de reporte:** [FECHA BASE] → [FECHA ACTUAL]
+**Preparado por:** [NOMBRE AGENCIA]
+**Referencia del reporte:** GEO-MONTHLY-[DOMINIO]-[AAMMDD]
 
 ---
 
-## GEO Score Progress
+## Resumen Ejecutivo
+
+[2-3 oraciones: Qué mejoró, cuál es la tendencia, en qué enfocarse el próximo mes.]
+
+Ejemplo: "La puntuación GEO de Electron Srl mejoró de 32 a 44 este mes (+12 puntos), ubicando al sitio firmemente en el nivel 'Por debajo del promedio' y en camino a alcanzar 'Moderado' para Mayo. Las mayores victorias fueron el acceso de rastreadores IA (+3 rastreadores ahora permitidos) y la implementación de esquemas (+esquemas Organization y LocalBusiness activos). El enfoque del próximo mes es la citabilidad del contenido — la brecha restante con mayor peso."
+
+---
+
+## Progreso de Puntuación GEO
 
 ```
-OVERALL GEO SCORE
+PUNTUACIÓN GEO GENERAL
 
-  Baseline   [▓▓▓▓░░░░░░░░░░░░░░░░]  32/100  (Critical)
-  Current    [▓▓▓▓▓▓▓▓░░░░░░░░░░░░]  44/100  (Below Average)
-  Change     ▲ +12 points (+37.5%)
+  Línea base [▓▓▓▓░░░░░░░░░░░░░░░░]  32/100  (Crítico)
+  Actual     [▓▓▓▓▓▓▓▓░░░░░░░░░░░░]  44/100  (Por debajo del promedio)
+  Cambio     ▲ +12 puntos (+37.5%)
 
-  Target:    65/100 by Month 6 (on track ✓)
+  Objetivo:  65/100 para el Mes 6 (en camino ✓)
 ```
 
 ---
 
-## Score Breakdown: Before vs. After
+## Desglose de Puntuación: Antes vs. Después
 
-| Category | Baseline | Current | Change | Trend |
+| Categoría | Base | Actual | Cambio | Tendencia |
 |----------|---------|---------|--------|-------|
-| AI Citability & Visibility | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
-| Brand Authority Signals | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
-| Content Quality & E-E-A-T | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
-| Technical Foundations | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
-| Structured Data | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
-| Platform Optimization | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
+| Citabilidad & Visibilidad IA | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
+| Señales de Autoridad de Marca | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
+| Calidad de Contenido & E-E-A-T | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
+| Fundamentos Técnicos | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
+| Datos Estructurados | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
+| Optimización de Plataformas | [X]/100 | [X]/100 | [+/-X] | [▲/▼/──] |
 | **TOTAL** | **[X]/100** | **[X]/100** | **[+/-X]** | **[▲/▼]** |
 
 ---
 
-## Platform Readiness: Before vs. After
+## Preparación de Plataformas: Antes vs. Después
 
-| AI Platform | Baseline | Current | Change |
+| Plataforma IA | Base | Actual | Cambio |
 |-------------|---------|---------|--------|
 | Google AI Overviews | [X]/100 | [X]/100 | [+/-X] |
 | ChatGPT Web Search | [X]/100 | [X]/100 | [+/-X] |
@@ -137,128 +131,127 @@ OVERALL GEO SCORE
 
 ---
 
-## AI Crawler Access Changes
+## Cambios en el Acceso a Rastreadores IA
 
-| Crawler | Baseline | Current | Change |
+| Rastreador | Base | Actual | Cambio |
 |---------|---------|---------|--------|
-| GPTBot (ChatGPT) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
-| ClaudeBot (Anthropic) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
-| PerplexityBot | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
-| Google-Extended (Gemini) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
-| Bingbot | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
+| GPTBot (ChatGPT) | Bloqueado/Permitido | Bloqueado/Permitido | ✓ Arreglado / Sin cambio |
+| ClaudeBot (Anthropic) | Bloqueado/Permitido | Bloqueado/Permitido | ✓ Arreglado / Sin cambio |
+| PerplexityBot | Bloqueado/Permitido | Bloqueado/Permitido | ✓ Arreglado / Sin cambio |
+| Google-Extended (Gemini) | Bloqueado/Permitido | Bloqueado/Permitido | ✓ Arreglado / Sin cambio |
+| Bingbot | Bloqueado/Permitido | Bloqueado/Permitido | ✓ Arreglado / Sin cambio |
 
-[Show only crawlers that changed, or all if few crawlers.]
+[Muestra solo los rastreadores que cambiaron, o todos si son pocos.]
 
 ---
 
-## Action Plan Progress
+## Progreso del Plan de Acción
 
-### Quick Wins — Status Update
+### Victorias Rápidas — Actualización de Estado
 
-| # | Action | Assigned | Status | Impact |
+| # | Acción | Asignado | Estado | Impacto |
 |---|--------|---------|--------|--------|
-| 1 | Allow all AI crawlers in robots.txt | Client dev | ✅ Done | +3 crawlers |
-| 2 | Add Organization schema to homepage | Client dev | ✅ Done | Schema score +15 |
-| 3 | Create llms.txt | Agency | ✅ Done | AI visibility +8 |
-| 4 | Add author bylines to all articles | Client content | 🔄 In Progress | — |
-| 5 | Fix meta descriptions (47 pages missing) | Client dev | ❌ Not started | — |
+| 1 | Permitir todos los rastreadores IA en robots.txt | Dev cliente | ✅ Hecho | +3 rastreadores |
+| 2 | Añadir esquema de Organización al inicio | Dev cliente | ✅ Hecho | Puntuación esquema +15 |
+| 3 | Crear llms.txt | Agencia | ✅ Hecho | Visibilidad IA +8 |
+| 4 | Añadir firmas de autor a todos los artículos | Contenido cliente | 🔄 En progreso | — |
+| 5 | Arreglar meta descripciones (faltan en 47 pág.) | Dev cliente | ❌ No iniciado | — |
 
-**Quick wins completed: [X]/[Y] ([%])**
+**Victorias rápidas completadas: [X]/[Y] ([%])**
 
-### Medium-Term — Status Update
+### Medio Plazo — Actualización de Estado
 
-| # | Action | Target Month | Status |
+| # | Acción | Mes Objetivo | Estado |
 |---|--------|-------------|--------|
-| 1 | Rewrite top 10 pages with Q&A structure | Month 2 | 🔄 3/10 done |
-| 2 | E-E-A-T: Create author pages | Month 2 | ❌ Not started |
-| 3 | Register Bing Webmaster Tools | Month 1 | ✅ Done |
-| 4 | Implement IndexNow | Month 2 | 🔄 In Progress |
+| 1 | Reestructurar top 10 páginas con Preg/Resp | Mes 2 | 🔄 3/10 hecho |
+| 2 | E-E-A-T: Crear páginas de autor | Mes 2 | ❌ No iniciado |
+| 3 | Registrar Bing Webmaster Tools | Mes 1 | ✅ Hecho |
+| 4 | Implementar IndexNow | Mes 2 | 🔄 En progreso |
 
-### Strategic — Status Update
+### Estratégico — Actualización de Estado
 
-| # | Action | Target | Status |
+| # | Acción | Objetivo | Estado |
 |---|--------|--------|--------|
-| 1 | Wikipedia entity creation | Month 4 | 📋 Planned |
-| 2 | YouTube channel launch | Month 3 | 📋 Planned |
-| 3 | Reddit presence (industry subs) | Month 3 | 📋 Planned |
+| 1 | Creación de entidad en Wikipedia | Mes 4 | 📋 Planeado |
+| 2 | Lanzamiento de canal de YouTube | Mes 3 | 📋 Planeado |
+| 3 | Presencia en Reddit (subreddits industria) | Mes 3 | 📋 Planeado |
 
 ---
 
-## This Month's Wins
+## Victorias de Este Mes
 
-> Use this section to celebrate — clients need to see the value clearly.
+> Usa esta sección para celebrar — los clientes necesitan ver el valor claramente.
 
-✅ **[WIN 1]:** [Specific, tangible result — e.g., "GPTBot and ClaudeBot are now allowed. ChatGPT can now crawl and cite your content."]
-✅ **[WIN 2]:** [e.g., "Organization schema implemented on homepage. Your brand entity is now machine-readable."]
-✅ **[WIN 3]:** [e.g., "llms.txt created and deployed at electron-srl.com/llms.txt — one of only ~12% of sites in your industry to have this."]
-
----
-
-## New Issues Discovered
-
-> Issues found in current audit that weren't in baseline.
-
-⚠️ **[ISSUE 1]:** [What it is, what it means, how we'll fix it]
-⚠️ **[ISSUE 2]:** [What it is, what it means, how we'll fix it]
+✅ **[VICTORIA 1]:** [Resultado específico y tangible — ej., "GPTBot y ClaudeBot ahora están permitidos. ChatGPT ahora puede rastrear y citar tu contenido."]
+✅ **[VICTORIA 2]:** [ej., "Esquema Organization implementado en la página de inicio. Tu entidad de marca ahora es legible por máquinas."]
+✅ **[VICTORIA 3]:** [ej., "llms.txt creado y desplegado en electron-srl.com/llms.txt — uno del escaso ~12% de sitios en tu industria que lo tienen."]
 
 ---
 
-## Next Month Focus
+## Nuevos Problemas Descubiertos
 
-### Priority Actions for [NEXT MONTH]:
+> Problemas encontrados en la auditoría actual que no estaban en la línea base.
 
-| Priority | Action | Owner | Expected Impact |
+⚠️ **[PROBLEMA 1]:** [Qué es, qué significa, cómo lo arreglaremos]
+⚠️ **[PROBLEMA 2]:** [Qué es, qué significa, cómo lo arreglaremos]
+
+---
+
+## Enfoque del Próximo Mes
+
+### Acciones Prioritarias para [PRÓXIMO MES]:
+
+| Prioridad | Acción | Propietario | Impacto Esperado |
 |----------|--------|-------|----------------|
-| 1 | [Highest ROI action] | [Agency/Client] | +[X] GEO points |
-| 2 | [Second priority] | [Agency/Client] | +[X] GEO points |
-| 3 | [Third priority] | [Agency/Client] | +[X] GEO points |
+| 1 | [Acción mayor ROI] | [Agencia/Cliente] | +[X] puntos GEO |
+| 2 | [Segunda prioridad] | [Agencia/Cliente] | +[X] puntos GEO |
+| 3 | [Tercera prioridad] | [Agencia/Cliente] | +[X] puntos GEO |
 
-**Target GEO Score next month:** [CURRENT + estimated gain]/100
+**Puntuación GEO Objetivo para el próximo mes:** [ACTUAL + ganancia estimada]/100
 
 ---
 
-## 6-Month Trajectory
+## Trayectoria de 6 Meses
 
-| Month | Date | Score | Delta | Key Achievement |
+| Mes | Fecha | Puntuación | Delta | Logro Clave |
 |-------|------|-------|-------|----------------|
-| Baseline | [Date] | [Score] | — | Initial audit |
-| Month 1 | [Date] | [Score] | [+X] | Quick wins implemented |
-| Month 2 | [Date] | [Score] | [+X] | *Current month* |
-| Month 3 | [Date] | — | — | Content citability |
-| Month 4 | — | — | — | Brand authority |
-| Month 5 | — | — | — | Strategic initiatives |
-| Month 6 | — | **Target: [X]** | — | Full review |
+| Línea Base | [Fecha] | [Puntuación] | — | Auditoría inicial |
+| Mes 1 | [Fecha] | [Puntuación] | [+X] | Victorias rápidas implementadas |
+| Mes 2 | [Fecha] | [Puntuación] | [+X] | *Mes actual* |
+| Mes 3 | [Fecha] | — | — | Citabilidad de contenido |
+| Mes 4 | — | — | — | Autoridad de marca |
+| Mes 5 | — | — | — | Iniciativas estratégicas |
+| Mes 6 | — | **Objetivo: [X]** | — | Revisión completa |
 
-[Only fill rows that have happened. Show projected rows as "—"]
-
----
-
-## Estimated Business Impact
-
-Based on the [X]-point improvement this month:
-
-- **AI citation likelihood:** Increased by approximately [X]%
-- **Crawlers with access:** [X]/14 → [Y]/14 (better coverage on [platforms])
-- **Estimated monthly AI-referred traffic improvement:** +[X]% (conservative)
-- **Traffic value at current conversion rates:** +€[X]/month in organic value
-
-*Note: Full traffic impact from GEO changes typically takes 4-8 weeks to materialize
-as AI platforms re-index and update their knowledge bases.*
+[Llena solo las filas de meses que ya ocurrieron. Muestra filas proyectadas como "—"]
 
 ---
 
-*GEO Monthly Report — [COMPANY NAME] — [DATE]*
-*Questions or comments? [CONTACT EMAIL]*
+## Impacto Estimado en Negocio
+
+Basado en la mejora de [X] puntos este mes:
+
+- **Probabilidad de cita IA:** Incrementada en aprox. [X]%
+- **Rastreadores con acceso:** [X]/14 → [Y]/14 (mejor cobertura en [plataformas])
+- **Mejora estimada de tráfico mensual referido por IA:** +[X]% (conservador)
+- **Valor del tráfico a tasas de conversión actuales:** +€[X]/mes en valor orgánico
+
+*Nota: El impacto completo en el tráfico por los cambios GEO típicamente toma de 4-8 semanas para materializarse a medida que las plataformas de IA re-indexan y actualizan sus bases de conocimiento.*
+
+---
+
+*Reporte Mensual GEO — [NOMBRE EMPRESA] — [FECHA]*
+*¿Preguntas o comentarios? [EMAIL CONTACTO]*
 ```
 
 ---
 
-## Delta Calculation Logic
+## Lógica de Cálculo de Delta
 
-When parsing two audit files, look for these patterns:
+Al analizar dos archivos de auditoría, busca estos patrones:
 
 ```
-Score markers to extract:
+Marcadores de puntuación a extraer:
 - "GEO Score: XX/100"
 - "Overall Score: XX"
 - "AI Citability: XX/100"
@@ -271,37 +264,35 @@ Score markers to extract:
 - "ClaudeBot: Allowed/Blocked"
 ```
 
-If exact scores are not found in audit files, use contextual analysis of the
-written findings to estimate approximate scores based on issues described.
+Si no se encuentran las puntuaciones exactas en los archivos de auditoría, usa el análisis contextual de los hallazgos escritos para estimar puntuaciones aproximadas basándose en los problemas descritos.
 
 ---
 
-## Trend Interpretation
+## Interpretación de Tendencia
 
-| Delta | Trend Symbol | Meaning |
+| Delta | Símbolo de Tendencia | Significado |
 |-------|-------------|---------|
-| +5 or more | ▲▲ | Strong improvement |
-| +1 to +4 | ▲ | Improvement |
-| 0 | ── | No change |
-| -1 to -4 | ▼ | Slight decline |
-| -5 or more | ▼▼ | Significant decline — needs discussion |
+| +5 o más | ▲▲ | Fuerte mejora |
+| +1 a +4 | ▲ | Mejora |
+| 0 | ── | Sin cambio |
+| -1 a -4 | ▼ | Ligera disminución |
+| -5 o más | ▼▼ | Fuerte disminución — necesita discusión |
 
-A decline is not necessarily bad — it can mean new issues were discovered in the
-fresh audit that weren't visible before. Frame declines as "newly discovered opportunities."
+Una disminución no es necesariamente mala — puede significar que nuevos problemas fueron descubiertos en la auditoría nueva que no eran visibles antes. Encuadra las disminuciones como "oportunidades recientemente descubiertas".
 
 ---
 
-## Output
+## Salida
 
-1. Save report to `~/.geo-prospects/reports/<domain>-monthly-<YYYY-MM>.md`
-2. Print confirmation with key stats:
+1. Guarda el reporte en `~/.geo-prospects/reports/<dominio>-monthly-<YYYY-MM>.md`
+2. Imprime la confirmación con métricas clave:
    ```
-   ✓ Monthly report generated: ~/.geo-prospects/reports/electron-srl.com-monthly-2026-03.md
+   ✓ Reporte mensual generado: ~/.geo-prospects/reports/electron-srl.com-monthly-2026-03.md
 
-   SUMMARY:
-   GEO Score: 32 → 44 (+12 points) ▲
-   Quick wins completed: 3/5 (60%)
-   New issues found: 2 (minor)
-   On track for Month 6 target: YES (65/100)
+   RESUMEN:
+   Puntuación GEO: 32 → 44 (+12 puntos) ▲
+   Victorias rápidas completadas: 3/5 (60%)
+   Nuevos problemas encontrados: 2 (menores)
+   En camino para objetivo del Mes 6: SÍ (65/100)
    ```
-3. Suggest next action: "Share with client or run `/geo report-pdf` for a visual version"
+3. Sugiere siguiente acción: "Compartir con el cliente o ejecutar `/geo report-pdf` para una versión visual"
