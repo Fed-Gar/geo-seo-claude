@@ -10,13 +10,6 @@
 <p align="center">
   La búsqueda con IA está devorando a la búsqueda tradicional. Esta herramienta optimiza hacia donde va el tráfico, no donde solía estar.
 </p>
-
----
-
-## Historial de Estrellas
-
-[![Star History Chart](https://api.star-history.com/svg?repos=zubair-trabzada/geo-seo-claude&type=Date)](https://www.star-history.com/#zubair-trabzada/geo-seo-claude&Date)
-
 ---
 
 ## Por qué importa el GEO (2026)
