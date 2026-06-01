@@ -241,7 +241,7 @@ rm -rf ~/.claude/skills/geo ~/.claude/skills/geo-* ~/.claude/agents/geo-*.md
 
 La herramienta es gratuita. Aprender a monetizarla es donde entra la comunidad.
 
-**[Únete a la Comunidad AI Workshop →](https://skool.com/aiworkshop)**
+**[Únete a la Comunidad más grande de IA en Español →](https://cursos.frogamesformacion.com)**
 
 Dentro obtendrás:
 - **Tutoriales en video** — Configuración paso a paso, ejecución de auditorías, lectura de resultados
