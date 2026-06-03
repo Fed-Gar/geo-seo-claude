@@ -12,6 +12,10 @@
 </p>
 ---
 
+[![Puedes ver el vídeo completo de Agentes y Skills aquí](https://img.youtube.com/vi/2MYLJavzWps/maxresdefault.jpg)](https://youtu.be/2MYLJavzWps)
+
+
+
 ## Por qué importa el GEO (2026)
 
 | Métrica | Valor |
