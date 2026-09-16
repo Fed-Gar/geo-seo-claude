@@ -12,10 +12,6 @@
 </p>
 ---
 
-[![Puedes ver el vídeo completo de Agentes y Skills aquí](https://img.youtube.com/vi/2MYLJavzWps/maxresdefault.jpg)](https://youtu.be/2MYLJavzWps)
-
-
-
 ## Por qué importa el GEO (2026)
 
 | Métrica | Valor |
@@ -238,35 +234,3 @@ O manualmente:
 ```bash
 rm -rf ~/.claude/skills/geo ~/.claude/skills/geo-* ~/.claude/agents/geo-*.md
 ```
-
----
-
-## ¿Quieres convertir esto en un Negocio?
-
-La herramienta es gratuita. Aprender a monetizarla es donde entra la comunidad.
-
-**[Únete a la Comunidad más grande de IA en Español →](https://cursos.frogamesformacion.com)**
-
-Dentro obtendrás:
-- **Tutoriales en video** — Configuración paso a paso, ejecución de auditorías, lectura de resultados
-- **Manual de adquisición de clientes** — Cómo encontrar prospectos, presentar servicios GEO y cerrar tratos
-- **Horas de oficina en vivo** — Trae tus resultados de auditoría, recibe ayuda directa
-- **Precios y plantillas de agencia GEO** — Documentos de propuesta, guiones de contacto en frío, flujos de trabajo de incorporación
-
-Las agencias GEO cobran entre $2K y $12K al mes. Esta herramienta hace la auditoría. La comunidad te enseña a venderla.
-
----
-
-## Licencia
-
-Licencia MIT
-
----
-
-## Contribuciones
-
-¡Las contribuciones son bienvenidas!
-
----
-
-Construido para la era de la búsqueda con IA.
