@@ -1,30 +1,3 @@
-<p align="center">
-  <img src="assets/banner.svg" alt="Habilidad de Claude Code para GEO y SEO" width="900"/>
-</p>
-
-<p align="center">
-  <strong>Prioridad GEO, soporte SEO.</strong> Optimiza sitios web para motores de búsqueda impulsados por IA<br/>
-  (ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews) mientras mantienes las bases del SEO tradicional.
-</p>
-
-<p align="center">
-  La búsqueda con IA está devorando a la búsqueda tradicional. Esta herramienta optimiza hacia donde va el tráfico, no donde solía estar.
-</p>
----
-
-## Por qué importa el GEO (2026)
-
-| Métrica | Valor |
-|--------|-------|
-| Mercado de servicios GEO | $850M+ (proyección de $7.3B para 2031) |
-| Crecimiento de tráfico referido por IA | +527% interanual |
-| Tasa de conversión de tráfico por IA vs orgánico | 4.4x mayor |
-| Gartner: caída del tráfico de búsqueda para 2028 | -50% |
-| Menciones de marca vs backlinks para IA | Correlación 3x más fuerte |
-| Marketers invirtiendo en GEO | Solo 23% |
-
----
-
 ## Inicio Rápido
 
 ### Instalación con un comando (macOS/Linux)
